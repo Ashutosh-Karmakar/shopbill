@@ -196,14 +196,18 @@ def generateBill():
     sh1['D2'] = "Badheibanka Chawk, Old Town, Bhubaneswar, Mob.: 9090280083,9861230757"
     sh1['D2'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='064635')
 
+
     sh1['F3'] = "916 GOLD AND SILVER ORNAMENT"
     sh1['F3'].font = Font(name='times new rommon',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
+    
+    sh1['G4'] = "Invoice"
+    sh1['G4'].font = Font(name='times new rommon',size=14,bold=True,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
 
     # sh1['A3'] = "Name"
-    thin_border = Border(left=Side(border_style='dashed',color='FF000000'),
-                right=Side(border_style='dashed',color='FF000000'),
-                top=Side(border_style='thin',color='FF000000'),
-                bottom=Side(border_style='thin',color='FF000000')
+    thin_border = Border(bottom=Side(border_style='thin',color='FF000000')
+                # ,right=Side(border_style='dashed',color='FF000000'),
+                # top=Side(border_style='thin',color='FF000000'),
+                # bottom=Side(border_style='thin',color='FF000000')
                 )
                 
     thick_border_left = Border(left=Side(border_style='medium',color='FF000000'))
@@ -237,10 +241,6 @@ def generateBill():
             if(i!=row_loc and j==col_loc and i!=row_loc+row_num-1):
                 sh1.cell(row=i+1, column=j+1).border=thick_border_left
 
-    # sh1.cell(row=row_loc,column=col_loc).border=thick_border_top
-    # sh1.cell(row=row_loc,column=col_loc).border=thick_border_left
-    # sh1.cell(row=row_loc+row_num-1,column=col_loc).border=thick_border_bottom
-
     sh1.cell(row=row_loc+row_num,column=col_loc+col_num).border=Border(bottom=Side(border_style='medium',color='FF000000'),
     right=Side(border_style='medium',color='FF000000'))
 
@@ -252,20 +252,77 @@ def generateBill():
 
     sh1.cell(row=row_loc+1,column=col_loc+col_num).border=Border(right=Side(border_style='medium',color='FF000000'),
     top=Side(border_style='medium',color='FF000000'))
+
+    green = '064635'
+    red = 'C85C5C'
+    # row_loc= row_loc+row_num+dis 
+    sh1['A5'] = 'GSTIN - 21AYRPK4931F1ZH'
+    sh1['A5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
+
+    sh1['H5'] = "SI. No.: "
+    sh1['H5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='064635')
+    sh1['I5'] = bill_txt.get()
+    sh1['I5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
+
+    sh1['K5'] = 'Date: '+ daten.strftime("%d-%b-%y - (%A)")
+    sh1['K5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='064635')
+
+    for i in range(1,col_num-1):
+         sh1.cell(row=5, column=i+1).border=Border(top=Side(border_style='medium',color='FF000000'),
+         bottom=Side(border_style='thin',color='FF000000'))
     
+    sh1.cell(row=5, column=1).border=Border(top=Side(border_style='medium',color='FF000000'),
+         bottom=Side(border_style='thin',color='FF000000'),left=Side(border_style='medium',color='FF000000'))
     
-    # sh1.cell(row=row_loc,column=col_loc+col_num-1).border=thick_border_right
+    sh1.cell(row=5, column=col_num).border=Border(top=Side(border_style='medium',color='FF000000'),
+         bottom=Side(border_style='thin',color='FF000000'),right=Side(border_style='medium',color='FF000000'))
 
+    sh1['A6'] = "Name: "
+    sh1['A6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['B6'] = Name_txt.get()
+    sh1['B6'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
-            # if i==row_loc:
-            #     sh1.cell(row=i+1, column=j+2).border=Double_border
-            #     sh1.cell(row=i+1, column=j+2).fill=fill_cell
-            # if i==row_loc+row_num-1:
-            #     sh1.cell(row=i+1, column=j+2).border=thick_border
-    row_loc= row_loc+row_num+dis 
+    sh1['F6'] = 'Mobile No.'
+    sh1['F6'].font = Font(name='times new rommon',size=11,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['G6'] = '  '+mobile_txt.get()
+    sh1['G6'].font = Font(name='arial',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
+
+    sh1['I6'] = 'Addhar No.'
+    sh1['I6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['J6'] = addhar_txt.get()
+    sh1['J6'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
+
+    sh1['M6'] = 'Bill No.'
+    sh1['M6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['N6'] = bill_txt.get()
+    sh1['N6'].font = Font(name='arial',size=11,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
     
+    sh1['A7'] = 'Si.no.'
+    sh1['A7'].font = Font(name='times new romman',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['D7'] = 'Description Of Goods'
+    sh1['D7'].font = Font(name='times new romman',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['H7'] = 'HSN SAC'
+    sh1['H7'].font = Font(name='times new romman',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['I7'] = 'Weight'
+    sh1['I7'].font = Font(name='times new romman',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['J7'] = 'Unit Price'
+    sh1['J7'].font = Font(name='times new romman',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['K7'] = 'Total'
+    sh1['K7'].font = Font(name='times new romman',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['L7'] = 'CGST(1.5)'
+    sh1['L7'].font = Font(name='times new romman',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['M7'] = 'SGST(1.5)'
+    sh1['M7'].font = Font(name='times new romman',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
+    sh1['N7'] = 'NetTotal'
+    sh1['N7'].font = Font(name='times new romman',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
 
+    for i in range(1,10):
+        if(des_txt[i-1] != ""):
+            sh1['A'+str(i+7)] = i
+            sh1['B'+str(i+7)] = des_txt[i-1].get()
+            
+    
 
     openpyxl.worksheet.worksheet.Worksheet.set_printer_settings(sh1, paper_size = 1, orientation='landscape')
     sh1.page_margins.top=.2
@@ -275,6 +332,7 @@ def generateBill():
 
 
     wb.save(filename='test.xlsx')
+    os.system('test.xlsx')
 
 
 def prin(event):
@@ -287,6 +345,7 @@ def opena():
 
 F5 = LabelFrame(window,bg= "#519259")
 F5.place(x=5,y=570,width=600,height=120)
+print(des_txt[0].get() == "")
 
 newBtn = Button(F5,text="New (Ctrl+N)",font=('times new rommon',13),bg=bg_color,bd=2)
 newBtn.grid(column=0,row=0,padx=20,pady=10)
