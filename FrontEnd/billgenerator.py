@@ -1,9 +1,24 @@
 import openpyxl
 from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Font, borders,fills
+import datetime
 
-def generateBill():
+def saveCustomerData(name,mobile,addhar_number,address,bill_no,billing_date):
+    pass
+
+def saveGstDetail(billing_date,ornament_name,qty,gold_rate,total_val,cgst,sgst,net_total):
+    pass
+
+
+
+
+
+
+
+
+def generateBill(bill_txt, mobile_txt, Name_txt, addhar_txt ,des_txt, wt_txt, unitLabel_txt, cgstLabel_txt, sgstLabel_txt, toLabel_txt, oldDesc_txt,oldwe_txt, oldunit_txt, oldtotal_txt, addSi_txt, addDesc_txt, addtotal_txt):
     wb = openpyxl.Workbook()
     sh1 = wb.active
+    daten = datetime.datetime.now()
 
 # ====================================================shop details==================================================================
     sh1['E1'] = "GIRIDHARI JEWELLERY"
@@ -149,24 +164,53 @@ def generateBill():
 # ===========================================================old gold============================================================
 
         sh1['D19'] = "Old Jewellery"
-        # sh1['A20'] = adrde_txt.get()
         sh1['D19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
         sh1['I19'] = "Weight"
         sh1['I19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
-        sh1['I21'] = oldwe_txt.get()
-        sh1['I21'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
         
         sh1['J19'] = "Unit Price"
         sh1['J19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
-        sh1['J21'] = oldunit_txt.get()
-        sh1['J21'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
-
 
         sh1['M19'] = "Total"
         sh1['M19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
-        sh1['M21'] = oldtotal_txt.get()
-        sh1['M21'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+        for i in range(1,4):
+            if oldDesc_txt[i-1].get!="":
+                sh1['A2'+str(i-1)] = i
+                sh1['A2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+                
+                sh1['B2'+str(i-1)] = oldDesc_txt[i-1].get()
+                sh1['B2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+                
+                sh1['I2'+str(i-1)] = oldwe_txt[i-1].get()
+                sh1['I2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+                
+                sh1['J2'+str(i-1)] = oldunit_txt[i-1].get()
+                sh1['J2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+                
+                sh1['M2'+str(i-1)] = oldtotal_txt[i-1].get()
+                sh1['M2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+                
+#====================================================ADDITION OR DEDUCTION================================================================================================================
+        sh1['D24'] = "Other Addition Or Deduction"
+        sh1['D24'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+        
+        sh1['M24'] = "Amount"
+        sh1['M24'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+        
+        for i in range(1,4):
+            if addDesc_txt[i-1].get()!="":
+                sh1['A2'+str(i+4)] = i
+                sh1['A2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+                
+                sh1['D2'+str(i+4)] = addDesc_txt[i-1].get()
+                sh1['D2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+                
+                sh1['M2'+str(i+4)] = addtotal_txt[i-1].get()
+                sh1['M2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+                
+        
+            
 
     # ===================================================mode of payment============================================
 
