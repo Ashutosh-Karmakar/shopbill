@@ -91,6 +91,7 @@ des_txt = []
 
 pcsLabel = Label(F2,text="Pcs",font=('times new rommon',10),bg=bg_color)
 pcsLabel.grid(column=2,row=0)
+pcs_txt = []
 
 
 wtLabel = Label(F2,text="Weight",font=('times new rommon',10),bg=bg_color)
@@ -129,6 +130,7 @@ for i in range(1,10):
     txt2=Entry(F2,width=3,font='arial 15',bd=1,justify=CENTER)
     txt2.grid(row=i,column=2,padx=4,pady=3)
     txt2.insert(0,1)
+    pcs_txt.append(txt2)
  
     txt3=Entry(F2,width=9,font='arial 15',bd=1,justify=CENTER)
     txt3.grid(row=i,column=3,padx=4,pady=3)
@@ -306,7 +308,7 @@ newBtn.grid(column=0,row=0,padx=20,pady=10)
 printBtn = Button(F6,text="Print (Ctrl+P)",font=('times new rommon',13),command=prin,bg=bg_color,bd=2)
 printBtn.grid(column=1,row=0,padx=20,pady=10)
 
-generateBtn = Button(F6,text="Generate Bill (Ctrl+G)",font=('times new rommon',13),command=lambda: generateBill(bill_txt, mobile_txt, Name_txt, addhar_txt,des_txt, wt_txt, unitLabel_txt, cgstLabel_txt, sgstLabel_txt, toLabel_txt, oldDesc_txt,oldwe_txt, oldunit_txt, oldtotal_txt, addSi_txt, addDesc_txt, addtotal_txt),bg=bg_color,bd=2)
+generateBtn = Button(F6,text="Generate Bill (Ctrl+G)",font=('times new rommon',13),command=lambda: generateBill(bill_txt, mobile_txt, Name_txt, address_txt, addhar_txt,des_txt, wt_txt, pcs_txt, unitLabel_txt, cgstLabel_txt, sgstLabel_txt, toLabel_txt, oldDesc_txt,oldwe_txt, oldunit_txt, oldtotal_txt, addSi_txt, addDesc_txt, addtotal_txt),bg=bg_color,bd=2)
 generateBtn.grid(column=2,row=0,padx=20,pady=10)
 
 findBtn = Button(F6,text = "Find (Ctrl+F)",font=('times new rommon',13),command=open,bg=bg_color,bd=2)

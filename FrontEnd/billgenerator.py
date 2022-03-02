@@ -1,21 +1,10 @@
 import openpyxl
 from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Font, borders,fills
 import datetime
-
-def saveCustomerData(name,mobile,addhar_number,address,bill_no,billing_date):
-    pass
-
-def saveGstDetail(billing_date,ornament_name,qty,gold_rate,total_val,cgst,sgst,net_total):
-    pass
+from database import saveCustomerData, saveGstData
 
 
-
-
-
-
-
-
-def generateBill(bill_txt, mobile_txt, Name_txt, addhar_txt ,des_txt, wt_txt, unitLabel_txt, cgstLabel_txt, sgstLabel_txt, toLabel_txt, oldDesc_txt,oldwe_txt, oldunit_txt, oldtotal_txt, addSi_txt, addDesc_txt, addtotal_txt):
+def generateBill(bill_txt, mobile_txt, Name_txt, address_txt, addhar_txt ,des_txt, wt_txt, pcs_txt, unitLabel_txt, cgstLabel_txt, sgstLabel_txt, toLabel_txt, oldDesc_txt,oldwe_txt, oldunit_txt, oldtotal_txt, addSi_txt, addDesc_txt, addtotal_txt):
     wb = openpyxl.Workbook()
     sh1 = wb.active
     daten = datetime.datetime.now()
@@ -26,7 +15,6 @@ def generateBill(bill_txt, mobile_txt, Name_txt, addhar_txt ,des_txt, wt_txt, un
 
     sh1['D2'] = "Badheibanka Chawk, Old Town, Bhubaneswar, Mob.: 9090280083,9861230757"
     sh1['D2'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='064635')
-
 
     sh1['F3'] = "916 GOLD AND SILVER ORNAMENT"
     sh1['F3'].font = Font(name='times new rommon',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
@@ -92,6 +80,7 @@ def generateBill(bill_txt, mobile_txt, Name_txt, addhar_txt ,des_txt, wt_txt, un
     sh1['H7'] = "45000"
     sh1['H7'].font = Font(name='arial',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
+    saveCustomerData(Name_txt.get(),mobile_txt.get(),addhar_txt.get(),address_txt.get())
 
 # ===========================================product details======================================================================
     
@@ -160,6 +149,7 @@ def generateBill(bill_txt, mobile_txt, Name_txt, addhar_txt ,des_txt, wt_txt, un
             sh1['M'+str(i+9)] = toLabel_txt[i-1].get()
             sh1['M'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
+            saveGstData(pcs_txt[i-1].get(), wt_txt[i-1].get(),des_txt[i-1].get(),4500,10000,cgstLabel_txt[i-1].get(),sgstLabel_txt[i-1].get(),toLabel_txt[i-1].get())
 
 # ===========================================================old gold============================================================
 
