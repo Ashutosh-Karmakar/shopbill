@@ -206,38 +206,38 @@ def generateBill(u : UiFields):
     # ===================================================mode of payment============================================
 
 
-        sh1['E29'] = "Mode Of Payment"
-        sh1['E29'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
+        sh1['E28'] = "Mode Of Payment"
+        sh1['E28'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
-        sh1['I29'] = "Cash"
-        sh1['I29'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+        sh1['I28'] = "Cash"
+        sh1['I28'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
 # =====================================================Total paid=======================================================
 
-        sh1['A30'] = "Total in Words"
-        sh1['A30'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
-        sh1['C30'] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        sh1['C30'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+        sh1['A29'] = "Total in Words"
+        sh1['A29'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
+        sh1['C29'] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        sh1['C29'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-        sh1['J30'] = "Total Paid : "
-        sh1['J30'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
-        sh1['L30'] = '2000000'
-        sh1['L30'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+        sh1['J29'] = "Total Paid : "
+        sh1['J29'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
+        sh1['L29'] = '2000000'
+        sh1['L29'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 # =================================================Terms and conditions===================================================
-        sh1['B31']="Terms and conditions"
-        sh1['B31'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
+        sh1['B30']="Terms and conditions"
+        sh1['B30'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
-        sh1['A32'] = " 1. Before taking delivery Customer should check the ornaments by piece and weight. "
+        sh1['A31'] = " 1. Before taking delivery Customer should check the ornaments by piece and weight. "
+        sh1['A31'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+
+        sh1['A32'] = " 2. Exchange your ornaments within 7 days in good condition."
         sh1['A32'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-        sh1['A33'] = " 2. Exchange your ornaments within 7 days in good condition."
+        sh1['A33'] = " 3. We are not responsible for any damage or brakage after delivery"
         sh1['A33'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-        sh1['A34'] = " 3. We are not responsible for any damage or brakage after delivery"
+        sh1['A34'] = " 4. We can repair the ornaments if possible"
         sh1['A34'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
-
-        sh1['A35'] = " 4. We can repair the ornaments if possible"
-        sh1['A35'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
     thin = Side(border_style='thin',color='FF000000')
     medium = Side(border_style='medium',color='FF000000')
@@ -368,14 +368,14 @@ def generateBill(u : UiFields):
     
     sh1.cell(row = 25,column=12).border=Border(left=thin,top=thin)
     sh1.cell(row = 26,column=12).border=Border(left=thin)
-    sh1.cell(row = 27,column=12).border=Border(left=thin)
-    sh1.cell(row = 28,column=12).border=Border(left=thin,bottom=thin)
+    # sh1.cell(row = 27,column=12).border=Border(left=thin)
+    sh1.cell(row = 27,column=12).border=Border(left=thin,bottom=thin)
     
     
     sh1.cell(row = 25,column=14).border=Border(right=medium,top=thin)
     sh1.cell(row = 26,column=14).border=Border(right=medium)
-    sh1.cell(row = 27,column=14).border=Border(right=medium)
-    sh1.cell(row = 28,column=14).border=Border(right=medium,bottom=thin)
+    # sh1.cell(row = 27,column=14).border=Border(right=medium)
+    sh1.cell(row = 27,column=14).border=Border(right=medium,bottom=thin)
     
     
 
@@ -416,43 +416,43 @@ def generateBill(u : UiFields):
     
     # ============================================================= 29 =================================================
 
+    sh1.cell(row = 28,column=14).border=Border(right=medium,bottom=thin,top=thin)
+    for i in range(2,14):
+        sh1.cell(row = 28,column=i).border=Border(bottom=thin,top=thin)
+    
+    sh1.cell(row = 28,column=1).border=Border(left=medium,top=thin,bottom=thin)
+
+    # ======================================================= 30 =====================================================
+
     sh1.cell(row = 29,column=14).border=Border(right=medium,bottom=thin,top=thin)
+    
+    sh1.cell(row = 29,column=12).border=Border(left=thin,top=thin,bottom=thin)
+    sh1.cell(row = 29,column=1).border=Border(left=medium,top=thin,bottom=thin)
+    
+    
     for i in range(2,14):
         sh1.cell(row = 29,column=i).border=Border(bottom=thin,top=thin)
     
     sh1.cell(row = 29,column=1).border=Border(left=medium,top=thin,bottom=thin)
-
-    # ======================================================= 30 =====================================================
-
-    sh1.cell(row = 30,column=14).border=Border(right=medium,bottom=thin,top=thin)
     
-    sh1.cell(row = 30,column=12).border=Border(left=thin,top=thin,bottom=thin)
-    sh1.cell(row = 30,column=1).border=Border(left=medium,top=thin,bottom=thin)
-    
-    
-    for i in range(2,14):
-        sh1.cell(row = 30,column=i).border=Border(bottom=thin,top=thin)
-    
-    sh1.cell(row = 30,column=1).border=Border(left=medium,top=thin,bottom=thin)
-    
-    sh1.cell(row = 30,column=10).border=Border(left=thin,top=thin,bottom=thin)
+    sh1.cell(row = 29,column=10).border=Border(left=thin,top=thin,bottom=thin)
     # =========================================================== 31 to 36 =======================================================
 
-    sh1.cell(row = 31,column=1).border=Border(left=medium,top=thin)
+    sh1.cell(row = 30,column=1).border=Border(left=medium,top=thin)
 
-    sh1.cell(row = 31,column=10).border=Border(left=thin,top=thin)
+    sh1.cell(row = 30,column=10).border=Border(left=thin,top=thin)
 
-    for i in range(31,35):
+    for i in range(30,34):
         sh1.cell(row = i,column=14).border=Border(right=medium)
     
-    sh1.cell(row = 35,column=14).border=Border(right=medium,bottom=medium)
+    sh1.cell(row = 34,column=14).border=Border(right=medium,bottom=medium)
 
-    for i in range(32,36):
+    for i in range(31,35):
         sh1.cell(row = i,column=1).border=Border(left=medium)
         sh1.cell(row = i,column=10).border=Border(left=thin)
 
     for i in range(1,14):
-        sh1.cell(row = 36,column=i).border=Border(top=medium)
+        sh1.cell(row = 35,column=i).border=Border(top=medium)
     
 # ====================================================Border Over=================================================            
 

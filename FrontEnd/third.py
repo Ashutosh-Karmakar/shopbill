@@ -99,7 +99,7 @@ u.date_label.grid(row=1,column=30)
 # ===========================================================================================
 
 F2 = LabelFrame(window,bg= "#FFE6BC")
-F2.place(x=5, y=80,width=1900,height=330)
+F2.place(x=5, y=80,width=1900,height=390)
 
 u.siLabel = Label(F2,text="Sino.",font=('times new rommon',10),bg=u.bg_color)
 u.siLabel.grid(column=0,row=0)
@@ -186,7 +186,7 @@ for i in range(1,10):
 # ======================================================================================================================
 
 F3 = LabelFrame(window,bg= "#FFE6BC")
-F3.place(x=5,y=420,width=13055,height=110)
+F3.place(x=5,y=480,width=13055,height=140)
 
 u.oldSi = Label(F3,text="Si.",font=('times new rommon',10),bg=u.bg_color)
 u.oldSi.grid(column=0,row=0)
@@ -229,7 +229,7 @@ for i in range(1,4):
 #=================================================================================================
 
 F4 = LabelFrame(window,bg= "#FFE6BC")
-F4.place(x=5,y=550,width=13055,height=110)
+F4.place(x=5,y=620,width=13055,height=140)
 
 u.addSi = Label(F4,text="Si.",font=('times new rommon',10),bg=u.bg_color)
 u.addSi.grid(column=0,row=0)
@@ -257,7 +257,7 @@ for i in range(1,4):
 
 #===========================================================
 F5 = LabelFrame(window,bg= "#FFE6BC")
-F5.place(x=0,y=685,width=1500,height=80)
+F5.place(x=0,y=750,width=1500,height=100)
 
 
 
@@ -310,7 +310,7 @@ def opena():
 
 
 F6 = LabelFrame(window,bg= "#519259")
-F6.place(x=5,y=770,width=1500,height=70)
+F6.place(x=5,y=900,width=1500,height=70)
 # print(des_txt[0].get() == "")
 
 # g = GenerateBill()
