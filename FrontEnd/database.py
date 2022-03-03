@@ -1,4 +1,6 @@
 import mysql.connector
+import sys
+
 mysqlDB = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
@@ -24,3 +26,17 @@ def saveGstData(qty,weight,ornament,gold_rate,total_val,cgst,sgst,net_total):
         mysqlDB.commit()
     except Exception:
         print("There was a exception while entering into database GST")
+        
+def findByNumber(number):
+    comd = ("Select * from customer where phone_no = "+str(number)+ ";")
+    print(comd)
+    cursor.execute(comd)
+    data = cursor.fetchall()
+    if len(data) == 0:
+        return 0
+    # print(len(cursor.fetchall()))
+    cust_data = []
+    for i in data:
+        cust_data.append(i)
+    return cust_data[0]
+        

@@ -1,14 +1,15 @@
+from re import U
 import openpyxl
 from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Font, borders,fills
 import datetime
 from database import saveCustomerData, saveGstData
+from baseIntialization import UiFields
 
-
-def generateBill(bill_txt, mobile_txt, Name_txt, address_txt, addhar_txt ,des_txt, wt_txt, pcs_txt, unitLabel_txt, cgstLabel_txt, sgstLabel_txt, toLabel_txt, oldDesc_txt,oldwe_txt, oldunit_txt, oldtotal_txt, addSi_txt, addDesc_txt, addtotal_txt):
+# class GenerateBill(UiFields):
+def generateBill(u : UiFields):
     wb = openpyxl.Workbook()
     sh1 = wb.active
     daten = datetime.datetime.now()
-
 # ====================================================shop details==================================================================
     sh1['E1'] = "GIRIDHARI JEWELLERY"
     sh1['E1'].font = Font(name='times new rommon',size=25,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
@@ -29,7 +30,6 @@ def generateBill(bill_txt, mobile_txt, Name_txt, address_txt, addhar_txt ,des_tx
     # sh1.add_image(logo,'M1')
 
 # ======================================================customer details==================================================
-
     green = '064635'
     red = 'C85C5C'
     blue = '041C32'
@@ -39,7 +39,7 @@ def generateBill(bill_txt, mobile_txt, Name_txt, address_txt, addhar_txt ,des_tx
 
     sh1['H5'] = "SI. No.: "
     sh1['H5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='064635')
-    sh1['I5'] = bill_txt.get()
+    sh1['I5'] = u.bill_txt.get()
     sh1['I5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
 
     sh1['K5'] = 'Date: '+ daten.strftime("%d-%b-%y - (%A)")
@@ -57,22 +57,22 @@ def generateBill(bill_txt, mobile_txt, Name_txt, address_txt, addhar_txt ,des_tx
 
     sh1['A6'] = "Name: "
     sh1['A6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
-    sh1['B6'] = Name_txt.get()
+    sh1['B6'] = u.name_txt.get()
     sh1['B6'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
     sh1['F6'] = 'Mobile No.'
     sh1['F6'].font = Font(name='times new rommon',size=11,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
-    sh1['G6'] = '  '+mobile_txt.get()
+    sh1['G6'] = '  '+ u.mobile_txt.get()
     sh1['G6'].font = Font(name='arial',size=10,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
     sh1['I6'] = 'Addhar No.'
     sh1['I6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
-    sh1['J6'] = addhar_txt.get()
+    sh1['J6'] = u.addhar_txt.get()
     sh1['J6'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
     sh1['M6'] = 'Bill No.'
     sh1['M6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
-    sh1['N6'] = bill_txt.get()
+    sh1['N6'] = u.bill_txt.get()
     sh1['N6'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
     sh1['F7'] = "Gold Rate: "
@@ -80,7 +80,7 @@ def generateBill(bill_txt, mobile_txt, Name_txt, address_txt, addhar_txt ,des_tx
     sh1['H7'] = "45000"
     sh1['H7'].font = Font(name='arial',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
-    saveCustomerData(Name_txt.get(),mobile_txt.get(),addhar_txt.get(),address_txt.get())
+    saveCustomerData(u.name_txt.get(),u.mobile_txt.get(),u.addhar_txt.get(),u.address_txt.get())
 
 # ===========================================product details======================================================================
     
@@ -124,32 +124,32 @@ def generateBill(bill_txt, mobile_txt, Name_txt, address_txt, addhar_txt ,des_tx
     sh1['F10'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
     for i in range(1,10):
-        if(des_txt[i-1].get()!= ""):
+        if(u.des_txt[i-1].get()!= ""):
             sh1['A'+str(i+9)] = i
             sh1['A'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-            sh1['B'+str(i+9)] = des_txt[i-1].get()
+            sh1['B'+str(i+9)] = u.des_txt[i-1].get()
             sh1['B'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-            sh1['G'+str(i+9)] = wt_txt[i-1].get()
+            sh1['G'+str(i+9)] = u.wt_txt[i-1].get()
             sh1['G'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-            sh1['H'+str(i+9)] = unitLabel_txt[i-1].get()
+            sh1['H'+str(i+9)] = u.unit_txt[i-1].get()
             sh1['H'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
             # sh1['K'+str(i+8)] = [i-1].get()
             # sh1['N8'].font = Font(name='times new romman',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
 
-            sh1['I'+str(i+9)] = cgstLabel_txt[i-1].get()
+            sh1['I'+str(i+9)] = u.cgst_txt[i-1].get()
             sh1['I'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-            sh1['K'+str(i+9)] = sgstLabel_txt[i-1].get()
+            sh1['K'+str(i+9)] = u.sgst_txt[i-1].get()
             sh1['K'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-            sh1['M'+str(i+9)] = toLabel_txt[i-1].get()
+            sh1['M'+str(i+9)] = u.net_txt[i-1].get()
             sh1['M'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-            saveGstData(pcs_txt[i-1].get(), wt_txt[i-1].get(),des_txt[i-1].get(),4500,10000,cgstLabel_txt[i-1].get(),sgstLabel_txt[i-1].get(),toLabel_txt[i-1].get())
+            saveGstData(u.pcs_txt[i-1].get(), u.wt_txt[i-1].get(),u.des_txt[i-1].get(),4500,10000,u.cgst_txt[i-1].get(),u.sgst_txt[i-1].get(),u.net_txt[i-1].get())
 
 # ===========================================================old gold============================================================
 
@@ -165,20 +165,20 @@ def generateBill(bill_txt, mobile_txt, Name_txt, address_txt, addhar_txt ,des_tx
         sh1['M19'] = "Total"
         sh1['M19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
         for i in range(1,4):
-            if oldDesc_txt[i-1].get!="":
+            if u.oldDesc_txt[i-1].get!="":
                 sh1['A2'+str(i-1)] = i
                 sh1['A2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
-                sh1['B2'+str(i-1)] = oldDesc_txt[i-1].get()
+                sh1['B2'+str(i-1)] = u.oldDesc_txt[i-1].get()
                 sh1['B2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
-                sh1['I2'+str(i-1)] = oldwe_txt[i-1].get()
+                sh1['I2'+str(i-1)] = u.oldwe_txt[i-1].get()
                 sh1['I2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
-                sh1['J2'+str(i-1)] = oldunit_txt[i-1].get()
+                sh1['J2'+str(i-1)] = u.oldunit_txt[i-1].get()
                 sh1['J2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
-                sh1['M2'+str(i-1)] = oldtotal_txt[i-1].get()
+                sh1['M2'+str(i-1)] = u.oldtotal_txt[i-1].get()
                 sh1['M2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
 #====================================================ADDITION OR DEDUCTION================================================================================================================
@@ -189,14 +189,14 @@ def generateBill(bill_txt, mobile_txt, Name_txt, address_txt, addhar_txt ,des_tx
         sh1['M24'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
         
         for i in range(1,4):
-            if addDesc_txt[i-1].get()!="":
+            if u.addDesc_txt[i-1].get()!="":
                 sh1['A2'+str(i+4)] = i
                 sh1['A2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
-                sh1['D2'+str(i+4)] = addDesc_txt[i-1].get()
+                sh1['D2'+str(i+4)] = u.addDesc_txt[i-1].get()
                 sh1['D2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
-                sh1['M2'+str(i+4)] = addtotal_txt[i-1].get()
+                sh1['M2'+str(i+4)] = u.addtotal_txt[i-1].get()
                 sh1['M2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
         
