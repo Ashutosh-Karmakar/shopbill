@@ -46,14 +46,14 @@ def generateBill(u : UiFields):
     sh1['K5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='064635')
 
     # for i in range(1,col_num-1):
-    #      sh1.cell(row=5, column=i+1).border=Border(top=Side(border_style='medium',color='FF000000'),
-    #      bottom=Side(border_style='thin',color='FF000000'))
+    #      sh1.cell(row=5, column=i+1).border=Border(top=medium,
+    #      bottom=thin)
     
-    # sh1.cell(row=5, column=1).border=Border(top=Side(border_style='medium',color='FF000000'),
-    #      bottom=Side(border_style='thin',color='FF000000'),left=Side(border_style='medium',color='FF000000'))
+    # sh1.cell(row=5, column=1).border=Border(top=medium,
+    #      bottom=thin,left=medium)
     
-    # sh1.cell(row=5, column=col_num).border=Border(top=Side(border_style='medium',color='FF000000'),
-    #      bottom=Side(border_style='thin',color='FF000000'),right=Side(border_style='medium',color='FF000000'))
+    # sh1.cell(row=5, column=col_num).border=Border(top=medium,
+    #      bottom=thin,right=medium)
 
     sh1['A6'] = "Name: "
     sh1['A6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
@@ -155,7 +155,7 @@ def generateBill(u : UiFields):
 # ===========================================================old gold============================================================
 
         sh1['D19'] = "Old Jewellery"
-        sh1['D19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
+        sh1['D19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
         sh1['I19'] = "Weight"
         sh1['I19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
@@ -183,8 +183,8 @@ def generateBill(u : UiFields):
                 sh1['M2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
 #====================================================ADDITION OR DEDUCTION================================================================================================================
-        sh1['D24'] = "Other Addition Or Deduction"
-        sh1['D24'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+        sh1['C24'] = "Other Addition Or Deduction"
+        sh1['C24'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
         
         sh1['M24'] = "Amount"
         sh1['M24'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
@@ -194,8 +194,8 @@ def generateBill(u : UiFields):
                 sh1['A2'+str(i+4)] = i
                 sh1['A2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
-                sh1['D2'+str(i+4)] = u.addDesc_txt[i-1].get()
-                sh1['D2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+                sh1['B2'+str(i+4)] = u.addDesc_txt[i-1].get()
+                sh1['B2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
                 sh1['M2'+str(i+4)] = u.addtotal_txt[i-1].get()
                 sh1['M2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
@@ -239,188 +239,227 @@ def generateBill(u : UiFields):
         sh1['A35'] = " 4. We can repair the ornaments if possible"
         sh1['A35'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-
-# ========================================================creating borders=====================================================
-    # sh1['A3'] = "Name"
-    thin_border_bottom = Border(bottom=Side(border_style='thin',color='FF000000'))
-    thin_border_right = Border(right=Side(border_style='dashed',color='FF000000'))
-    thin_border_top   = Border(top=Side(border_style='thin',color='FF000000'))
-    thin_border_left  = Border(left=Side(border_style='thin',color='FF000000'))
-                
-    thick_border_left = Border(left=Side(border_style='medium',color='FF000000'))
-    thick_border_right = Border(right=Side(border_style='medium',color='FF000000'))
-    thick_border_top = Border(top=Side(border_style='medium',color='FF000000'))
-    thick_border_bottom = Border(bottom=Side(border_style='medium',color='FF000000'))
-                    
+    thin = Side(border_style='thin',color='FF000000')
+    medium = Side(border_style='medium',color='FF000000')
+# ========================================================creating borders====================================================         
 
     fill_cell = PatternFill(fill_type=fills.FILL_SOLID,start_color='00FFFF00',end_color='00FFFF00')
 
+
+
+   
     # ================================================== 5 =====================================================
     for i in range(2,14):
-        sh1.cell(row=5, column=i).border=Border(top=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row=5,column=1).border=Border(left=Side(border_style='medium',color='FF000000'),top=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row=5,column=14).border=Border(right=Side(border_style='medium',color='FF000000'),top=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
+        sh1.cell(row=5, column=i).border=Border(top=medium,bottom=thin)
+    sh1.cell(row=5,column=1).border=Border(left=medium,top=medium,bottom=thin)
+    sh1.cell(row=5,column=14).border=Border(right=medium,top=medium,bottom=thin)
     
     # ==================================================== 6 =====================================================
 
-    sh1.cell(row = 6,column = 1).border=Border(left=Side(border_style='medium',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 6,column = 14).border=Border(right=Side(border_style='medium',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 6,column = 1).border=Border(left=medium,top=thin)
+    sh1.cell(row = 6,column = 14).border=Border(right=medium,top=thin)
 
     # ======================================================= 7 ====================================================
 
-    sh1.cell(row = 7,column = 14).border=Border(right=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 7,column = 1).border=Border(left=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 7,column = 14).border=Border(right=medium,bottom=thin)
+    sh1.cell(row = 7,column = 1).border=Border(left=medium,bottom=thin)
 
 
     # ======================================================= 8 =====================================================
 
-    sh1.cell(row = 8,column = 1).border=Border(left=Side(border_style='medium',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 2).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 3).border=Border(top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 4).border=Border(top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 5).border=Border(right=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 8,column = 1).border=Border(left=medium,top=thin)
+    sh1.cell(row = 8,column = 2).border=Border(left=thin,top=thin)
+    sh1.cell(row = 8,column = 3).border=Border(top=thin)
+    sh1.cell(row = 8,column = 4).border=Border(top=thin)
+    sh1.cell(row = 8,column = 5).border=Border(right=thin,top=thin)
 
-    sh1.cell(row = 8,column = 6).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 7).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 8).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 9).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 10).border=Border(right=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 8,column = 6).border=Border(left=thin,top=thin)
+    sh1.cell(row = 8,column = 7).border=Border(left=thin,top=thin)
+    sh1.cell(row = 8,column = 8).border=Border(left=thin,top=thin)
+    sh1.cell(row = 8,column = 9).border=Border(left=thin,top=thin)
+    sh1.cell(row = 8,column = 10).border=Border(right=thin,top=thin)
 
-    sh1.cell(row = 8,column = 11).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 12).border=Border(right=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 13).border=Border(top=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 8,column = 14).border=Border(right=Side(border_style='medium',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 8,column = 11).border=Border(left=thin,top=thin)
+    sh1.cell(row = 8,column = 12).border=Border(right=thin,top=thin)
+    sh1.cell(row = 8,column = 13).border=Border(top=thin)
+    sh1.cell(row = 8,column = 14).border=Border(right=medium,top=thin)
     
     # ===================================================== 9 ======================================================
     
-    sh1.cell(row = 9,column = 1).border=Border(left=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 2).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 3).border=Border(bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 4).border=Border(bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 5).border=Border(bottom=Side(border_style='thin',color='FF000000'),right=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 6).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 7).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 8).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 9).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 10).border=Border(right=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 11).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'),)
-    sh1.cell(row = 9,column = 12).border=Border(right=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 13).border=Border(bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 9,column = 14).border=Border(right=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 9,column = 1).border=Border(left=medium,bottom=thin)
+    sh1.cell(row = 9,column = 2).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 9,column = 3).border=Border(bottom=thin)
+    sh1.cell(row = 9,column = 4).border=Border(bottom=thin)
+    sh1.cell(row = 9,column = 5).border=Border(bottom=thin,right=thin)
+    sh1.cell(row = 9,column = 6).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 9,column = 7).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 9,column = 8).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 9,column = 9).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 9,column = 10).border=Border(right=thin,bottom=thin)
+    sh1.cell(row = 9,column = 11).border=Border(left=thin,bottom=thin,)
+    sh1.cell(row = 9,column = 12).border=Border(right=thin,bottom=thin)
+    sh1.cell(row = 9,column = 13).border=Border(bottom=thin)
+    sh1.cell(row = 9,column = 14).border=Border(right=medium,bottom=thin)
 
 
     # ========================================================== 10 =======================================================
 
-    sh1.cell(row = 10,column = 1).border = Border(left=Side(border_style='medium',color='FF000000'))
+    sh1.cell(row = 10,column = 1).border = Border(left=medium)
     for i in range(2,15):
         if(i!=3 and i!=4 and i!=5 and i!=10 and i!=12):
-            sh1.cell(row = 10,column = i).border = Border(left=Side(border_style='thin',color='FF000000'))
+            sh1.cell(row = 10,column = i).border = Border(left=thin)
 
     # ============================================================= 10 to 18 ===================================================
     
     for i in range(10,18):
-        sh1.cell(row = i,column = 14).border=Border(right=Side(border_style='medium',color='FF000000'))
+        sh1.cell(row = i,column = 14).border=Border(right=medium)
 
     for i in range(11,18):
-        sh1.cell(row = i,column = 1).border = Border(left=Side(border_style='medium',color='FF000000'))
+        sh1.cell(row = i,column = 1).border = Border(left=medium)
 
     for j in range(1,15):
         if(j==2 or j==6 or j==7 or j==8 or j==9 or j==11 or j==13):  
             for i in range(11,18):
-                sh1.cell(row = i,column = j).border = Border(left=Side(border_style='thin',color='FF000000'))
+                sh1.cell(row = i,column = j).border = Border(left=thin)
 
-    sh1.cell(row = 18,column = 1).border=Border(left=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'),right=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 18,column = 1).border=Border(left=medium,bottom=thin,right=thin)
 
-    sh1.cell(row = 18,column = 2).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 3).border=Border(bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 4).border=Border(bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 5).border=Border(bottom=Side(border_style='thin',color='FF000000'),right=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 6).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'),right=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 7).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'),right=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 8).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'),right=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 9).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 10).border=Border(bottom=Side(border_style='thin',color='FF000000'),right=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 11).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 12).border=Border(bottom=Side(border_style='thin',color='FF000000'),right=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 18,column = 13).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))    
-    sh1.cell(row = 18,column = 14).border=Border(right=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))    
+    sh1.cell(row = 18,column = 2).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 18,column = 3).border=Border(bottom=thin)
+    sh1.cell(row = 18,column = 4).border=Border(bottom=thin)
+    sh1.cell(row = 18,column = 5).border=Border(bottom=thin,right=thin)
+    sh1.cell(row = 18,column = 6).border=Border(left=thin,bottom=thin,right=thin)
+    sh1.cell(row = 18,column = 7).border=Border(left=thin,bottom=thin,right=thin)
+    sh1.cell(row = 18,column = 8).border=Border(left=thin,bottom=thin,right=thin)
+    sh1.cell(row = 18,column = 9).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 18,column = 10).border=Border(bottom=thin,right=thin)
+    sh1.cell(row = 18,column = 11).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 18,column = 12).border=Border(bottom=thin,right=thin)
+    sh1.cell(row = 18,column = 13).border=Border(left=thin,bottom=thin)    
+    sh1.cell(row = 18,column = 14).border=Border(right=medium,bottom=thin)    
     
 
     # ======================================================= 19 ==========================================================
 
-    sh1.cell(row = 19,column = 14).border=Border(right=Side(border_style='medium',color='FF000000'),top=Side(border_style='thin',color='FF000000'))    
-    sh1.cell(row = 19,column=8).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
-
-    sh1.cell(row = 19,column=1).border=Border(left=Side(border_style='medium',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    # sh1.cell(row = 19,column = 14).border=Border(right=medium,top=thin)
+       
+    sh1.cell(row = 19,column=8).border=Border(left=thin,top=thin,bottom=thin)
+    sh1.cell(row = 19,column=9).border=Border(right=thin,top=thin,bottom=thin)
+    sh1.cell(row = 19,column=7).border=Border(right=thin,top=thin,bottom=thin)
+    sh1.cell(row = 19,column=2).border=Border(left=thin,top=thin,bottom=thin)
+    for i in range(3,7):
+        sh1.cell(row = 19,column=i).border=Border(top=thin,bottom=thin)
+        
+    sh1.cell(row = 19,column=1).border=Border(left=medium,top=thin,bottom=thin)
     
-    sh1.cell(row = 19,column=10).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 19,column=10).border=Border(left=thin,top=thin,bottom=thin)
+    sh1.cell(row = 19,column=11).border=Border(right=thin,top=thin,bottom=thin)
     
-    sh1.cell(row = 19,column=12).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    
+    sh1.cell(row = 19,column=12).border=Border(left=thin,top=thin,bottom=thin)
+    sh1.cell(row = 19,column=13).border=Border(top=thin,bottom=thin)
+    sh1.cell(row = 19,column=14).border=Border(right=medium,top=thin,bottom=thin)
     # ========================================================20 to 27 ==========================================
-    sh1.cell(row = 26,column=1).border=Border(left=Side(border_style='medium',color='FF000000'))
-
-
-    for i in range(20,28):
-        sh1.cell(row = i,column=1).border=Border(left=Side(border_style='medium',color='FF000000'))
-        sh1.cell(row = i,column=8).border=Border(left=Side(border_style='thin',color='FF000000'))
-        sh1.cell(row = i,column=10).border=Border(left=Side(border_style='thin',color='FF000000'))
-        sh1.cell(row = i,column=12).border=Border(left=Side(border_style='thin',color='FF000000'))
-        sh1.cell(row = i,column = 14).border=Border(right=Side(border_style='medium',color='FF000000'))
-
+    sh1.cell(row = 25,column=1).border=Border(left=medium,top=thin,right=thin)
+    sh1.cell(row = 26,column=1).border=Border(left=medium,right=thin)
+    sh1.cell(row = 27,column=1).border=Border(left=medium,right=thin)
+    sh1.cell(row = 28,column=1).border=Border(left=medium,bottom=thin,right=thin)
     
-    sh1.cell(row = 28,column=8).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 28,column=10).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 28,column=12).border=Border(left=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 28,column=14).border=Border(right=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
+    
+    sh1.cell(row = 25,column=12).border=Border(left=thin,top=thin)
+    sh1.cell(row = 26,column=12).border=Border(left=thin)
+    sh1.cell(row = 27,column=12).border=Border(left=thin)
+    sh1.cell(row = 28,column=12).border=Border(left=thin,bottom=thin)
+    
+    
+    sh1.cell(row = 25,column=14).border=Border(right=medium,top=thin)
+    sh1.cell(row = 26,column=14).border=Border(right=medium)
+    sh1.cell(row = 27,column=14).border=Border(right=medium)
+    sh1.cell(row = 28,column=14).border=Border(right=medium,bottom=thin)
+    
+    
 
-    sh1.cell(row = 28,column=1).border=Border(left=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
+
+    for i in range(20,23):
+        sh1.cell(row = i,column=1).border=Border(left=medium)
+        sh1.cell(row = i,column=8).border=Border(left=thin)
+        sh1.cell(row = i,column=10).border=Border(left=thin)
+        sh1.cell(row = i,column=12).border=Border(left=thin)
+        sh1.cell(row = i,column = 14).border=Border(right=medium)
+    
+    sh1.cell(row = 20,column=1).border=Border(right=thin,left=medium,top=thin)
+    sh1.cell(row = 21,column=1).border=Border(right=thin,left=medium)
+    sh1.cell(row = 22,column=1).border=Border(right=thin,left=medium)
+
+    sh1.cell(row = 23,column=2).border=Border(left=thin,bottom=thin)
+    for i in range(3,7):
+        sh1.cell(row = 23,column=i).border=Border(bottom=thin)
+    sh1.cell(row = 23,column=7).border=Border(right=thin,bottom=thin)
+    sh1.cell(row = 23,column=9).border=Border(right=thin,bottom=thin)
+    sh1.cell(row = 23,column=11).border=Border(right=thin,bottom=thin)
+    sh1.cell(row = 23,column=13).border=Border(bottom=thin)
+       
+    sh1.cell(row = 23,column=8).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 23,column=10).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 23,column=12).border=Border(left=thin,bottom=thin)
+    sh1.cell(row = 23,column=14).border=Border(right=medium,bottom=thin)
+
+    sh1.cell(row = 23,column=1).border=Border(left=medium,bottom=thin)
+    
+    sh1.cell(row = 24,column=1).border=Border(left=medium,bottom=thin,top=thin)
+    sh1.cell(row = 24,column=2).border=Border(left=thin,bottom=thin,top=thin)
+    for i in range(3,12):
+        sh1.cell(row = 24,column=i).border=Border(top=thin,bottom=thin)
+    sh1.cell(row = 24,column=12).border=Border(left=thin,bottom=thin,top=thin)
+    sh1.cell(row = 24,column=13).border=Border(bottom=thin,top=thin)
+    sh1.cell(row = 24,column=14).border=Border(right=medium,bottom=thin,top=thin)
     
     # ============================================================= 29 =================================================
 
-    sh1.cell(row = 29,column=14).border=Border(right=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 29,column=14).border=Border(right=medium,bottom=thin,top=thin)
     for i in range(2,14):
-        sh1.cell(row = 29,column=i).border=Border(bottom=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+        sh1.cell(row = 29,column=i).border=Border(bottom=thin,top=thin)
     
-    sh1.cell(row = 29,column=1).border=Border(left=Side(border_style='medium',color='FF000000'),top=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 29,column=1).border=Border(left=medium,top=thin,bottom=thin)
 
     # ======================================================= 30 =====================================================
 
-    sh1.cell(row = 30,column=14).border=Border(right=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 30,column=14).border=Border(right=medium,bottom=thin,top=thin)
     
-    sh1.cell(row = 30,column=12).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
-    sh1.cell(row = 30,column=1).border=Border(left=Side(border_style='medium',color='FF000000'),top=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 30,column=12).border=Border(left=thin,top=thin,bottom=thin)
+    sh1.cell(row = 30,column=1).border=Border(left=medium,top=thin,bottom=thin)
     
     
     for i in range(2,14):
-        sh1.cell(row = 30,column=i).border=Border(bottom=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+        sh1.cell(row = 30,column=i).border=Border(bottom=thin,top=thin)
     
-    sh1.cell(row = 30,column=1).border=Border(left=Side(border_style='medium',color='FF000000'),top=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 30,column=1).border=Border(left=medium,top=thin,bottom=thin)
     
-    sh1.cell(row = 30,column=10).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'),bottom=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 30,column=10).border=Border(left=thin,top=thin,bottom=thin)
     # =========================================================== 31 to 36 =======================================================
 
-    sh1.cell(row = 31,column=1).border=Border(left=Side(border_style='medium',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 31,column=1).border=Border(left=medium,top=thin)
 
-    sh1.cell(row = 31,column=10).border=Border(left=Side(border_style='thin',color='FF000000'),top=Side(border_style='thin',color='FF000000'))
+    sh1.cell(row = 31,column=10).border=Border(left=thin,top=thin)
 
     for i in range(31,35):
-        sh1.cell(row = i,column=14).border=Border(right=Side(border_style='medium',color='FF000000'))
+        sh1.cell(row = i,column=14).border=Border(right=medium)
     
-    sh1.cell(row = 35,column=14).border=Border(right=Side(border_style='medium',color='FF000000'),bottom=Side(border_style='medium',color='FF000000'))
+    sh1.cell(row = 35,column=14).border=Border(right=medium,bottom=medium)
 
     for i in range(32,36):
-        sh1.cell(row = i,column=1).border=Border(left=Side(border_style='medium',color='FF000000'))
-        sh1.cell(row = i,column=10).border=Border(left=Side(border_style='thin',color='FF000000'))
+        sh1.cell(row = i,column=1).border=Border(left=medium)
+        sh1.cell(row = i,column=10).border=Border(left=thin)
 
     for i in range(1,14):
-        sh1.cell(row = 36,column=i).border=Border(top=Side(border_style='medium',color='FF000000'))
+        sh1.cell(row = 36,column=i).border=Border(top=medium)
     
 # ====================================================Border Over=================================================            
 
             
     
 
-    openpyxl.worksheet.worksheet.Worksheet.set_printer_settings(sh1, paper_size = 1, orientation='landscape')
+    openpyxl.worksheet.worksheet.Worksheet.set_printer_settings(sh1, paper_size = 2, orientation='landscape')
     sh1.page_margins.top=.2
     sh1.page_margins.right=.2
     sh1.page_margins.bottom=.2
