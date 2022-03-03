@@ -218,6 +218,7 @@ for i in range(1,4):
 
     txt13=Entry(F3,width=15,font='arial 12',bd=1,justify=CENTER)
     txt13.grid(row=i,column=3,padx=4,pady=2)
+    txt13.insert(0,u.gold_rate-100)
     u.oldunit_txt.append(txt13)
 
     txt14=Entry(F3,width=15,font='arial 12',bd=1,justify=CENTER)

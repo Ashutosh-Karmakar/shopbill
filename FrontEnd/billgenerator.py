@@ -79,8 +79,9 @@ def generateBill(u : UiFields):
     sh1['F7'].font = Font(name='times new rommon',size=15,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
     sh1['H7'] = "45000"
     sh1['H7'].font = Font(name='arial',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
-
-    saveCustomerData(u.name_txt.get(),u.mobile_txt.get(),u.addhar_txt.get(),u.address_txt.get())
+    
+    if(u.mobile_txt.get()!='' and u.name_txt.get()!='' and u.addhar_txt.get()!='' and u.address_txt.get()!=''):
+        saveCustomerData(u.name_txt.get(),u.mobile_txt.get(),u.addhar_txt.get(),u.address_txt.get())
 
 # ===========================================product details======================================================================
     
