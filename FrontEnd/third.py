@@ -1,4 +1,5 @@
 from cgitb import text
+from multiprocessing.spawn import old_main_modules
 from tkinter import *
 from  tkinter import ttk
 from tkinter import font
@@ -29,31 +30,47 @@ window.attributes('-fullscreen', True)
 window.configure(bg='#FFE6BC')
 window.title("Giridhari Jewellery")
 
-
-
-
-
-def exit_(event):
-    if(tkinter.messagebox.askokcancel('QUIT','Do You Want to Quit??')):
-        window.withdraw()
-        sys.exit() 
-        
-window.bind('<Escape>', exit_)
-
 def enter(event):
     focused_tab = str(window.focus_get())
     tab_name = focusedTab(focused_tab)
-    print(tab_name)
+    i = tabNumber(focused_tab)
+    if u.cnt > 0:
+        u.cnt = 0
+        if(u.old_tab_name == 'desc'):
+            u.net_txt[8].focus_set()
+        elif(u.old_tab_name == 'oldDesc'):
+            u.oldtotal_txt[2].focus_set()
+        elif(u.old_tab_name == 'addDesc'):
+            u.addtotal_txt[2].focus_set()
+
+    if(tab_name == 'desc' and u.des_txt[i].get() == '')\
+    or (tab_name == 'oldDesc' and u.oldDesc_txt[i].get() == '')\
+    or (tab_name == 'addDesc' and u.addDesc_txt[i].get() == ''):
+        u.cnt = u.cnt+1
+        u.old_tab_name = tab_name
+        
     if tab_name == 'number' and u.mobile_txt.get()!='':
         data = findByNumber(u.mobile_txt.get())
         if data != 0:
             setCustData(u, data)
     
-    if (tab_name == 'mc' and (u.des_txt[0].get() != '' and u.wt_txt[0].get() != '' and u.mc_txt[0].get() != '' and u.unit_txt[0].get() != '')):
+    if (tab_name == 'mc' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and u.mc_txt[i].get() != '' and u.unit_txt[i].get() != '')):
         calculate(u, focused_tab)
        
     pyautogui.press("tab")
+    
+def exit_(event):
+    if(tkinter.messagebox.askokcancel('QUIT','Do You Want to Quit??')):
+        window.withdraw()
+        sys.exit() 
 
+
+
+
+
+    
+        
+window.bind('<Escape>', exit_)
 window.bind("<Return>",enter)
 
 
