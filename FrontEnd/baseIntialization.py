@@ -67,3 +67,5 @@ class UiFields:
     findBtn:      Button
     bg_color = "#FFE6BC"
     gold_rate = 0.0
+    cnt = 0
+    old_tab_name = "old"
