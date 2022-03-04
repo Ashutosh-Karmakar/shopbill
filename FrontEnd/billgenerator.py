@@ -4,11 +4,12 @@ from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Fon
 import datetime
 from database import saveCustomerData, saveGstData
 from baseIntialization import UiFields
+import os
 
-# class GenerateBill(UiFields):
 def generateBill(u : UiFields):
     wb = openpyxl.Workbook()
     sh1 = wb.active
+    sh1.title = 'bill'
     daten = datetime.datetime.now()
 # ====================================================shop details==================================================================
     sh1['E1'] = "GIRIDHARI JEWELLERY"
@@ -39,7 +40,7 @@ def generateBill(u : UiFields):
 
     sh1['H5'] = "SI. No.: "
     sh1['H5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='064635')
-    sh1['I5'] = u.bill_txt.get()
+    sh1['I5'] = u.bill_txt
     sh1['I5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
 
     sh1['K5'] = 'Date: '+ daten.strftime("%d-%b-%y - (%A)")
@@ -72,7 +73,7 @@ def generateBill(u : UiFields):
 
     sh1['M6'] = 'Bill No.'
     sh1['M6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=green)
-    sh1['N6'] = u.bill_txt.get()
+    sh1['N6'] = u.bill_txt
     sh1['N6'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
     sh1['F7'] = "Gold Rate: "
@@ -80,9 +81,7 @@ def generateBill(u : UiFields):
     sh1['H7'] = "45000"
     sh1['H7'].font = Font(name='arial',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
     
-    if(u.mobile_txt.get()!='' and u.name_txt.get()!='' and u.addhar_txt.get()!='' and u.address_txt.get()!=''):
-        saveCustomerData(u.name_txt.get(),u.mobile_txt.get(),u.addhar_txt.get(),u.address_txt.get())
-
+    
 # ===========================================product details======================================================================
     
     sh1['A8'] = 'Si.no.'
@@ -150,7 +149,7 @@ def generateBill(u : UiFields):
             sh1['M'+str(i+9)] = u.net_txt[i-1].get()
             sh1['M'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-            saveGstData(u.pcs_txt[i-1].get(), u.wt_txt[i-1].get(),u.des_txt[i-1].get(),4500,10000,u.cgst_txt[i-1].get(),u.sgst_txt[i-1].get(),u.net_txt[i-1].get())
+            saveGstData(str(1), u.wt_txt[i-1].get(),u.des_txt[i-1].get(),4500,10000,u.cgst_txt[i-1].get(),u.sgst_txt[i-1].get(),u.net_txt[i-1].get())
 
 # ===========================================================old gold============================================================
 
@@ -236,8 +235,8 @@ def generateBill(u : UiFields):
         sh1['A33'] = " 3. We are not responsible for any damage or brakage after delivery"
         sh1['A33'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
-        sh1['A34'] = " 4. We can repair the ornaments if possible"
-        sh1['A34'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+        # sh1['A34'] = " 4. We can repair the ornaments if possible"
+        # sh1['A34'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
     thin = Side(border_style='thin',color='FF000000')
     medium = Side(border_style='medium',color='FF000000')
@@ -445,25 +444,38 @@ def generateBill(u : UiFields):
     for i in range(30,34):
         sh1.cell(row = i,column=14).border=Border(right=medium)
     
-    sh1.cell(row = 34,column=14).border=Border(right=medium,bottom=medium)
+    sh1.cell(row = 33,column=14).border=Border(right=medium,bottom=medium)
 
-    for i in range(31,35):
+    for i in range(31,34):
         sh1.cell(row = i,column=1).border=Border(left=medium)
         sh1.cell(row = i,column=10).border=Border(left=thin)
 
     for i in range(1,14):
-        sh1.cell(row = 35,column=i).border=Border(top=medium)
+        sh1.cell(row = 34,column=i).border=Border(top=medium)
     
 # ====================================================Border Over=================================================            
 
             
     
-
+    # sh1.set_print_scale(50)
     openpyxl.worksheet.worksheet.Worksheet.set_printer_settings(sh1, paper_size = 13, orientation='landscape')
-    sh1.page_margins.top=.1
-    sh1.page_margins.right=.1
-    sh1.page_margins.bottom=.1
+    # sh1.page_setup.fitToWidth = 1
+    # sh1.page_setup.fitToHeight = 0
+    sh1.page_setup.fitToPage = True
+    # sh1.set_print_scale(90)
+    sh1.page_margins.top=0.0
+    sh1.page_margins.right=0.0
+    sh1.page_margins.left=0.5
+    sh1.page_margins.bottom=0.0
+    sh1.page_margins.footer = 0.0
+    sh1.page_margins.header = 0.0
 
+    foldername = 'D:\\Shop\Shop\\FrontEnd\\' + daten.strftime("%d_%b_%y")
+    if(os.path.isdir(foldername) == False):
+        os.system('mkdir '+foldername)
+    u.saveLocation = foldername+'/'+str(u.bill_txt)+'.xlsx'
+    if(u.mobile_txt.get()!='' and u.name_txt.get()!='' and u.addhar_txt.get()!='' and u.address_txt.get()!=''):
+        saveCustomerData(u.name_txt.get(),u.mobile_txt.get(),u.addhar_txt.get(),u.address_txt.get(),u.saveLocation)
 
-    wb.save(filename='test.xlsx')
-    # os.system('test.xlsx')
+    wb.save(filename=u.saveLocation)
+    

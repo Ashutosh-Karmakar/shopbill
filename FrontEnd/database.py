@@ -1,5 +1,8 @@
+from lib2to3.pgen2.token import CIRCUMFLEX
 import mysql.connector
 import sys
+
+from baseIntialization import UiFields
 
 mysqlDB = mysql.connector.connect(
     host = 'localhost',
@@ -9,9 +12,9 @@ mysqlDB = mysql.connector.connect(
 )
 cursor = mysqlDB.cursor()
 
-def saveCustomerData(name,mobile,addhar_number,address):
+def saveCustomerData(name,mobile,addhar_number,address,bill_location = "LOCATION"):
     try:
-        comd = ("INSERT INTO customer(cust_name, phone_no, address, addhar_number) VALUES("+"'" +name+ "'," +mobile+ "," +addhar_number+ ",'" +address+ "');")
+        comd = ("INSERT INTO customer(cust_name, phone_no, address, addhar_number, bill_location) VALUES("+"'" +name+ "'," +mobile+ "," +addhar_number+ ",'" +address+ "', '" +bill_location+ "');")
         print(comd)
         cursor.execute(comd)
         mysqlDB.commit()
@@ -39,4 +42,18 @@ def findByNumber(number):
     for i in data:
         cust_data.append(i)
     return cust_data[0]
+
+def findBillNumber():
+    comd = ("select id from customer order by id desc limit 1;")
+    cursor.execute(comd)
+    result = 0
+    for i in cursor:
+        result = i
+        break
+    return int(result[0])+1    
+
+def saveBillLocation(u:UiFields,folderName):
+    comd = "UPDATE customer SET bill_location = '" + folderName + "' WHERE id = " +u.bill_txt.get()+ ";"
+    print(comd)
+    cursor.execute(comd)
         

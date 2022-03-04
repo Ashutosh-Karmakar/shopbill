@@ -1,4 +1,3 @@
-
 from tkinter import *
 
 class UiFields:
@@ -11,7 +10,7 @@ class UiFields:
     addhar:      Label
     addhar_txt:  Entry
     bill:        Label
-    bill_txt:    Entry
+    bill_txt:    int
     date_label:  Label
     
     siLabel:     Label
@@ -69,3 +68,4 @@ class UiFields:
     gold_rate = 0.0
     cnt = 0
     old_tab_name = "old"
+    saveLocation = 'test.xlsx'

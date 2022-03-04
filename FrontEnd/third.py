@@ -13,10 +13,12 @@ import os
 import sys
 from turtle import bgcolor
 from xml.etree.ElementPath import find
+from database import findByNumber
 from openpyxl.drawing.image import Image 
 from billgenerator import generateBill
-from database import findByNumber
+from database import findBillNumber
 import datetime
+
 import pyautogui
 
 from baseIntialization import UiFields
@@ -82,8 +84,9 @@ u.addhar_txt.grid(row=1,column=15)
 
 u.bill=Label(window, text='Bill No.:', font=('times new rommon',labelfont),bg=u.bg_color)
 u.bill.grid(row=1,column=20)
-u.bill_txt=Entry(window,width=15,font='arial '+str(textfont),bd=2,justify=CENTER)
-u.bill_txt.grid(row=1,column=25,pady=15)
+bill_txt = Label(window, text=str(findBillNumber())+"  \t", font='arial '+str(textfont), bg=u.bg_color)
+bill_txt.grid(row=1,column=25,pady=15)
+u.bill_txt = findBillNumber()
 
 u.date_label=Label(window, text=daten.strftime("%d-%b-%y - (%A)"), font=('times new rommon',labelfont),bg=u.bg_color)
 u.date_label.grid(row=1,column=30)
@@ -106,8 +109,8 @@ for i in range(1,10):
 u.desLabel = Label(F2,text="Description",font=('times new rommon',10),bg=u.bg_color)
 u.desLabel.grid(column=1,row=0)
 
-u.pcsLabel = Label(F2,text="Pcs",font=('times new rommon',10),bg=u.bg_color)
-u.pcsLabel.grid(column=2,row=0)
+# u.pcsLabel = Label(F2,text="Pcs",font=('times new rommon',10),bg=u.bg_color)
+# u.pcsLabel.grid(column=2,row=0)
 
 u.wtLabel = Label(F2,text="Weight",font=('times new rommon',10),bg=u.bg_color)
 u.wtLabel.grid(column=3,row=0)
@@ -137,10 +140,10 @@ for i in range(1,10):
     txt1.grid(row=i,column=1,padx=4,pady=3)
     u.des_txt.append(txt1)
     
-    txt2=Entry(F2,width=3,font='arial 15',bd=1,justify=CENTER)
-    txt2.grid(row=i,column=2,padx=4,pady=3)
-    txt2.insert(0,1)
-    u.pcs_txt.append(txt2)
+    # txt2=Entry(F2,width=3,font='arial 15',bd=1,justify=CENTER)
+    # txt2.grid(row=i,column=2,padx=4,pady=3)
+    # txt2.insert(0,1)
+    # u.append(txt2)
  
     txt3=Entry(F2,width=9,font='arial 15',bd=1,justify=CENTER)
     txt3.grid(row=i,column=3,padx=4,pady=3)
@@ -294,7 +297,7 @@ u.total.insert(0,0)
 # ======================================function of the Code================================================
 
 
-def prin(event):
+def prin():
     os.startfile('test.xlsx','print')
 
 def opena():
