@@ -166,7 +166,7 @@ def generateBill(u : UiFields):
         sh1['M19'] = "Total"
         sh1['M19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
         for i in range(1,4):
-            if u.oldDesc_txt[i-1].get!="":
+            if u.oldtotal_txt[i-1].get()!="":
                 sh1['A2'+str(i-1)] = i
                 sh1['A2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
                 
@@ -209,7 +209,7 @@ def generateBill(u : UiFields):
         sh1['E28'] = "Mode Of Payment"
         sh1['E28'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
 
-        sh1['I28'] = "Cash"
+        sh1['I28'] = u.mode.get()
         sh1['I28'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 
 # =====================================================Total paid=======================================================
@@ -221,7 +221,7 @@ def generateBill(u : UiFields):
 
         sh1['J29'] = "Total Paid : "
         sh1['J29'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=red)
-        sh1['L29'] = '2000000'
+        sh1['L29'] = u.total.get()
         sh1['L29'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
 # =================================================Terms and conditions===================================================
         sh1['B30']="Terms and conditions"
@@ -459,11 +459,10 @@ def generateBill(u : UiFields):
             
     
 
-    openpyxl.worksheet.worksheet.Worksheet.set_printer_settings(sh1, paper_size = 2, orientation='landscape')
-    sh1.page_margins.top=.2
-    sh1.page_margins.right=.2
-    sh1.page_margins.bottom=.2
-
+    openpyxl.worksheet.worksheet.Worksheet.set_printer_settings(sh1, paper_size = 13, orientation='landscape')
+    sh1.page_margins.top=.1
+    sh1.page_margins.right=.1
+    sh1.page_margins.bottom=.1
 
 
     wb.save(filename='test.xlsx')

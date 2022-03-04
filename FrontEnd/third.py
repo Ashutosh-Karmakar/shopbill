@@ -20,7 +20,7 @@ import datetime
 import pyautogui
 
 from baseIntialization import UiFields
-from backend import focusedTab, tabNumber, setCustData, calculate
+from backend import enterOperation
   
 
 u = UiFields()
@@ -32,31 +32,8 @@ window.title("Giridhari Jewellery")
 
 def enter(event):
     focused_tab = str(window.focus_get())
-    tab_name = focusedTab(focused_tab)
-    i = tabNumber(focused_tab)
-    if u.cnt > 0:
-        u.cnt = 0
-        if(u.old_tab_name == 'desc'):
-            u.net_txt[8].focus_set()
-        elif(u.old_tab_name == 'oldDesc'):
-            u.oldtotal_txt[2].focus_set()
-        elif(u.old_tab_name == 'addDesc'):
-            u.addtotal_txt[2].focus_set()
-
-    if(tab_name == 'desc' and u.des_txt[i].get() == '')\
-    or (tab_name == 'oldDesc' and u.oldDesc_txt[i].get() == '')\
-    or (tab_name == 'addDesc' and u.addDesc_txt[i].get() == ''):
-        u.cnt = u.cnt+1
-        u.old_tab_name = tab_name
-        
-    if tab_name == 'number' and u.mobile_txt.get()!='':
-        data = findByNumber(u.mobile_txt.get())
-        if data != 0:
-            setCustData(u, data)
-    
-    if (tab_name == 'mc' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and u.mc_txt[i].get() != '' and u.unit_txt[i].get() != '')):
-        calculate(u, focused_tab)
-       
+    print(focused_tab)
+    enterOperation(focused_tab,u)   
     pyautogui.press("tab")
     
 def exit_(event):
@@ -227,6 +204,7 @@ for i in range(1,4):
     
     txt11=Entry(F3,width=80,font='arial 12')
     txt11.grid(row=i,column=1,padx=4,pady=2)
+    txt11.insert(0,'Old Gold')
     u.oldDesc_txt.append(txt11)
 
     txt12=Entry(F3,width=15,font='arial 10',bd=1,justify=CENTER)
@@ -292,7 +270,7 @@ u.total_l = Label(F5,text="Total",font=('times new rommon',12),bg=u.bg_color)
 u.total_l.grid(column=0,row=1)
 u.total= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER)
 u.total.grid(row=1,column=5,padx=10,pady=5)
-
+u.total.insert(0,0)
 
 #================================================================================================
 
