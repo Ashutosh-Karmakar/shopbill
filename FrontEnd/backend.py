@@ -9,8 +9,10 @@ def focusedTab(focused_tab):
         return 'number'
     if(focused_tab == '.!labelframe.!entry4' or focused_tab == '.!labelframe.!entry13' or focused_tab == '.!labelframe.!entry22' or focused_tab == '.!labelframe.!entry31' or focused_tab == '.!labelframe.!entry40' or focused_tab == '.!labelframe.!entry49' or focused_tab == '.!labelframe.!entry58' or focused_tab == '.!labelframe.!entry67'):
         return 'mc'
-    if(focused_tab == '.!labelframe.!entry' or focused_tab == '.!labelframe.!entry10' or focused_tab == '.!labelframe.!entry19' or focused_tab == '.!labelframe.!entry28' or focused_tab == '.!labelframe.!entry37' or focused_tab == '.!labelframe.!entry46' or focused_tab == '.!labelframe.!entry55' or focused_tab == '.!labelframe.!entry64' or focused_tab == '.!labelframe.!entry73'):
+    if(focused_tab == '.!labelframe.!entry' or focused_tab == '.!labelframe.!entry9' or focused_tab == '.!labelframe.!entry17' or focused_tab == '.!labelframe.!entry25' or focused_tab == '.!labelframe.!entry33' or focused_tab == '.!labelframe.!entry41' or focused_tab == '.!labelframe.!entry49' or focused_tab == '.!labelframe.!entry57' or focused_tab == '.!labelframe.!entry65'):
         return 'desc'
+    if(focused_tab == '.!labelframe.!entry2' or focused_tab == '.!labelframe.!entry10' or focused_tab == '.!labelframe.!entry18' or focused_tab == '.!labelframe.!entry26' or focused_tab == '.!labelframe.!entry34' or focused_tab == '.!labelframe.!entry42' or focused_tab == '.!labelframe.!entry50' or focused_tab == '.!labelframe.!entry58' or focused_tab == '.!labelframe.!entry66'):
+        return 'wt'
     if(focused_tab == '.!labelframe2.!entry2' or focused_tab == '.!labelframe2.!entry6' or focused_tab == '.!labelframe2.!entry10'):
         return 'oldWt'
     if(focused_tab == '.!labelframe2.!entry' or focused_tab == '.!labelframe2.!entry5' or focused_tab == '.!labelframe2.!entry9'):
@@ -67,6 +69,26 @@ def tabNumber(focused_tab):
     if focused_tab == '.!labelframe.!entry73':
         return 8
     
+    #wt entry
+    if focused_tab == '.!labelframe.!entry2':
+        return 0
+    if focused_tab == '.!labelframe.!entry10':
+        return 1
+    if focused_tab == '.!labelframe.!entry18':
+        return 2
+    if focused_tab == '.!labelframe.!entry26': 
+        return 3
+    if focused_tab == '.!labelframe.!entry34':
+        return 4
+    if focused_tab == '.!labelframe.!entry42':
+        return 5
+    if focused_tab == '.!labelframe.!entry50': 
+        return 6
+    if focused_tab == '.!labelframe.!entry58':
+        return 7
+    if focused_tab == '.!labelframe.!entry66':
+        return 8
+    
     #old gold desc entry:
     if focused_tab == '.!labelframe2.!entry':
         return 0
@@ -110,13 +132,13 @@ def setCustData(u:UiFields, data):
     u.bill_txt.focus_set()
 
 
-def calculate(u:UiFields,focused_tab):
+def calculate(u:UiFields, focused_tab):
     i = tabNumber(focused_tab)
-    qty = float(u.pcs_txt[i].get())
+    # qty = float(u.pcs_txt[i].get())
     wt = float(u.wt_txt[i].get())
     mc = float(u.mc_txt[i].get())
     gr = u.gold_rate
-    cost = wt * (gr+mc) * qty
+    cost = wt * (gr+mc)
     cgst = (cost * 1.5)/100
     gstamt = cgst*2
     net_total = cost + gstamt
@@ -134,9 +156,12 @@ def setTotal(u:UiFields,amt):
     u.total.insert(0,(amt))
 
 
-def enterOperation(focused_tab,u:UiFields):
+def enterOperation(focused_tab, u:UiFields):
+    
     tab_name = focusedTab(focused_tab)
     i = tabNumber(focused_tab)
+    if(tab_name == 'wt' and len(u.wt_txt[i].get())>1 and (',' in u.wt_txt[i].get())):
+        u.des_txt[i].focus_set()
     if(tab_name == 'oldAmt'):
         u.oldDesc_txt[i+1].focus_set()
     if(tab_name == 'oldWt'):
@@ -161,7 +186,7 @@ def enterOperation(focused_tab,u:UiFields):
         if data != 0:
             setCustData(u, data)
     
-    if (tab_name == 'mc' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and u.mc_txt[i].get() != '' and u.unit_txt[i].get() != '')):
+    if (tab_name == 'mc' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and u.mc_txt[i].get() != '')):
         calculate(u, focused_tab)
         total = findAmt(u.total)
         amt = findAmt(u.net_txt[i])
@@ -172,4 +197,6 @@ def enterOperation(focused_tab,u:UiFields):
         amt = findAmt(u.oldtotal_txt[i])
         if(amt < total):
             setTotal(u,total-amt)
+            
+
         
