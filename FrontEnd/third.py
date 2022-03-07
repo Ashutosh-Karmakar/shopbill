@@ -7,79 +7,74 @@ from tkinter.ttk import *
 from tkinter import messagebox
 import tkinter
 from tkinter import *
-from tkinter import messagebox
 import tempfile
 import os
 import sys
 from turtle import bgcolor
 from xml.etree.ElementPath import find
-from database import findByNumber
 from openpyxl.drawing.image import Image 
 from billgenerator import generateBill
 from database import findBillNumber
 import datetime
-
 import pyautogui
 
 from baseIntialization import UiFields
 from backend import enterOperation
-  
 
 u = UiFields()
-u.gold_rate = 4500
+u.gold_rate = 4876
 window = tkinter.Tk()
 window.attributes('-fullscreen', True)
-window.configure(bg='#FFE6BC')
+window.configure(bg=u.background_color)
 window.title("Giridhari Jewellery")
 
 def enter(event):
     focused_tab = str(window.focus_get())
     print(focused_tab)
-    enterOperation(focused_tab,u)   
-    pyautogui.press("tab")
+    i = enterOperation(focused_tab,u) 
+    print(i)  
+    if(i!=1):
+        pyautogui.press("tab")
+    # if i == 1:
+    #     u.mobile_txt.focus()
     
 def exit_(event):
     if(tkinter.messagebox.askokcancel('QUIT','Do You Want to Quit??')):
         window.withdraw()
         sys.exit() 
-
-
-
-
-
     
-        
 window.bind('<Escape>', exit_)
 window.bind("<Return>",enter)
+
 
 
        
 
 daten = datetime.datetime.now()
 
-# ==================================creating the gui==================================
+# ==================================customer detail==================================
 labelfont = 11
 textfont = 11
 
 u.mobile=Label(window, text='Mobile No.:', font=('times new rommon',labelfont),bg=u.bg_color)
 u.mobile.grid(row=1,column=0,padx=10)
-u.mobile_txt=Entry(window,width=20,font='arial '+str(textfont),bd=2,justify=CENTER)
+u.mobile_txt=Entry(window,width=20,font='arial '+str(textfont),bd=2,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.mobile_txt.grid(row=1,column=1,pady=15)
 u.mobile_txt.focus()
 
-u.name=Label(window, text='Name and Address:', font=('times new rommon',labelfont),bg=u.bg_color)
+u.name=Label(window, text='Name:', font=('times new rommon',labelfont),bg=u.bg_color)
 u.name.grid(row=1,column=4,padx=10)
-u.name_txt=Entry(window,width=30,font='arial '+str(textfont),bd=2,justify=LEFT)
+u.name_txt=Entry(window,width=30,font='arial '+str(textfont),bd=2,justify=LEFT,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.name_txt.grid(row=1,column=5,pady=15)
 
 u.address=Label(window, text='Address:', font=('times new rommon',labelfont),bg=u.bg_color)
 u.address.grid(row=1,column=9)
-u.address_txt=Entry(window,width=25,font='arial '+str(textfont),bd=2,justify=CENTER)
+u.address_txt=Entry(window,width=25,font='arial '+str(textfont),bd=2,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.address_txt.grid(row=1,column=10)
 
 u.addhar=Label(window, text='Addhar No.:', font=('times new rommon',labelfont),bg=u.bg_color)
 u.addhar.grid(row=1,column=14)
-u.addhar_txt=Entry(window,width=25,font='arial '+str(textfont),bd=2,justify=CENTER)
+u.addhar_txt=Entry(window,width=25,font='arial '+str(textfont),bd=2,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.addhar_txt.grid(row=1,column=15)
 
 u.bill=Label(window, text='Bill No.:', font=('times new rommon',labelfont),bg=u.bg_color)
@@ -93,7 +88,7 @@ u.date_label.grid(row=1,column=30)
 
 
 
-# ===========================================================================================
+# ========================================new Gold==============================================
 
 F2 = LabelFrame(window,bg= "#FFE6BC")
 F2.place(x=5, y=80,width=1900,height=390)
@@ -109,78 +104,69 @@ for i in range(1,10):
 u.desLabel = Label(F2,text="Description",font=('times new rommon',10),bg=u.bg_color)
 u.desLabel.grid(column=1,row=0)
 
-# u.pcsLabel = Label(F2,text="Pcs",font=('times new rommon',10),bg=u.bg_color)
-# u.pcsLabel.grid(column=2,row=0)
-
 u.wtLabel = Label(F2,text="Weight",font=('times new rommon',10),bg=u.bg_color)
 u.wtLabel.grid(column=3,row=0)
 
+u.netLabel = Label(F2,text="Net",font=('times new rommon',10),bg=u.bg_color)
+u.netLabel.grid(column=4,row=0)
 
 u.mcLabel = Label(F2,text="MC",font=('times new rommon',10),bg=u.bg_color)
-u.mcLabel.grid(column=4,row=0)
+u.mcLabel.grid(column=5,row=0)
 
 u.unitLabel = Label(F2,text="Unit Price",font=('times new rommon',10),bg=u.bg_color)
-u.unitLabel.grid(column=5,row=0)
-
+u.unitLabel.grid(column=6,row=0)
 
 u.cgstLabel = Label(F2,text="CGST(1.5%)",font=('times new rommon',10),bg=u.bg_color)
-u.cgstLabel.grid(column=6,row=0)
+u.cgstLabel.grid(column=7,row=0)
 
 u.sgstLabel = Label(F2,text="SGST(1.5%)",font=('times new rommon',10),bg=u.bg_color)
-u.sgstLabel.grid(column=7,row=0)
+u.sgstLabel.grid(column=8,row=0)
 
 u.gstAmtLabel = Label(F2,text="GstAmt",font=('times new rommon',10),bg=u.bg_color)
-u.gstAmtLabel.grid(column=8,row=0)
+u.gstAmtLabel.grid(column=9,row=0)
 
-u.netLabel = Label(F2,text="Net",font=('times new rommon',10),bg=u.bg_color)
-u.netLabel.grid(column=9,row=0)
 
 for i in range(1,10):
-    txt1=Entry(F2,width=40,font='arial 15',bd=1,justify=CENTER)
+    txt1=Entry(F2,width=40,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
     txt1.grid(row=i,column=1,padx=4,pady=3)
     u.des_txt.append(txt1)
-    
-    # txt2=Entry(F2,width=3,font='arial 15',bd=1,justify=CENTER)
-    # txt2.grid(row=i,column=2,padx=4,pady=3)
-    # txt2.insert(0,1)
-    # u.append(txt2)
  
-    txt3=Entry(F2,width=9,font='arial 15',bd=1,justify=CENTER)
-    txt3.grid(row=i,column=3,padx=4,pady=3)
-    u.wt_txt.append(txt3)
+    txt2=Entry(F2,width=9,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt2.grid(row=i,column=3,padx=4,pady=3)
+    u.wt_txt.append(txt2)
 
+    txt3=Entry(F2,width=16,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt3.grid(row=i,column=4,padx=4,pady=3)
+    u.net_txt.append(txt3)
     
-    txt4=Entry(F2,width=9,font='arial 15',bd=1,justify=CENTER)
-    txt4.grid(row=i,column=4,padx=4,pady=3)
+    txt4=Entry(F2,width=9,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt4.grid(row=i,column=5,padx=4,pady=3)
+    txt4.config(state=DISABLED)
     u.mc_txt.append(txt4)
     
-    
-    txt5=Entry(F2,width=9,font='arial 15',bd=1,justify=CENTER)
-    txt5.grid(row=i,column=5,padx=4,pady=3)
+    txt5=Entry(F2,width=9,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt5.grid(row=i,column=6,padx=4,pady=3)
     txt5.insert(0,u.gold_rate)
+    txt5.config(state=DISABLED)
     u.unit_txt.append(txt5)
 
-    txt6=Entry(F2,width=10,font='arial 15',bd=1,justify=CENTER)
-    txt6.grid(row=i,column=6,padx=4,pady=3)
+    txt6=Entry(F2,width=10,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt6.grid(row=i,column=7,padx=4,pady=3)
+    txt6.config(state=DISABLED)
     u.cgst_txt.append(txt6)
 
-    txt7=Entry(F2,width=10,font='arial 15',bd=1,justify=CENTER)
-    txt7.grid(row=i,column=7,padx=4,pady=3)
+    txt7=Entry(F2,width=10,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt7.grid(row=i,column=8,padx=4,pady=3)
+    txt7.config(state=DISABLED)
     u.sgst_txt.append(txt7)
 
-    txt8=Entry(F2,width=10,font='arial 15',bd=1,justify=CENTER)
-    txt8.grid(row=i,column=8,padx=4,pady=3)
+    txt8=Entry(F2,width=10,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt8.grid(row=i,column=9,padx=4,pady=3)
+    txt8.config(state=DISABLED)
     u.gstAmt_txt.append(txt8)
 
 
-    txt9=Entry(F2,width=16,font='arial 15',bd=1,justify=CENTER)
-    txt9.grid(row=i,column=9,padx=4,pady=3)
-    u.net_txt.append(txt9)
-
-
-
-
-# ======================================================================================================================
+# ==================================old gold=====================================================
 
 F3 = LabelFrame(window,bg= "#FFE6BC")
 F3.place(x=5,y=480,width=13055,height=140)
@@ -201,30 +187,31 @@ u.oldtotalLabel = Label(F3,text="Amount",font=('times new rommon',10),bg=u.bg_co
 u.oldtotalLabel.grid(column=4,row=0)
 
 for i in range(1,4): 
-    txt10=Label(F3,text=i,font=('times new rommon',10),bg=u.bg_color)
-    txt10.grid(row=i,column=0,padx=4,pady=2)
-    u.oldSi_txt.append(txt10)
+    txt9=Label(F3,text=i,font=('times new rommon',10),bg=u.bg_color)
+    txt9.grid(row=i,column=0,padx=4,pady=2)
+    u.oldSi_txt.append(txt9)
     
-    txt11=Entry(F3,width=80,font='arial 12')
-    txt11.grid(row=i,column=1,padx=4,pady=2)
-    txt11.insert(0,'Old Gold')
-    u.oldDesc_txt.append(txt11)
+    txt10=Entry(F3,width=80,font='arial 12',highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt10.grid(row=i,column=1,padx=4,pady=2)
+    txt10.insert(0,'Old Gold')
+    u.oldDesc_txt.append(txt10)
 
-    txt12=Entry(F3,width=15,font='arial 10',bd=1,justify=CENTER)
-    txt12.grid(row=i,column=2,padx=4,pady=2)
-    u.oldwe_txt.append(txt12)
+    txt11=Entry(F3,width=15,font='arial 10',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt11.grid(row=i,column=2,padx=4,pady=2)
+    u.oldwe_txt.append(txt11)
 
-    txt13=Entry(F3,width=15,font='arial 12',bd=1,justify=CENTER)
-    txt13.grid(row=i,column=3,padx=4,pady=2)
-    txt13.insert(0,u.gold_rate-100)
-    u.oldunit_txt.append(txt13)
+    txt12=Entry(F3,width=15,font='arial 12',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt12.grid(row=i,column=3,padx=4,pady=2)
+    txt12.insert(0,u.gold_rate-100)
+    txt12.config(state = DISABLED)
+    u.oldunit_txt.append(txt12)
 
-    txt14=Entry(F3,width=15,font='arial 12',bd=1,justify=CENTER)
-    txt14.grid(row=i,column=4,padx=4,pady=2)
-    u.oldtotal_txt.append(txt14)
+    txt13=Entry(F3,width=15,font='arial 12',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt13.grid(row=i,column=4,padx=4,pady=2)
+    u.oldtotal_txt.append(txt13)
 
 
-#=================================================================================================
+#===========================================addition or deduction===============================
 
 F4 = LabelFrame(window,bg= "#FFE6BC")
 F4.place(x=5,y=620,width=13055,height=140)
@@ -239,62 +226,41 @@ u.addtotalLabel = Label(F4,text="Amount",font=('times new rommon',10),bg=u.bg_co
 u.addtotalLabel.grid(column=4,row=0)
 
 for i in range(1,4):
-    txt15=Label(F4,text=i,font=('times new rommon',10),bg=u.bg_color)
-    txt15.grid(row=i,column=0,padx=4,pady=2)
-    u.addSi_txt.append(txt15)
+    txt14=Label(F4,text=i,font=('times new rommon',10),bg=u.bg_color)
+    txt14.grid(row=i,column=0,padx=4,pady=2)
+    u.addSi_txt.append(txt14)
     
-    txt16=Entry(F4,width=80,font='arial 12')
-    txt16.grid(row=i,column=1,padx=4,pady=2)
-    u.addDesc_txt.append(txt16)
+    txt15=Entry(F4,width=80,font='arial 12',highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt15.grid(row=i,column=1,padx=4,pady=2)
+    u.addDesc_txt.append(txt15)
 
-    txt17=Entry(F4,width=15,font='arial 12',bd=1,justify=CENTER)
-    txt17.grid(row=i,column=4,padx=4,pady=2)
-    u.addtotal_txt.append(txt17)
+    txt16=Entry(F4,width=15,font='arial 12',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+    txt16.grid(row=i,column=4,padx=4,pady=2)
+    u.addtotal_txt.append(txt16)
 
-
-
-#===========================================================
+#=================================mode of payment and total==============================
 F5 = LabelFrame(window,bg= "#FFE6BC")
 F5.place(x=0,y=750,width=1500,height=100)
 
-
-
 u.mode_l = Label(F5,text="Mode Of Payment",font=('times new rommon',12),bg=u.bg_color)
 u.mode_l.grid(column=3,row=0)
-u.mode= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER)
+u.mode= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.mode.grid(row=0,column=4,padx=10,pady=5)
 
 u.charge_l = Label(F5,text="Charges",font=('times new rommon',12),bg=u.bg_color)
 u.charge_l.grid(column=10,row=0)
-u.charge= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER)
+u.charge= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.charge.grid(row=0,column=13,padx=10,pady=5)
 
 u.total_l = Label(F5,text="Total",font=('times new rommon',12),bg=u.bg_color)
 u.total_l.grid(column=0,row=1)
-u.total= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER)
+u.total= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.total.grid(row=1,column=5,padx=10,pady=5)
 u.total.insert(0,0)
 
-#================================================================================================
-
-# ==========================================enter key binding===========================================
-
-# define a function to change the tab order
-# def tab_order(event):
-#     widget = [Name_txt,addhar_txt,mobile_txt,bill_txt]
-#     for w in widget:
-#         w.lift()
-
-# def enter(event):
-#     print('Button-2 pressed at x = % d, y = % d'%(event.x, event.y))
-
-# window.bind('<Return>', tab_order)
 
 
-
-
-
-# ======================================function of the Code================================================
+# ======================================Buttons of the Code=========================
 
 
 def prin():
@@ -303,15 +269,10 @@ def prin():
 def opena():
     print("Hello")
     os.system('test.xlsx')
-# =================================================================================================================
-
-
+    
 
 F6 = LabelFrame(window,bg= "#519259")
 F6.place(x=5,y=900,width=1500,height=70)
-# print(des_txt[0].get() == "")
-
-# g = GenerateBill()
 
 u.newBtn = Button(F6,text="New (Ctrl+N)",font=('times new rommon',13),bg=u.bg_color,bd=2)
 u.newBtn.grid(column=0,row=0,padx=20,pady=10)
@@ -330,6 +291,6 @@ u.findBtn.grid(column=3,row=0,padx=20,pady=10)
 window.bind('<Control-G>', generateBill(u))
 window.bind('<Control-p>', prin)
 window.bind('<Control-slash>', opena)
-
-# ========================================end of the code=========================================================================
 window.mainloop()
+
+# ========================================end of the code================================
