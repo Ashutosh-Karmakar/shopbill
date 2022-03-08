@@ -69,3 +69,10 @@ class UiFields:
     cnt = 0
     old_tab_name = "old"
     saveLocation = 'test.xlsx'
+    entry_correct_color = "#00C897"
+    entry_wrong_color = "#FF1818"
+    border_size = 2
+    background_color = '#FFE6BC'
+    green = '064635'
+    red = 'C85C5C'
+    blue = '041C32'
