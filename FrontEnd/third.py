@@ -19,7 +19,8 @@ import datetime
 import pyautogui
 
 from baseIntialization import UiFields
-from backend import enterOperation
+from backend import enterOperation, newBill
+
 
 u = UiFields()
 u.gold_rate = 4876
@@ -35,8 +36,6 @@ def enter(event):
     print(i)  
     if(i!=1):
         pyautogui.press("tab")
-    # if i == 1:
-    #     u.mobile_txt.focus()
     
 def exit_(event):
     if(tkinter.messagebox.askokcancel('QUIT','Do You Want to Quit??')):
@@ -48,7 +47,7 @@ window.bind("<Return>",enter)
 
 
 
-       
+    
 
 daten = datetime.datetime.now()
 
@@ -130,7 +129,7 @@ for i in range(1,10):
     txt1=Entry(F2,width=40,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
     txt1.grid(row=i,column=1,padx=4,pady=3)
     u.des_txt.append(txt1)
- 
+
     txt2=Entry(F2,width=9,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
     txt2.grid(row=i,column=3,padx=4,pady=3)
     u.wt_txt.append(txt2)
@@ -274,7 +273,7 @@ def opena():
 F6 = LabelFrame(window,bg= "#519259")
 F6.place(x=5,y=900,width=1500,height=70)
 
-u.newBtn = Button(F6,text="New (Ctrl+N)",font=('times new rommon',13),bg=u.bg_color,bd=2)
+u.newBtn = Button(F6,text="New (Ctrl+N)",font=('times new rommon',13),command=lambda: newBill(u),bg=u.bg_color,bd=2)
 u.newBtn.grid(column=0,row=0,padx=20,pady=10)
 
 u.printBtn = Button(F6,text="Print (Ctrl+P)",font=('times new rommon',13),command=prin,bg=u.bg_color,bd=2)

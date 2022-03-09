@@ -1,5 +1,5 @@
 from baseIntialization import UiFields
-from database import findByNumber
+from database import findBillNumber, findByNumber
 from tkinter import *
 import pyautogui
 
@@ -171,10 +171,13 @@ def calculate(u:UiFields, focused_tab):
     
     u.cgst_txt[i].delete(0,END)
     u.cgst_txt[i].insert(0,cgst)
+    
     u.sgst_txt[i].delete(0,END)
     u.sgst_txt[i].insert(0,cgst)
+    
     u.gstAmt_txt[i].delete(0,END)
     u.gstAmt_txt[i].insert(0,gstamt)
+    
     u.mc_txt[i].delete(0,END)
     u.mc_txt[i].insert(0,mc)
     
@@ -364,6 +367,13 @@ def enterOperation(focused_tab, u:UiFields):
         if(amt < total):
             setTotal(u,total-amt)
             
+            
+            
+            
+            
+            
+            
+            
 
         
 EMPTY = ''
@@ -415,3 +425,103 @@ def convert(n):
  
     return result.strip().rstrip(',').replace(', and', ' and')
      
+     
+     
+     
+     
+     
+     
+     
+     
+def newBill(u:UiFields):
+    u.mobile_txt.delete(0,END)
+    u.mobile_txt.configure(highlightcolor= u.entry_correct_color)
+    u.mobile_txt.focus()
+
+    u.name_txt.delete(0,END)
+    u.name_txt.configure(highlightcolor= u.entry_correct_color)
+
+    u.address_txt.delete(0,END)
+    u.address_txt.configure(highlightcolor= u.entry_correct_color)
+
+    u.addhar_txt.delete(0,END)
+    u.addhar_txt.configure(highlightcolor= u.entry_correct_color)
+
+    u.bill_txt = findBillNumber()
+
+    # u.date_label=Label(window, text=daten.strftime("%d-%b-%y - (%A)"), font=('times new rommon',labelfont),bg=u.bg_color)
+    # u.date_label.grid(row=1,column=30)
+
+
+
+    # ========================================new Gold==============================================
+
+    for i in range(0,9):
+        if(u.des_txt[i].get()!=''):
+            u.des_txt[i].delete(0,END)
+            u.des_txt[i].configure(highlightcolor= u.entry_correct_color)
+            
+            u.wt_txt[i].delete(0,END)
+            u.wt_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+            u.net_txt[i].delete(0,END)
+            u.net_txt[i].configure(highlightcolor= u.entry_correct_color)
+            
+            u.mc_txt[i].config(state='normal')
+            u.mc_txt[i].delete(0,END)
+            u.mc_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.mc_txt[i].config(state=DISABLED)
+            
+            # u.unit_txt[i].config(state='normal')
+            # u.unit_txt[i].delete(0,END)
+            # u.unit_txt[i].configure(highlightcolor= u.entry_correct_color)
+            # u.unit_txt[i].config(state=DISABLED)
+            
+            u.cgst_txt[i].config(state='normal')
+            u.cgst_txt[i].delete(0,END)
+            u.cgst_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.cgst_txt[i].config(state=DISABLED)
+            
+            u.sgst_txt[i].config(state='normal')
+            u.sgst_txt[i].delete(0,END)
+            u.sgst_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.sgst_txt[i].config(state=DISABLED)
+            
+            u.gstAmt_txt[i].config(state='normal')
+            u.gstAmt_txt[i].delete(0,END)
+            u.gstAmt_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.gstAmt_txt[i].config(state=DISABLED)
+            
+    # ==================================old gold=====================================================
+
+    for i in range(0,3): 
+        
+        u.oldDesc_txt[i].delete(0,END)
+        u.oldDesc_txt[i].configure(highlightcolor= u.entry_correct_color)
+        u.oldDesc_txt[i].insert(0,'Old Gold')
+        
+        u.oldwe_txt[i].delete(0,END)
+        u.oldwe_txt[i].configure(highlightcolor= u.entry_correct_color)
+        
+        u.oldtotal_txt[i].delete(0,END)
+        u.oldtotal_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+
+    #===========================================addition or deduction===============================
+    for i in range(0,3):
+        
+        u.addDesc_txt[i].delete(0,END)
+        u.addDesc_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+        u.addtotal_txt[i].delete(0,END)
+        u.addtotal_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+    #=================================mode of payment and total==============================
+    u.mode.delete(0,END)
+    u.mode.configure(highlightcolor= u.entry_correct_color)
+    u.charge.delete(0,END)
+    u.charge.configure(highlightcolor= u.entry_correct_color)
+    
+    u.total.delete(0,END)
+    u.total.configure(highlightcolor= u.entry_correct_color)
+    u.total.insert(0,0)
