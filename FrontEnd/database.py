@@ -1,4 +1,3 @@
-from lib2to3.pgen2.token import CIRCUMFLEX
 import mysql.connector
 import sys
 
@@ -8,7 +7,8 @@ mysqlDB = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
     passwd = '1234',
-    database = 'Shop'
+    database = 'Shop',
+    auth_plugin='mysql_native_password'
 )
 cursor = mysqlDB.cursor()
 

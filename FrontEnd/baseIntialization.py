@@ -64,7 +64,7 @@ class UiFields:
     printBtn:     Button
     generateBtn:  Button
     findBtn:      Button
-    bg_color = "#FFE6BC"
+    bg_color = "#FFE6AB"
     gold_rate = 0.0
     cnt = 0
     old_tab_name = "old"
@@ -72,7 +72,7 @@ class UiFields:
     entry_correct_color = "#00C897"
     entry_wrong_color = "#FF1818"
     border_size = 2
-    background_color = '#FFE6BC'
+    background_color = '#FFE6AB'
     green = '064635'
     red = 'C85C5C'
     blue = '041C32'
