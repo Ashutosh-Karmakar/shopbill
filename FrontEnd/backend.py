@@ -6,6 +6,8 @@ import os
 
 
 def focusedTab(focused_tab):
+    if(focused_tab == '.!entry4'):
+        return 'addhar'
     if(focused_tab == '.!entry'):
         return 'number'
     if(focused_tab == '.!entry2'):
@@ -301,6 +303,9 @@ def checkField(focused_tab,u:UiFields):
                 elif ch!= '.' and ch.isnumeric()==False:
                     return True
         return False
+    elif(tab_name == 'addhar'):
+        if(u.addhar_txt.get() !='' and (u.addhar_txt.get()).isnumeric()==False):
+            return True
     
     
 def enterOperation(focused_tab, u:UiFields):
@@ -335,10 +340,13 @@ def enterOperation(focused_tab, u:UiFields):
         elif(tab_name == 'addAmt'):
             u.addDesc_txt[i].focus_set()
             u.addtotal_txt[i].configure(highlightcolor= u.entry_wrong_color)
+        elif(tab_name == 'addhar'):
+            u.address_txt.focus_set()
+            u.addhar_txt.configure(highlightcolor= u.entry_wrong_color)
             
     if u.cnt > 0:
         u.cnt = 0
-        if(u.old_tab_name == 'desc'):
+        if(u.old_tab_name == 'desc' and u.des_txt[i].get()==''):
             u.oldDesc_txt[0].focus_set()
         elif(u.old_tab_name == 'oldAmt'):
             u.oldtotal_txt[2].focus_set()
@@ -347,7 +355,7 @@ def enterOperation(focused_tab, u:UiFields):
 
     if(tab_name == 'desc' and u.des_txt[i].get() == '')\
     or (tab_name == 'oldAmt' and u.oldtotal_txt[i].get() == '')\
-    or (tab_name == 'addDesc' and u.addDesc_txt[i].get() == ''):
+    or (tab_name == 'addAmt' and u.addtotal_txt[i].get() == ''):
         u.cnt = u.cnt+1
         u.old_tab_name = tab_name
         
@@ -367,6 +375,12 @@ def enterOperation(focused_tab, u:UiFields):
         amt = findAmt(u.oldtotal_txt[i])
         if(amt < total):
             setTotal(u,total-amt)
+            
+    if (tab_name == 'addAmt' and u.addtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
+        total = findAmt(u.total)
+        amt = findAmt(u.addtotal_txt[i])
+        if(amt < total):
+            setTotal(u,total+amt)
             
             
             
@@ -452,6 +466,10 @@ def newBill(u:UiFields):
     u.addhar_txt.configure(highlightcolor= u.entry_correct_color)
 
     u.bill_txt = findBillNumber()
+    u.bill_txt_entry.config(state='normal')
+    u.bill_txt_entry.delete(0,END)
+    u.bill_txt_entry.insert(0,u.bill_txt)
+    u.bill_txt_entry.config(state=DISABLED)
 
     # u.date_label=Label(window, text=daten.strftime("%d-%b-%y - (%A)"), font=('times new rommon',labelfont),bg=u.bg_color)
     # u.date_label.grid(row=1,column=30)

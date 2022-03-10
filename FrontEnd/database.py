@@ -1,4 +1,3 @@
-from lib2to3.pgen2.token import CIRCUMFLEX
 import mysql.connector
 import sys
 
@@ -12,7 +11,7 @@ mysqlDB = mysql.connector.connect(
 )
 cursor = mysqlDB.cursor()
 
-def saveCustomerData(name,mobile,addhar_number, address, bill_location = "LOCATION"):
+def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
     data = []
     if(mobile!=''):
         try:
@@ -28,17 +27,17 @@ def saveCustomerData(name,mobile,addhar_number, address, bill_location = "LOCATI
         if(name!='' and mobile!=''):
             try:
                 if(addhar_number!='' and address!=''):
-                    comd = ("INSERT INTO customer(cust_name, phone_no, address, addhar_number, bill_location) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "'," +addhar_number+ ", '" +bill_location+ "');")
+                    comd = ("INSERT INTO customer(cust_name, phone_no, address, addhar_number) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "'," +addhar_number+ ");")
                     print(comd)
                     cursor.execute(comd)
                     mysqlDB.commit()
                 elif(addhar_number!=''):
-                    comd = ("INSERT INTO customer(cust_name, phone_no, addhar_number, bill_location) VALUES("+"'" +name+ "'," +mobile+ "," +addhar_number+ ", '" +bill_location+ "');")
+                    comd = ("INSERT INTO customer(cust_name, phone_no, addhar_number) VALUES("+"'" +name+ "'," +mobile+ "," +addhar_number+ ");")
                     print(comd)
                     cursor.execute(comd)
                     mysqlDB.commit()
                 else:
-                    comd = ("INSERT INTO customer(cust_name, phone_no, address, bill_location) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "', '" +bill_location+ "');")
+                    comd = ("INSERT INTO customer(cust_name, phone_no, address) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "');")
                     print(comd)
                     cursor.execute(comd)
                     mysqlDB.commit()
@@ -47,7 +46,7 @@ def saveCustomerData(name,mobile,addhar_number, address, bill_location = "LOCATI
         
 def saveGstData(weight,ornament,gold_rate,total_val,cgst,sgst,net_total):
     try:
-        comd = ("INSERT INTO gst_table(ornament, weight,gold_rate, total_val, cgst, sgst, net_total) VALUES('" +ornament+ "'," +str(weight)+ "," +str(gold_rate)+ "," +str(total_val)+ "," +str(cgst)+ "," +str(sgst)+ "," +str(net_total)+ ");")
+        comd = ("INSERT INTO gst_table(ornament, qty,weight,gold_rate, total_val, cgst, sgst, net_total) VALUES('" +ornament+ "'," +str(1)+ ","+str(weight)+ "," +str(gold_rate)+ "," +str(total_val)+ "," +str(cgst)+ "," +str(sgst)+ "," +str(net_total)+ ");")
         print(comd)
         cursor.execute(comd)
         mysqlDB.commit()
@@ -72,18 +71,39 @@ def findByNumber(number):
 
 def findBillNumber():
     try:
-        comd = ("select id from customer order by id desc limit 1;")
+        comd = ("select id from BillTable order by id desc limit 1;")
+        print(comd)
         cursor.execute(comd)
-        result = 0
-        for i in cursor:
-            result = i
-            break
-        return int(result[0])+1    
+        # cursor.fetchall()
+        result = cursor.fetchone()
+        print(result)
+        
+        
+        if(result == None):
+            return 1
+        
+        return result[0]+1
     except Exception:
         print("there is a error in findbillnumber")
 
-# def saveBillLocation(u:UiFields,folderName):
-#     comd = "UPDATE customer SET bill_location = '" + folderName + "' WHERE id = " +u.bill_txt.get()+ ";"
-#     print(comd)
-#     cursor.execute(comd)
-        
+def saveBillLocation(u:UiFields):
+    if(u.mobile_txt.get()!=''):
+        try:
+            cursor.execute('select id from customer where phone_no = ' +str(u.mobile_txt.get())+ ';')
+            check = cursor.fetchone()
+            if(check != None):
+                u.customer_id = check[0]
+            else:
+                cursor.execute('select id from customer order by id desc Limit 1')
+                u.customer_id = cursor.fetchone()[0]
+        except Exception:
+            u.customer_id = 1
+            print("Error in saveBillLocation in finding customer_id")
+    print(u.customer_id)
+    try:     
+        comd = ("INSERT INTO BILLTable(bill_location, customer_id) VALUES('" +u.saveLocation+ "'," +str(u.customer_id)+");")
+        print(comd)
+        cursor.execute(comd)
+        mysqlDB.commit()
+    except Exception:
+        print("Error in saveBill in saving")

@@ -76,11 +76,13 @@ u.addhar.grid(row=1,column=14)
 u.addhar_txt=Entry(window,width=25,font='arial '+str(textfont),bd=2,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.addhar_txt.grid(row=1,column=15)
 
+u.bill_txt = findBillNumber()
 u.bill=Label(window, text='Bill No.:', font=('times new rommon',labelfont),bg=u.bg_color)
 u.bill.grid(row=1,column=20)
-bill_txt = Label(window, text=str(findBillNumber())+"  \t", font='arial '+str(textfont), bg=u.bg_color)
-bill_txt.grid(row=1,column=25,pady=15)
-u.bill_txt = findBillNumber()
+u.bill_txt_entry=Entry(window,width=25,font='arial '+str(textfont),bd=2,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+u.bill_txt_entry.grid(row=1,column=21)
+u.bill_txt_entry.insert(0,u.bill_txt)
+u.bill_txt_entry.config(state=DISABLED)
 
 u.date_label=Label(window, text=daten.strftime("%d-%b-%y - (%A)"), font=('times new rommon',labelfont),bg=u.bg_color)
 u.date_label.grid(row=1,column=30)
@@ -192,7 +194,8 @@ for i in range(1,4):
     
     txt10=Entry(F3,width=80,font='arial 12',highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
     txt10.grid(row=i,column=1,padx=4,pady=2)
-    txt10.insert(0,'Old Gold')
+    txt10.insert(0 ,'Old Ornament')
+    txt10.config(state=DISABLED)
     u.oldDesc_txt.append(txt10)
 
     txt11=Entry(F3,width=15,font='arial 10',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
@@ -218,7 +221,7 @@ F4.place(x=5,y=620,width=13055,height=140)
 u.addSi = Label(F4,text="Si.",font=('times new rommon',10),bg=u.bg_color)
 u.addSi.grid(column=0,row=0)
 
-u.addDescL = Label(F4,text="Other Addition/Deduction",font=('times new rommon',10),bg=u.bg_color)
+u.addDescL = Label(F4,text="Other Addition",font=('times new rommon',10),bg=u.bg_color)
 u.addDescL.grid(column=1,row=0)
 
 u.addtotalLabel = Label(F4,text="Amount",font=('times new rommon',10),bg=u.bg_color)
@@ -231,6 +234,8 @@ for i in range(1,4):
     
     txt15=Entry(F4,width=80,font='arial 12',highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
     txt15.grid(row=i,column=1,padx=4,pady=2)
+    txt15.insert(0 ,'Others')
+    txt15.config(state=DISABLED)
     u.addDesc_txt.append(txt15)
 
     txt16=Entry(F4,width=15,font='arial 12',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)

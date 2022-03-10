@@ -88,3 +88,5 @@ class UiFields:
     
     billing_ph_no_label:    Entry
     billing_ph_no:    Entry
+    customer_id = 0
+    bill_txt_entry: Entry
