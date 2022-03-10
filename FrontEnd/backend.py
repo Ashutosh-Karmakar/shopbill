@@ -2,6 +2,7 @@ from baseIntialization import UiFields
 from database import findBillNumber, findByNumber
 from tkinter import *
 import pyautogui
+import os
 
 
 def focusedTab(focused_tab):
@@ -427,7 +428,10 @@ def convert(n):
      
      
      
-     
+def printBill():
+    bill_no = findBillNumber()
+    # bill_loation = findBillLocation()
+    os.startfile('test.xlsx','print') 
      
      
      

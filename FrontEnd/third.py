@@ -19,8 +19,8 @@ import datetime
 import pyautogui
 
 from baseIntialization import UiFields
-from backend import enterOperation, newBill
-
+from backend import enterOperation, newBill, printBill
+from goldrate import changeGoldRate
 
 u = UiFields()
 u.gold_rate = 4876
@@ -259,15 +259,14 @@ u.total.insert(0,0)
 
 
 
+
+
+
 # ======================================Buttons of the Code=========================
 
 
-def prin():
-    os.startfile('test.xlsx','print')
-
-def opena():
-    print("Hello")
-    os.system('test.xlsx')
+def findBill():
+    os.system('python findBill.py')
     
 
 F6 = LabelFrame(window,bg= "#519259")
@@ -276,20 +275,20 @@ F6.place(x=5,y=900,width=1500,height=70)
 u.newBtn = Button(F6,text="New (Ctrl+N)",font=('times new rommon',13),command=lambda: newBill(u),bg=u.bg_color,bd=2)
 u.newBtn.grid(column=0,row=0,padx=20,pady=10)
 
-u.printBtn = Button(F6,text="Print (Ctrl+P)",font=('times new rommon',13),command=prin,bg=u.bg_color,bd=2)
+u.printBtn = Button(F6,text="Print (Ctrl+P)",font=('times new rommon',13),command=printBill,bg=u.bg_color,bd=2)
 u.printBtn.grid(column=1,row=0,padx=20,pady=10)
 
 u.generateBtn = Button(F6,text="Generate Bill (Ctrl+G)",font=('times new rommon',13),command=lambda: generateBill(u),bg=u.bg_color,bd=2)
 u.generateBtn.grid(column=2,row=0,padx=20,pady=10)
 
-u.findBtn = Button(F6,text = "Find (Ctrl+F)",font=('times new rommon',13),command=open,bg=u.bg_color,bd=2)
+u.findBtn = Button(F6,text = "Find (Ctrl+F)",font=('times new rommon',13),command=findBill,bg=u.bg_color,bd=2)
 u.findBtn.grid(column=3,row=0,padx=20,pady=10)
 
-
-
-window.bind('<Control-G>', generateBill(u))
-window.bind('<Control-p>', prin)
-window.bind('<Control-slash>', opena)
+u.change_gold_rate = Button(F6,text="Gold Rate: " ,font=('times new rommon',13),command=lambda: changeGoldRate(u),bg=u.bg_color,bd=2)
+u.change_gold_rate.grid(column=30,row=0,padx=20,pady=10)
+# window.bind('<Control-G>', generateBill(u))
+# window.bind('<Control-p>', prin)
+# window.bind('<Control-slash>', opena)
 window.mainloop()
 
 # ========================================end of the code================================

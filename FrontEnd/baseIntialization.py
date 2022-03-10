@@ -76,3 +76,15 @@ class UiFields:
     green = '064635'
     red = 'C85C5C'
     blue = '041C32'
+    change_gold_rate:Button
+    old_gold_rate = 0.0
+    
+    #find bill
+    billing_date_label : Label
+    billing_date : Entry
+    
+    billing_no_label:       Entry
+    billing_no:       Entry
+    
+    billing_ph_no_label:    Entry
+    billing_ph_no:    Entry
