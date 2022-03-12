@@ -130,7 +130,7 @@ def generateBill(u : UiFields):
             sh1['M'+str(i+9)] = float(u.net_txt[i-1].get())
             sh1['M'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
             if(u.wt_txt[i-1].get()!='' and u.net_txt[i-1].get()!=''):
-                saveGstData(u.wt_txt[i-1].get(),u.des_txt[i-1].get(),4500,10000,u.cgst_txt[i-1].get(),u.sgst_txt[i-1].get(),u.net_txt[i-1].get())
+                saveGstData(float(u.wt_txt[i-1].get()),u.des_txt[i-1].get(),4500,10000,float(u.cgst_txt[i-1].get()),float(u.sgst_txt[i-1].get()),float(u.net_txt[i-1].get()))
 
 # ===========================================================old gold============================================================
 

@@ -137,10 +137,14 @@ def tabNumber(focused_tab):
 
 def setCustData(u:UiFields, data):
     print(data)
+    u.name_txt.delete(0,END)
+    u.address_txt.delete(0,END)
+    u.addhar_txt.delete(0,END)
     u.name_txt.insert(0,data[1])
     u.address_txt.insert(0,data[3])
     u.addhar_txt.insert(0,data[4])
     u.addhar_txt.focus_set()
+    u.entryCount = 4
 
 
 def calculate(u:UiFields, focused_tab):
@@ -309,14 +313,15 @@ def checkField(focused_tab,u:UiFields):
     
     
 def enterOperation(focused_tab, u:UiFields):
+    print(focused_tab)
     tab_name = focusedTab(focused_tab)
     i = tabNumber(focused_tab)
     
     if(checkField(focused_tab,u)):
         if(tab_name == 'name'):
-            u.name_txt.focus_set()
+            u.mobile_txt.focus_set()
             u.name_txt.configure(highlightcolor= u.entry_wrong_color)
-            return 1
+            return 
         elif(tab_name == 'number'):
             u.mobile_txt.focus_set()
             u.mobile_txt.configure(highlightcolor= u.entry_wrong_color)
@@ -324,34 +329,57 @@ def enterOperation(focused_tab, u:UiFields):
         elif(tab_name == 'wt'):
             u.des_txt[i].focus_set()
             u.wt_txt[i].configure(highlightcolor= u.entry_wrong_color)
+            return 
             
         elif(tab_name == 'newTotal'):
             u.wt_txt[i].focus_set()
             u.net_txt[i].configure(highlightcolor= u.entry_wrong_color)
-            if(u.wt_txt[i].get()!=''):
-                pyautogui.press("tab")
+            return
             
-        if(tab_name == 'oldWt'):
+        elif(tab_name == 'oldWt'):
             u.oldDesc_txt[i].focus_set()
             u.oldwe_txt[i].configure(highlightcolor= u.entry_wrong_color)
+            return 
+            
         elif(tab_name == 'oldAmt'):
             u.oldwe_txt[i].focus_set()
             u.oldtotal_txt[i].configure(highlightcolor= u.entry_wrong_color)
+            return 
+            
         elif(tab_name == 'addAmt'):
             u.addDesc_txt[i].focus_set()
             u.addtotal_txt[i].configure(highlightcolor= u.entry_wrong_color)
+            return 
+            
         elif(tab_name == 'addhar'):
             u.address_txt.focus_set()
             u.addhar_txt.configure(highlightcolor= u.entry_wrong_color)
-            
+            return 
+    
+    
+    if(u.entryCount>=42):
+        u.entryCount=42
+        print("hello")  
+        u.entry_list[u.entryCount].focus()
+        
+    else:
+        u.entryCount+=1
+    print(len(u.entry_list))
+    print(u.entryCount)
+    
+    
     if u.cnt > 0:
         u.cnt = 0
         if(u.old_tab_name == 'desc' and u.des_txt[i].get()==''):
             u.oldDesc_txt[0].focus_set()
-        elif(u.old_tab_name == 'oldAmt'):
+            u.entryCount = 31
+
+        if(u.old_tab_name == 'oldAmt'):
             u.oldtotal_txt[2].focus_set()
-        elif(u.old_tab_name == 'addDesc'):
-            u.addtotal_txt[2].focus_set()
+            u.entryCount = 38
+        # elif(u.old_tab_name == 'addDesc'):
+            # u.addtotal_txt[2].focus_set()
+            # u.entryCount = 42
 
     if(tab_name == 'desc' and u.des_txt[i].get() == '')\
     or (tab_name == 'oldAmt' and u.oldtotal_txt[i].get() == '')\
@@ -452,6 +480,7 @@ def printBill():
      
      
 def newBill(u:UiFields):
+    u.entryCount=0
     u.mobile_txt.delete(0,END)
     u.mobile_txt.configure(highlightcolor= u.entry_correct_color)
     u.mobile_txt.focus()
