@@ -2,10 +2,10 @@ from re import U
 import openpyxl
 from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Font, borders,fills
 import datetime
-from database import saveCustomerData, saveGstData
+from database import saveBillLocation, saveCustomerData, saveGstData
 from baseIntialization import UiFields
 import os
-from backend import convert
+from backend import convert, printBill
 
 def generateBill(u : UiFields):
     wb = openpyxl.Workbook()
@@ -170,7 +170,7 @@ def generateBill(u : UiFields):
         sh1['M24'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
         
         for i in range(1,4):
-            if u.addDesc_txt[i-1].get()!="":
+            if u.addtotal_txt[i-1].get()!="":
                 sh1['A2'+str(i+4)] = i
                 sh1['A2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
@@ -460,7 +460,9 @@ def generateBill(u : UiFields):
         os.system('mkdir '+foldername)
     u.saveLocation = foldername+'/'+str(u.bill_txt)+'.xlsx'
     
-    saveCustomerData(name=u.name_txt.get(),mobile=u.mobile_txt.get(),addhar_number=u.addhar_txt.get(),address=u.address_txt.get(),bill_location=u.saveLocation)
+    saveCustomerData(u,name=u.name_txt.get(),mobile=u.mobile_txt.get(),addhar_number=u.addhar_txt.get(),address=u.address_txt.get())
+    saveBillLocation(u)
+    # printBill()
     
     # wb.save(filename=u.saveLocation)
 
