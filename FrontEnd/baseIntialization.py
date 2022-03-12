@@ -90,3 +90,14 @@ class UiFields:
     billing_ph_no:    Entry
     customer_id = 0
     bill_txt_entry: Entry
+    
+    entry_list = []
+    entryCount = 0
+
+    gstDateFrom_label:Label
+    gstDateTo_label : Label
+    gstDateFrom:Entry    
+    gstDateTo : Entry
+    gstBtn:Button
+    gstFind:Button
+

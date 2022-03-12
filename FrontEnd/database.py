@@ -1,6 +1,6 @@
 import mysql.connector
 import sys
-
+import openpyxl
 from baseIntialization import UiFields
 
 mysqlDB = mysql.connector.connect(
@@ -107,3 +107,36 @@ def saveBillLocation(u:UiFields):
         mysqlDB.commit()
     except Exception:
         print("Error in saveBill in saving")
+        
+        
+def findGst(u:UiFields):
+    try:
+        comd = "Select * from gst_table;"
+        print(comd)
+        cursor.execute(comd)
+        # for gst in cursor.fetchall():
+        #     print(gst)
+        wb = openpyxl.Workbook()
+        sh1 = wb.active
+        sh1.title = 'gst'
+        
+        i = 0
+        j = 1
+        for gst in cursor.fetchall():
+            for c in gst:
+                location = chr(65+i)+''+str(j)
+                if(i == 1):
+                    sh1[location] = str(c)[0:10]
+                # print(location)
+                else:
+                    sh1[location] = c
+                i+=1
+            j+=1
+            i = 0
+            
+        wb.save(filename='gst.xlsx')
+        
+            
+        
+    except Exception:
+        print("There is an error in finding gst data")
