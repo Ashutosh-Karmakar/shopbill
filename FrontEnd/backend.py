@@ -3,6 +3,8 @@ from database import findBillNumber, findByNumber
 from tkinter import *
 import pyautogui
 import os
+import re
+
 
 
 def focusedTab(focused_tab):
@@ -204,7 +206,22 @@ def findAmt(amt):
 def setTotal(u:UiFields,amt):
     u.total.delete(0,END)
     u.total.insert(0,(amt))
-   
+    
+def run(string):
+ 
+    # Make own character set and pass
+    # this as argument in compile method
+    regex = re.compile('[@_!#$%^&*()<>?\/|}{~:]')
+     
+    # Pass the string in search
+    # method of regex object.   
+    if(regex.search(string) == None):
+        return False
+         
+    else:
+        return True
+        # print("String is not accepted.")
+       
     
 def checkField(focused_tab,u:UiFields):
     tab_name = focusedTab(focused_tab)
@@ -223,7 +240,9 @@ def checkField(focused_tab,u:UiFields):
         if(len(u.mobile_txt.get())!=10):
             return True
         for ch in u.mobile_txt.get():
-            if ch.isalpha():
+            if ch == '.':
+                return True
+            elif ch.isnumeric()==False:
                 return True 
         return False
        
@@ -231,7 +250,7 @@ def checkField(focused_tab,u:UiFields):
     if(tab_name == 'wt'):
         if(u.wt_txt[i].get()!='' and (u.wt_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.wt_txt[i].get())==1 and str(u.wt_txt[i]).isnumeric() == False):
             return True
         if(len(u.wt_txt[i].get()) > 1):
             ct = 0
@@ -247,7 +266,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'newTotal'):
         if(u.net_txt[i].get()!='' and (u.net_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.net_txt[i].get())==1 and str(u.net_txt[i].get()).isnumeric() == False):
             return True
         if(len(u.net_txt[i].get()) > 1):
             ct = 0
@@ -263,7 +282,8 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'oldWt'):
         if(u.oldwe_txt[i].get()!='' and (u.oldwe_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.oldwe_txt[i].get())==1 and str(u.oldwe_txt[i]).isnumeric() == False):
+            print("e")
             return True
         if(len(u.oldwe_txt[i].get()) > 1):
             ct = 0
@@ -279,7 +299,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'oldAmt'):
         if(u.oldtotal_txt[i].get()!='' and (u.oldtotal_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.oldtotal_txt[i].get())==1 and str(u.oldtotal_txt[i]).isnumeric() == False):
             return True
         if(len(u.oldtotal_txt[i].get()) > 1):
             ct = 0
@@ -295,7 +315,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'addAmt'):
         if(u.addtotal_txt[i].get()!='' and (u.addtotal_txt[i].get()).isalpha()):
             return True
-        if(len(u.addtotal_txt[i].get())==1 and u.addtotal_txt[i].get() == '.'):
+        if(len(u.addtotal_txt[i].get())==1 and str(u.addtotal_txt[i]).isnumeric() == False):
             return True
         if(len(u.addtotal_txt[i].get()) > 1):
             ct = 0
