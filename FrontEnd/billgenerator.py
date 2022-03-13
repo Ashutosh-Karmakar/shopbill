@@ -117,25 +117,25 @@ def generateBill(u : UiFields):
             sh1['B'+str(i+9)] = u.des_txt[i-1].get()
             sh1['B'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['F'+str(i+9)] = float(u.wt_txt[i-1].get())
+            sh1['F'+str(i+9)] = (u.wt_txt[i-1].get())
             sh1['F'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['G'+str(i+9)] = float(u.mc_txt[i-1].get())
+            sh1['G'+str(i+9)] =  (u.mc_txt[i-1].get())
             sh1['G'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['H'+str(i+9)] = float(u.unit_txt[i-1].get())
+            sh1['H'+str(i+9)] =  (u.unit_txt[i-1].get())
             sh1['H'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['I'+str(i+9)] = float(u.cgst_txt[i-1].get())
+            sh1['I'+str(i+9)] =  (u.cgst_txt[i-1].get())
             sh1['I'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['K'+str(i+9)] = float(u.sgst_txt[i-1].get())
+            sh1['K'+str(i+9)] =  (u.sgst_txt[i-1].get())
             sh1['K'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['M'+str(i+9)] = float(u.net_txt[i-1].get())
+            sh1['M'+str(i+9)] =  (u.net_txt[i-1].get())
             sh1['M'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
             if(u.wt_txt[i-1].get()!='' and u.net_txt[i-1].get()!=''):
-                saveGstData(float(u.wt_txt[i-1].get()),u.des_txt[i-1].get(),4500,10000,float(u.cgst_txt[i-1].get()),float(u.sgst_txt[i-1].get()),float(u.net_txt[i-1].get()))
+                saveGstData( (u.wt_txt[i-1].get()),u.des_txt[i-1].get(),4500,10000, (u.cgst_txt[i-1].get()), (u.sgst_txt[i-1].get()), (u.net_txt[i-1].get()))
 
 # ===========================================================old gold============================================================
 
@@ -158,13 +158,13 @@ def generateBill(u : UiFields):
                 sh1['B2'+str(i-1)] = u.oldDesc_txt[i-1].get()
                 sh1['B2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
-                sh1['I2'+str(i-1)] = float(u.oldwe_txt[i-1].get())
+                sh1['I2'+str(i-1)] =  (u.oldwe_txt[i-1].get())
                 sh1['I2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
-                sh1['J2'+str(i-1)] = float(u.oldunit_txt[i-1].get())
+                sh1['J2'+str(i-1)] =  (u.oldunit_txt[i-1].get())
                 sh1['J2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
-                sh1['M2'+str(i-1)] = float(u.oldtotal_txt[i-1].get())
+                sh1['M2'+str(i-1)] =  (u.oldtotal_txt[i-1].get())
                 sh1['M2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
 #====================================================ADDITION OR DEDUCTION================================================================================================================
@@ -182,7 +182,7 @@ def generateBill(u : UiFields):
                 sh1['B2'+str(i+4)] = u.addDesc_txt[i-1].get()
                 sh1['B2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
-                sh1['M2'+str(i+4)] = float(u.addtotal_txt[i-1].get())
+                sh1['M2'+str(i+4)] =  (u.addtotal_txt[i-1].get())
                 sh1['M2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
         
@@ -477,5 +477,5 @@ def generateBill(u : UiFields):
     thread2 = Thread(target = printDialog)
     thread2.start()
     thread.join()
-    subprocess.call(["taskkill","/F","/IM","excel.exe"])
+    # subprocess.call(["taskkill","/F","/IM","excel.exe"])
 

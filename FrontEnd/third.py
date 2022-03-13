@@ -29,6 +29,7 @@ window = tkinter.Tk()
 window.attributes('-fullscreen', True)
 window.configure(bg=u.background_color)
 window.title("Giridhari Jewellery")
+pyautogui.FAILSAFE = False
 
 def enter(event):
     focused_tab = str(window.focus_get())
@@ -95,7 +96,7 @@ u.addhar_txt=Entry(window,width=25,font='arial '+str(textfont),bd=2,justify=CENT
 u.addhar_txt.grid(row=1,column=15)
 u.entry_list.append(u.addhar_txt)
 
-u.bill_txt = findBillNumber()
+u.bill_txt = 1#findBillNumber()
 u.bill=Label(window, text='Bill No.:', font=('times new rommon',labelfont),bg=u.bg_color)
 u.bill.grid(row=1,column=20)
 u.bill_txt_entry=Entry(window,width=25,font='arial '+str(textfont),bd=2,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
@@ -111,7 +112,7 @@ u.date_label.grid(row=1,column=30)
 # ========================================new Gold==============================================
 
 F2 = LabelFrame(window,bg= "#FFE6BC")
-F2.place(x=5, y=80,width=1350,height=360)
+F2.place(x=5, y=50,width=1350,height=360)
 
 u.siLabel = Label(F2,text="Sino.",font=('times new rommon',10),bg=u.bg_color)
 u.siLabel.grid(column=0,row=0)
@@ -192,7 +193,7 @@ for i in range(1,10):
 # ==================================old gold=====================================================
 
 F3 = LabelFrame(window,bg= "#FFE6BC")
-F3.place(x=5,y=415,width=13055,height=117)
+F3.place(x=5,y=409,width=13055,height=117)
 
 u.oldSi = Label(F3,text="Si.",font=('times new rommon',10),bg=u.bg_color)
 u.oldSi.grid(column=0,row=0)
@@ -240,7 +241,7 @@ for i in range(1,4):
 #===========================================addition or deduction===============================
 
 F4 = LabelFrame(window,bg= "#FFE6BC")
-F4.place(x=5,y=530,width=13055,height=120)
+F4.place(x=5,y=525,width=13055,height=120)
 
 u.addSi = Label(F4,text="Si.",font=('times new rommon',10),bg=u.bg_color)
 u.addSi.grid(column=0,row=0)
@@ -269,24 +270,24 @@ for i in range(1,4):
 
 #=================================mode of payment and total==============================
 F5 = LabelFrame(window,bg= "#FFE6BC")
-F5.place(x=0,y=650,width=1500,height=50)
+F5.place(x=0,y=645,width=1500,height=50)
 
-u.mode_l = Label(F5,text="Mode Of Payment",font=('times new rommon',12),bg=u.bg_color)
+u.mode_l = Label(F5,text="Mode Of Payment",font=('times new rommon',10),bg=u.bg_color)
 u.mode_l.grid(column=3,row=0)
-u.mode= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+u.mode= Entry(F5,width=15,font='arial 10',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.mode.grid(row=0,column=4,padx=10,pady=5)
 u.entry_list.append(u.mode)
 
-u.charge_l = Label(F5,text="Charges",font=('times new rommon',12),bg=u.bg_color)
+u.charge_l = Label(F5,text="Charges",font=('times new rommon',10),bg=u.bg_color)
 u.charge_l.grid(column=10,row=0)
-u.charge= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+u.charge= Entry(F5,width=15,font='arial 10',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.charge.grid(row=0,column=13,padx=10,pady=5)
 u.entry_list.append(u.charge)
 
-u.total_l = Label(F5,text="Total",font=('times new rommon',12),bg=u.bg_color)
-u.total_l.grid(column=0,row=1)
-u.total= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
-u.total.grid(row=1,column=5,padx=10,pady=5)
+u.total_l = Label(F5,text="Total",font=('times new rommon',10),bg=u.bg_color)
+u.total_l.grid(column=30,row=0)
+u.total= Entry(F5,width=15,font='arial 10',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+u.total.grid(row=0,column=35,padx=10,pady=5)
 u.total.insert(0,0)
 u.entry_list.append(u.total)
 
@@ -305,22 +306,22 @@ def findBill():
 F6 = LabelFrame(window,bg= "#519259")
 F6.place(x=5,y=700,width=1500,height=50)
 
-u.newBtn = Button(F6,text="New (Ctrl+N)",font=('times new rommon',13),command=lambda: newBill(u),bg=u.bg_color,bd=2)
+u.newBtn = Button(F6,text="New (Ctrl+N)",font=('times new rommon',12),command=lambda: newBill(u),bg=u.bg_color,bd=2)
 u.newBtn.grid(column=0,row=0,padx=20,pady=10)
 
-u.printBtn = Button(F6,text="Print (Ctrl+P)",font=('times new rommon',13),command=printBill,bg=u.bg_color,bd=2)
+u.printBtn = Button(F6,text="Print (Ctrl+P)",font=('times new rommon',12),command=printBill,bg=u.bg_color,bd=2)
 u.printBtn.grid(column=1,row=0,padx=20,pady=10)
 
-u.generateBtn = Button(F6,text="Generate Bill (Ctrl+G)",font=('times new rommon',13),command=lambda: generateBill(u),bg=u.bg_color,bd=2)
+u.generateBtn = Button(F6,text="Generate Bill (Ctrl+G)",font=('times new rommon',12),command=lambda: generateBill(u),bg=u.bg_color,bd=2)
 u.generateBtn.grid(column=2,row=0,padx=20,pady=10)
 
-u.findBtn = Button(F6,text = "Find (Ctrl+F)",font=('times new rommon',13),command=findBill,bg=u.bg_color,bd=2)
+u.findBtn = Button(F6,text = "Find (Ctrl+F)",font=('times new rommon',12),command=findBill,bg=u.bg_color,bd=2)
 u.findBtn.grid(column=3,row=0,padx=20,pady=10)
 
-u.change_gold_rate = Button(F6,text="Gold Rate" ,font=('times new rommon',13),command=lambda: changeGoldRate(u),bg=u.bg_color,bd=2)
+u.change_gold_rate = Button(F6,text="Gold Rate" ,font=('times new rommon',12),command=lambda: changeGoldRate(u),bg=u.bg_color,bd=2)
 u.change_gold_rate.grid(column=30,row=0,padx=20,pady=10)
 
-u.gstBtn = Button(F6,text="Gst " ,font=('times new rommon',13),command=monthlyGst,bg=u.bg_color,bd=2)
+u.gstBtn = Button(F6,text="Gst " ,font=('times new rommon',12),command=monthlyGst,bg=u.bg_color,bd=2)
 u.gstBtn.grid(column=40,row=0,padx=20,pady=10)
 
 # window.bind('<Control-G>', generateBill(u))

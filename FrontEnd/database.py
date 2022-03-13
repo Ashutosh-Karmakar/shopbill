@@ -135,6 +135,9 @@ def findGst(u:UiFields):
             j+=1
             i = 0
             
-        wb.save(filename='gst.xlsx')    
+        wb.save(filename='gst.xlsx')
+        
+            
+        
     except Exception:
         print("There is an error in finding gst data")

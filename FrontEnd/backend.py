@@ -500,7 +500,7 @@ def newBill(u:UiFields):
     u.addhar_txt.delete(0,END)
     u.addhar_txt.configure(highlightcolor= u.entry_correct_color)
 
-    u.bill_txt = findBillNumber()
+    u.bill_txt = 1#findBillNumber()
     u.bill_txt_entry.config(state='normal')
     u.bill_txt_entry.delete(0,END)
     u.bill_txt_entry.insert(0,u.bill_txt)
