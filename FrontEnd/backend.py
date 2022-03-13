@@ -3,6 +3,8 @@ from database import findBillNumber, findByNumber
 from tkinter import *
 import pyautogui
 import os
+import re
+
 
 
 def focusedTab(focused_tab):
@@ -204,7 +206,7 @@ def findAmt(amt):
 def setTotal(u:UiFields,amt):
     u.total.delete(0,END)
     u.total.insert(0,(amt))
-   
+    
     
 def checkField(focused_tab,u:UiFields):
     tab_name = focusedTab(focused_tab)
@@ -223,7 +225,9 @@ def checkField(focused_tab,u:UiFields):
         if(len(u.mobile_txt.get())!=10):
             return True
         for ch in u.mobile_txt.get():
-            if ch.isalpha():
+            if ch == '.':
+                return True
+            elif ch.isnumeric()==False:
                 return True 
         return False
        
@@ -231,7 +235,7 @@ def checkField(focused_tab,u:UiFields):
     if(tab_name == 'wt'):
         if(u.wt_txt[i].get()!='' and (u.wt_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.wt_txt[i].get())==1 and (ord(str(u.wt_txt[i].get()))<48 or ord(str(u.wt_txt[i].get()))>57)):
             return True
         if(len(u.wt_txt[i].get()) > 1):
             ct = 0
@@ -247,7 +251,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'newTotal'):
         if(u.net_txt[i].get()!='' and (u.net_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.net_txt[i].get())==1 and (ord(str(u.net_txt[i].get()))<48 or ord(str(u.net_txt[i].get()))>57)):
             return True
         if(len(u.net_txt[i].get()) > 1):
             ct = 0
@@ -263,7 +267,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'oldWt'):
         if(u.oldwe_txt[i].get()!='' and (u.oldwe_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.oldwe_txt[i].get())==1 and (ord(str(u.oldwe_txt[i].get()))<48 or ord(str(u.oldwe_txt[i].get()))>57)):
             return True
         if(len(u.oldwe_txt[i].get()) > 1):
             ct = 0
@@ -279,7 +283,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'oldAmt'):
         if(u.oldtotal_txt[i].get()!='' and (u.oldtotal_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.oldtotal_txt[i].get())==1 and (ord(str(u.oldtotal_txt[i].get()))<48 or ord(str(u.oldtotal_txt[i].get()))>57)):
             return True
         if(len(u.oldtotal_txt[i].get()) > 1):
             ct = 0
@@ -295,7 +299,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'addAmt'):
         if(u.addtotal_txt[i].get()!='' and (u.addtotal_txt[i].get()).isalpha()):
             return True
-        if(len(u.addtotal_txt[i].get())==1 and u.addtotal_txt[i].get() == '.'):
+        if(len(u.addtotal_txt[i].get())==1 and (ord(str(u.addtotal_txt[i].get()))<48 or ord(str(u.addtotal_txt[i].get()))>57)):
             return True
         if(len(u.addtotal_txt[i].get()) > 1):
             ct = 0
@@ -307,13 +311,14 @@ def checkField(focused_tab,u:UiFields):
                 elif ch!= '.' and ch.isnumeric()==False:
                     return True
         return False
+    
     elif(tab_name == 'addhar'):
         if(u.addhar_txt.get() !='' and (u.addhar_txt.get()).isnumeric()==False):
             return True
     
     
 def enterOperation(focused_tab, u:UiFields):
-    print(focused_tab)
+    # print(focused_tab)
     tab_name = focusedTab(focused_tab)
     i = tabNumber(focused_tab)
     
@@ -356,7 +361,7 @@ def enterOperation(focused_tab, u:UiFields):
             u.addhar_txt.configure(highlightcolor= u.entry_wrong_color)
             return 
     
-    
+    u.entry_list[u.entryCount].configure(highlightcolor= u.entry_correct_color)
     if(u.entryCount>=42):
         u.entryCount=42
         print("hello")  
@@ -364,8 +369,9 @@ def enterOperation(focused_tab, u:UiFields):
         
     else:
         u.entryCount+=1
-    print(len(u.entry_list))
-    print(u.entryCount)
+    
+    # print(len(u.entry_list))
+    # print(u.entryCount)
     
     
     if u.cnt > 0:

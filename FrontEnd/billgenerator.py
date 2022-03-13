@@ -5,7 +5,12 @@ import datetime
 from database import saveBillLocation, saveCustomerData, saveGstData
 from baseIntialization import UiFields
 import os
-from backend import convert, printBill
+from backend import convert#, printBill
+import time
+import subprocess
+from printer import printBill, printDialog
+from threading import Thread
+
 
 def generateBill(u : UiFields):
     wb = openpyxl.Workbook()
@@ -459,11 +464,18 @@ def generateBill(u : UiFields):
     if(os.path.isdir(foldername) == False):
         os.system('mkdir '+foldername)
     u.saveLocation = foldername+'/'+str(u.bill_txt)+'.xlsx'
-    
     saveCustomerData(u,name=u.name_txt.get(),mobile=u.mobile_txt.get(),addhar_number=u.addhar_txt.get(),address=u.address_txt.get())
+    
     saveBillLocation(u)
     # printBill()
     
     # wb.save(filename=u.saveLocation)
 
     wb.save(filename='test.xlsx')    
+    thread = Thread(target = printBill)
+    thread.start()
+    thread2 = Thread(target = printDialog)
+    thread2.start()
+    thread.join()
+    subprocess.call(["taskkill","/F","/IM","excel.exe"])
+
