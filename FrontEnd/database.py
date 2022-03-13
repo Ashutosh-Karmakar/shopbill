@@ -7,7 +7,8 @@ mysqlDB = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
     passwd = '1234',
-    database = 'Shop'
+    database = 'Shop',
+    auth_plugin='mysql_native_password'
 )
 cursor = mysqlDB.cursor()
 
@@ -134,9 +135,6 @@ def findGst(u:UiFields):
             j+=1
             i = 0
             
-        wb.save(filename='gst.xlsx')
-        
-            
-        
+        wb.save(filename='gst.xlsx')    
     except Exception:
         print("There is an error in finding gst data")
