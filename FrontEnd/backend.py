@@ -1,10 +1,15 @@
 from baseIntialization import UiFields
-from database import findByNumber
+from database import findBillNumber, findByNumber
 from tkinter import *
 import pyautogui
+import os
+import re
+
 
 
 def focusedTab(focused_tab):
+    if(focused_tab == '.!entry4'):
+        return 'addhar'
     if(focused_tab == '.!entry'):
         return 'number'
     if(focused_tab == '.!entry2'):
@@ -134,10 +139,14 @@ def tabNumber(focused_tab):
 
 def setCustData(u:UiFields, data):
     print(data)
+    u.name_txt.delete(0,END)
+    u.address_txt.delete(0,END)
+    u.addhar_txt.delete(0,END)
     u.name_txt.insert(0,data[1])
     u.address_txt.insert(0,data[3])
     u.addhar_txt.insert(0,data[4])
     u.addhar_txt.focus_set()
+    u.entryCount = 4
 
 
 def calculate(u:UiFields, focused_tab):
@@ -171,10 +180,13 @@ def calculate(u:UiFields, focused_tab):
     
     u.cgst_txt[i].delete(0,END)
     u.cgst_txt[i].insert(0,cgst)
+    
     u.sgst_txt[i].delete(0,END)
     u.sgst_txt[i].insert(0,cgst)
+    
     u.gstAmt_txt[i].delete(0,END)
     u.gstAmt_txt[i].insert(0,gstamt)
+    
     u.mc_txt[i].delete(0,END)
     u.mc_txt[i].insert(0,mc)
     
@@ -194,7 +206,7 @@ def findAmt(amt):
 def setTotal(u:UiFields,amt):
     u.total.delete(0,END)
     u.total.insert(0,(amt))
-   
+    
     
 def checkField(focused_tab,u:UiFields):
     tab_name = focusedTab(focused_tab)
@@ -213,7 +225,9 @@ def checkField(focused_tab,u:UiFields):
         if(len(u.mobile_txt.get())!=10):
             return True
         for ch in u.mobile_txt.get():
-            if ch.isalpha():
+            if ch == '.':
+                return True
+            elif ch.isnumeric()==False:
                 return True 
         return False
        
@@ -221,7 +235,7 @@ def checkField(focused_tab,u:UiFields):
     if(tab_name == 'wt'):
         if(u.wt_txt[i].get()!='' and (u.wt_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.wt_txt[i].get())==1 and (ord(str(u.wt_txt[i].get()))<48 or ord(str(u.wt_txt[i].get()))>57)):
             return True
         if(len(u.wt_txt[i].get()) > 1):
             ct = 0
@@ -237,7 +251,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'newTotal'):
         if(u.net_txt[i].get()!='' and (u.net_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.net_txt[i].get())==1 and (ord(str(u.net_txt[i].get()))<48 or ord(str(u.net_txt[i].get()))>57)):
             return True
         if(len(u.net_txt[i].get()) > 1):
             ct = 0
@@ -253,7 +267,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'oldWt'):
         if(u.oldwe_txt[i].get()!='' and (u.oldwe_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.oldwe_txt[i].get())==1 and (ord(str(u.oldwe_txt[i].get()))<48 or ord(str(u.oldwe_txt[i].get()))>57)):
             return True
         if(len(u.oldwe_txt[i].get()) > 1):
             ct = 0
@@ -269,7 +283,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'oldAmt'):
         if(u.oldtotal_txt[i].get()!='' and (u.oldtotal_txt[i].get()).isalpha()):
             return True
-        if(len(u.wt_txt[i].get())==1 and u.wt_txt[i].get() == '.'):
+        if(len(u.oldtotal_txt[i].get())==1 and (ord(str(u.oldtotal_txt[i].get()))<48 or ord(str(u.oldtotal_txt[i].get()))>57)):
             return True
         if(len(u.oldtotal_txt[i].get()) > 1):
             ct = 0
@@ -285,7 +299,7 @@ def checkField(focused_tab,u:UiFields):
     elif(tab_name == 'addAmt'):
         if(u.addtotal_txt[i].get()!='' and (u.addtotal_txt[i].get()).isalpha()):
             return True
-        if(len(u.addtotal_txt[i].get())==1 and u.addtotal_txt[i].get() == '.'):
+        if(len(u.addtotal_txt[i].get())==1 and (ord(str(u.addtotal_txt[i].get()))<48 or ord(str(u.addtotal_txt[i].get()))>57)):
             return True
         if(len(u.addtotal_txt[i].get()) > 1):
             ct = 0
@@ -298,16 +312,21 @@ def checkField(focused_tab,u:UiFields):
                     return True
         return False
     
+    elif(tab_name == 'addhar'):
+        if(u.addhar_txt.get() !='' and (u.addhar_txt.get()).isnumeric()==False):
+            return True
+    
     
 def enterOperation(focused_tab, u:UiFields):
+    # print(focused_tab)
     tab_name = focusedTab(focused_tab)
     i = tabNumber(focused_tab)
     
     if(checkField(focused_tab,u)):
         if(tab_name == 'name'):
-            u.name_txt.focus_set()
+            u.mobile_txt.focus_set()
             u.name_txt.configure(highlightcolor= u.entry_wrong_color)
-            return 1
+            return 
         elif(tab_name == 'number'):
             u.mobile_txt.focus_set()
             u.mobile_txt.configure(highlightcolor= u.entry_wrong_color)
@@ -315,35 +334,62 @@ def enterOperation(focused_tab, u:UiFields):
         elif(tab_name == 'wt'):
             u.des_txt[i].focus_set()
             u.wt_txt[i].configure(highlightcolor= u.entry_wrong_color)
+            return 
             
         elif(tab_name == 'newTotal'):
             u.wt_txt[i].focus_set()
             u.net_txt[i].configure(highlightcolor= u.entry_wrong_color)
-            if(u.wt_txt[i].get()!=''):
-                pyautogui.press("tab")
+            return
             
-        if(tab_name == 'oldWt'):
+        elif(tab_name == 'oldWt'):
             u.oldDesc_txt[i].focus_set()
             u.oldwe_txt[i].configure(highlightcolor= u.entry_wrong_color)
+            return 
+            
         elif(tab_name == 'oldAmt'):
             u.oldwe_txt[i].focus_set()
             u.oldtotal_txt[i].configure(highlightcolor= u.entry_wrong_color)
+            return 
+            
         elif(tab_name == 'addAmt'):
             u.addDesc_txt[i].focus_set()
             u.addtotal_txt[i].configure(highlightcolor= u.entry_wrong_color)
+            return 
             
+        elif(tab_name == 'addhar'):
+            u.address_txt.focus_set()
+            u.addhar_txt.configure(highlightcolor= u.entry_wrong_color)
+            return 
+    
+    u.entry_list[u.entryCount].configure(highlightcolor= u.entry_correct_color)
+    if(u.entryCount>=42):
+        u.entryCount=42
+        print("hello")  
+        u.entry_list[u.entryCount].focus()
+        
+    else:
+        u.entryCount+=1
+    
+    # print(len(u.entry_list))
+    # print(u.entryCount)
+    
+    
     if u.cnt > 0:
         u.cnt = 0
-        if(u.old_tab_name == 'desc'):
+        if(u.old_tab_name == 'desc' and u.des_txt[i].get()==''):
             u.oldDesc_txt[0].focus_set()
-        elif(u.old_tab_name == 'oldAmt'):
+            u.entryCount = 31
+
+        if(u.old_tab_name == 'oldAmt'):
             u.oldtotal_txt[2].focus_set()
-        elif(u.old_tab_name == 'addDesc'):
-            u.addtotal_txt[2].focus_set()
+            u.entryCount = 38
+        # elif(u.old_tab_name == 'addDesc'):
+            # u.addtotal_txt[2].focus_set()
+            # u.entryCount = 42
 
     if(tab_name == 'desc' and u.des_txt[i].get() == '')\
     or (tab_name == 'oldAmt' and u.oldtotal_txt[i].get() == '')\
-    or (tab_name == 'addDesc' and u.addDesc_txt[i].get() == ''):
+    or (tab_name == 'addAmt' and u.addtotal_txt[i].get() == ''):
         u.cnt = u.cnt+1
         u.old_tab_name = tab_name
         
@@ -363,6 +409,19 @@ def enterOperation(focused_tab, u:UiFields):
         amt = findAmt(u.oldtotal_txt[i])
         if(amt < total):
             setTotal(u,total-amt)
+            
+    if (tab_name == 'addAmt' and u.addtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
+        total = findAmt(u.total)
+        amt = findAmt(u.addtotal_txt[i])
+        if(amt < total):
+            setTotal(u,total+amt)
+            
+            
+            
+            
+            
+            
+            
             
 
         
@@ -415,3 +474,111 @@ def convert(n):
  
     return result.strip().rstrip(',').replace(', and', ' and')
      
+     
+     
+def printBill():
+    bill_no = findBillNumber()
+    # bill_loation = findBillLocation()
+    os.startfile('test.xlsx','print') 
+     
+     
+     
+     
+     
+def newBill(u:UiFields):
+    u.entryCount=0
+    u.mobile_txt.delete(0,END)
+    u.mobile_txt.configure(highlightcolor= u.entry_correct_color)
+    u.mobile_txt.focus()
+
+    u.name_txt.delete(0,END)
+    u.name_txt.configure(highlightcolor= u.entry_correct_color)
+
+    u.address_txt.delete(0,END)
+    u.address_txt.configure(highlightcolor= u.entry_correct_color)
+
+    u.addhar_txt.delete(0,END)
+    u.addhar_txt.configure(highlightcolor= u.entry_correct_color)
+
+    u.bill_txt = findBillNumber()
+    u.bill_txt_entry.config(state='normal')
+    u.bill_txt_entry.delete(0,END)
+    u.bill_txt_entry.insert(0,u.bill_txt)
+    u.bill_txt_entry.config(state=DISABLED)
+
+    # u.date_label=Label(window, text=daten.strftime("%d-%b-%y - (%A)"), font=('times new rommon',labelfont),bg=u.bg_color)
+    # u.date_label.grid(row=1,column=30)
+
+
+
+    # ========================================new Gold==============================================
+
+    for i in range(0,9):
+        if(u.des_txt[i].get()!=''):
+            u.des_txt[i].delete(0,END)
+            u.des_txt[i].configure(highlightcolor= u.entry_correct_color)
+            
+            u.wt_txt[i].delete(0,END)
+            u.wt_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+            u.net_txt[i].delete(0,END)
+            u.net_txt[i].configure(highlightcolor= u.entry_correct_color)
+            
+            u.mc_txt[i].config(state='normal')
+            u.mc_txt[i].delete(0,END)
+            u.mc_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.mc_txt[i].config(state=DISABLED)
+            
+            # u.unit_txt[i].config(state='normal')
+            # u.unit_txt[i].delete(0,END)
+            # u.unit_txt[i].configure(highlightcolor= u.entry_correct_color)
+            # u.unit_txt[i].config(state=DISABLED)
+            
+            u.cgst_txt[i].config(state='normal')
+            u.cgst_txt[i].delete(0,END)
+            u.cgst_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.cgst_txt[i].config(state=DISABLED)
+            
+            u.sgst_txt[i].config(state='normal')
+            u.sgst_txt[i].delete(0,END)
+            u.sgst_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.sgst_txt[i].config(state=DISABLED)
+            
+            u.gstAmt_txt[i].config(state='normal')
+            u.gstAmt_txt[i].delete(0,END)
+            u.gstAmt_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.gstAmt_txt[i].config(state=DISABLED)
+            
+    # ==================================old gold=====================================================
+
+    for i in range(0,3): 
+        
+        u.oldDesc_txt[i].delete(0,END)
+        u.oldDesc_txt[i].configure(highlightcolor= u.entry_correct_color)
+        u.oldDesc_txt[i].insert(0,'Old Gold')
+        
+        u.oldwe_txt[i].delete(0,END)
+        u.oldwe_txt[i].configure(highlightcolor= u.entry_correct_color)
+        
+        u.oldtotal_txt[i].delete(0,END)
+        u.oldtotal_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+
+    #===========================================addition or deduction===============================
+    for i in range(0,3):
+        
+        u.addDesc_txt[i].delete(0,END)
+        u.addDesc_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+        u.addtotal_txt[i].delete(0,END)
+        u.addtotal_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+    #=================================mode of payment and total==============================
+    u.mode.delete(0,END)
+    u.mode.configure(highlightcolor= u.entry_correct_color)
+    u.charge.delete(0,END)
+    u.charge.configure(highlightcolor= u.entry_correct_color)
+    
+    u.total.delete(0,END)
+    u.total.configure(highlightcolor= u.entry_correct_color)
+    u.total.insert(0,0)

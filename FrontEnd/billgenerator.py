@@ -2,10 +2,15 @@ from re import U
 import openpyxl
 from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Font, borders,fills
 import datetime
-from database import saveCustomerData, saveGstData
+from database import saveBillLocation, saveCustomerData, saveGstData
 from baseIntialization import UiFields
 import os
-from backend import convert
+from backend import convert#, printBill
+import time
+import subprocess
+from printer import printBill, printDialog
+from threading import Thread
+
 
 def generateBill(u : UiFields):
     wb = openpyxl.Workbook()
@@ -130,7 +135,7 @@ def generateBill(u : UiFields):
             sh1['M'+str(i+9)] = float(u.net_txt[i-1].get())
             sh1['M'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
             if(u.wt_txt[i-1].get()!='' and u.net_txt[i-1].get()!=''):
-                saveGstData(u.wt_txt[i-1].get(),u.des_txt[i-1].get(),4500,10000,u.cgst_txt[i-1].get(),u.sgst_txt[i-1].get(),u.net_txt[i-1].get())
+                saveGstData(float(u.wt_txt[i-1].get()),u.des_txt[i-1].get(),4500,10000,float(u.cgst_txt[i-1].get()),float(u.sgst_txt[i-1].get()),float(u.net_txt[i-1].get()))
 
 # ===========================================================old gold============================================================
 
@@ -170,7 +175,7 @@ def generateBill(u : UiFields):
         sh1['M24'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
         
         for i in range(1,4):
-            if u.addDesc_txt[i-1].get()!="":
+            if u.addtotal_txt[i-1].get()!="":
                 sh1['A2'+str(i+4)] = i
                 sh1['A2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
@@ -459,9 +464,18 @@ def generateBill(u : UiFields):
     if(os.path.isdir(foldername) == False):
         os.system('mkdir '+foldername)
     u.saveLocation = foldername+'/'+str(u.bill_txt)+'.xlsx'
+    saveCustomerData(u,name=u.name_txt.get(),mobile=u.mobile_txt.get(),addhar_number=u.addhar_txt.get(),address=u.address_txt.get())
     
-    saveCustomerData(name=u.name_txt.get(),mobile=u.mobile_txt.get(),addhar_number=u.addhar_txt.get(),address=u.address_txt.get(),bill_location=u.saveLocation)
+    saveBillLocation(u)
+    # printBill()
     
     # wb.save(filename=u.saveLocation)
 
     wb.save(filename='test.xlsx')    
+    thread = Thread(target = printBill)
+    thread.start()
+    thread2 = Thread(target = printDialog)
+    thread2.start()
+    thread.join()
+    subprocess.call(["taskkill","/F","/IM","excel.exe"])
+
