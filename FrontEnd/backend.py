@@ -160,18 +160,19 @@ def calculate(u:UiFields, focused_tab):
         cgst = amt - cost
     else:
         cgst = 0
+    print(cost)
+    print(wt)
+    print(cost/wt)
     try:
         mc = (cost/wt)-gr
     except Exception:
         print("there is a error in calculation")
         u.wt_txt[i].focus_set()
     
-    mc = round(mc,2)
     cgst = round(cgst/2,2)
     gstamt = cgst*2
     
-    if(mc < 0):
-        print("There is a error in calculation mc")
+    mc = round(mc,2)
     
     u.cgst_txt[i].config(state='normal')
     u.sgst_txt[i].config(state='normal')
@@ -196,14 +197,32 @@ def calculate(u:UiFields, focused_tab):
     u.mc_txt[i].config(state=DISABLED)
     
     u.gstAmt_txt[i].focus_set()
+    
+    if(mc < 0):
+        print("There is a error in calculation mc")
+        u.entryCount = 6+i*3
+        u.wt_txt[i].focus()
+        u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
+        print(i)
+        # u.total.delete(0,END)
+        # u.total.insert(0,0.0)
+        
 
-
+def set_total_after_charges(u:UiFields):
+    if(u.total.get()!='' and u.charge.get()!=''):
+        tot = float(u.total_before_charge)
+        cha = float(u.charge.get())
+        tot = round(tot + tot*(cha/100),2)
+        u.total.delete(0,END)
+        u.total.insert(0,tot)
 
 def findAmt(amt):
     return float(amt.get())
 
 
 def setTotal(u:UiFields,amt):
+    if(u.charge.get()!=''):
+        amt = round(amt + (amt*(float(u.charge.get())/100)),2)
     u.total.delete(0,END)
     u.total.insert(0,(amt))
     
@@ -373,6 +392,20 @@ def enterOperation(focused_tab, u:UiFields):
     # print(len(u.entry_list))
     # print(u.entryCount)
     
+    if(tab_name == 'name' and u.name_txt.get()!=''):
+        name = u.name_txt.get()
+        print(name)
+        u.name_txt.delete(0,END)
+        u.name_txt.insert(0,name.capitalize())
+        print(name)
+    
+    if(tab_name == 'desc' and u.des_txt[i].get()!=''):
+        des = u.des_txt[i].get()
+        u.des_txt[i].delete(0,END)
+        u.des_txt[i].insert(0,des.capitalize())
+    
+    
+    
     
     if u.cnt > 0:
         u.cnt = 0
@@ -400,18 +433,19 @@ def enterOperation(focused_tab, u:UiFields):
     
     if (tab_name == 'newTotal' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and  u.net_txt[i].get()!='')):
             calculate(u, focused_tab)
-            total = int(u.total.get())
-            amt = int(u.net_txt[i].get())
+            total = float(u.total_before_charge)
+            amt = float(u.net_txt[i].get())
+            u.total_before_charge = amt+total
             setTotal(u,amt+total)
         
     if (tab_name == 'oldAmt' and u.oldtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
-        total = findAmt(u.total)
+        total = u.total_before_charge
         amt = findAmt(u.oldtotal_txt[i])
         if(amt < total):
             setTotal(u,total-amt)
             
     if (tab_name == 'addAmt' and u.addtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
-        total = findAmt(u.total)
+        total = u.total_before_charge
         amt = findAmt(u.addtotal_txt[i])
         if(amt < total):
             setTotal(u,total+amt)
@@ -574,10 +608,9 @@ def newBill(u:UiFields):
         u.addtotal_txt[i].configure(highlightcolor= u.entry_correct_color)
 
     #=================================mode of payment and total==============================
-    u.mode.delete(0,END)
-    u.mode.configure(highlightcolor= u.entry_correct_color)
+    u.clicked.set('Cash')
     u.charge.delete(0,END)
-    u.charge.configure(highlightcolor= u.entry_correct_color)
+    
     
     u.total.delete(0,END)
     u.total.configure(highlightcolor= u.entry_correct_color)
