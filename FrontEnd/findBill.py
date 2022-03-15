@@ -7,14 +7,6 @@ from tkinter import messagebox
 y = UiFields()
 
 
-
-
-
-
-
-
-
-
 def find():
     window1 = tkinter.Tk()
 

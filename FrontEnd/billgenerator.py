@@ -464,7 +464,8 @@ def generateBill(u : UiFields):
     sh1.page_margins.footer = 0.0
     sh1.page_margins.header = 0.0
 
-    foldername = u.BASEDIR +daten.strftime("%b_%y")
+
+    foldername = u.BASEDIR + daten.strftime("%b_%y")
     if(os.path.isdir(foldername) == False):
         # os.system()
         os.system('mkdir '+foldername)
@@ -479,8 +480,6 @@ def generateBill(u : UiFields):
         except Exception as e:
             messagebox.showerror("Error","Error in saving the Bill : {0}".format(e))
 
-    
-    
     # u.BASEDIR = findBASEDIR()
     # wb.save(filename=u.BASEDIR+'\test.xlsx')    
     # thread = Thread(target = printBill)

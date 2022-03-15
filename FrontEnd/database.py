@@ -13,14 +13,15 @@ try:
         host = 'localhost',
         user = 'root',
         passwd = '1234',
-        database = 'Shop2'
+        database = 'Shop',
+        auth_plugin='mysql_native_password'
     )
     cursor = mysqlDB.cursor()
 except Exception as e:
     messagebox.showerror("Error","Error in CONNECTING TO DATABASE : {0}".format(e))
     sys.exit()
 
-def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
+def saveCustomerData(u:UiFields, name,mobile,addhar_number, address = 'BBSR'):
     data = []
     if(mobile!=''):
         try:
@@ -75,7 +76,7 @@ def findByNumber(number):
         for i in data:
             cust_data.append(i)
         return cust_data[0]
-    except Exception:  
+    except Exception as e:  
         print("there is a exception in findbynumber : {0}".format(e))
     
 
@@ -116,7 +117,7 @@ def saveBillLocation(u:UiFields):
         print(comd)
         cursor.execute(comd)
         mysqlDB.commit()
-    except Exception:
+    except Exception as e:
         print("Error in saveBill in saving : {0}".format(e))
         
 #important        
