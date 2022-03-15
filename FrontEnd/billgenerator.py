@@ -10,7 +10,7 @@ import time
 import subprocess
 from printer import printBill, printDialog
 from threading import Thread
-
+# from database import findBASEDIR
 
 def generateBill(u : UiFields):
     wb = openpyxl.Workbook()
@@ -117,22 +117,22 @@ def generateBill(u : UiFields):
             sh1['B'+str(i+9)] = u.des_txt[i-1].get()
             sh1['B'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['F'+str(i+9)] = float(u.wt_txt[i-1].get())
+            sh1['F'+str(i+9)] = u.wt_txt[i-1].get() + 'gm'
             sh1['F'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['G'+str(i+9)] = float(u.mc_txt[i-1].get())
+            sh1['G'+str(i+9)] = u.mc_txt[i-1].get()
             sh1['G'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['H'+str(i+9)] = float(u.unit_txt[i-1].get())
+            sh1['H'+str(i+9)] = u.unit_txt[i-1].get()
             sh1['H'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['I'+str(i+9)] = float(u.cgst_txt[i-1].get())
+            sh1['I'+str(i+9)] = u.cgst_txt[i-1].get()
             sh1['I'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['K'+str(i+9)] = float(u.sgst_txt[i-1].get())
+            sh1['K'+str(i+9)] = u.sgst_txt[i-1].get()
             sh1['K'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-            sh1['M'+str(i+9)] = float(u.net_txt[i-1].get())
+            sh1['M'+str(i+9)] = u.net_txt[i-1].get()
             sh1['M'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
             if(u.wt_txt[i-1].get()!='' and u.net_txt[i-1].get()!=''):
                 saveGstData(float(u.wt_txt[i-1].get()),u.des_txt[i-1].get(),4500,10000,float(u.cgst_txt[i-1].get()),float(u.sgst_txt[i-1].get()),float(u.net_txt[i-1].get()))
@@ -158,13 +158,13 @@ def generateBill(u : UiFields):
                 sh1['B2'+str(i-1)] = u.oldDesc_txt[i-1].get()
                 sh1['B2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
-                sh1['I2'+str(i-1)] = float(u.oldwe_txt[i-1].get())
+                sh1['I2'+str(i-1)] = u.oldwe_txt[i-1].get()
                 sh1['I2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
-                sh1['J2'+str(i-1)] = float(u.oldunit_txt[i-1].get())
+                sh1['J2'+str(i-1)] = u.oldunit_txt[i-1].get()
                 sh1['J2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
-                sh1['M2'+str(i-1)] = float(u.oldtotal_txt[i-1].get())
+                sh1['M2'+str(i-1)] = u.oldtotal_txt[i-1].get()
                 sh1['M2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
 #====================================================ADDITION OR DEDUCTION================================================================================================================
@@ -182,7 +182,7 @@ def generateBill(u : UiFields):
                 sh1['B2'+str(i+4)] = u.addDesc_txt[i-1].get()
                 sh1['B2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
-                sh1['M2'+str(i+4)] = float(u.addtotal_txt[i-1].get())
+                sh1['M2'+str(i+4)] = u.addtotal_txt[i-1].get()
                 sh1['M2'+str(i+4)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
         
@@ -193,8 +193,10 @@ def generateBill(u : UiFields):
 
         sh1['E28'] = "Mode Of Payment"
         sh1['E28'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
-
-        sh1['I28'] = u.mode.get()
+        mode = u.mode
+        if(u.charge.get()!=''):
+            mode = mode + ':    '+ u.charge.get() + '%'
+        sh1['I28'] = mode
         sh1['I28'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
 # =====================================================Total paid=======================================================
@@ -202,10 +204,10 @@ def generateBill(u : UiFields):
         sh1['A29'] = "Total in Words"
         sh1['A29'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
         try:
-            sh1['C29'] = convert(int(u.total.get()))
+            # sh1['C29'] = convert(int(u.total.get()))
             sh1['C29'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
         except Exception:
-            print("There is a error")
+            print("There is a error in convert")
 
         sh1['J29'] = "Total Paid : "
         sh1['J29'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
@@ -470,12 +472,12 @@ def generateBill(u : UiFields):
     # printBill()
     
     # wb.save(filename=u.saveLocation)
-
-    wb.save(filename='test.xlsx')    
-    thread = Thread(target = printBill)
-    thread.start()
-    thread2 = Thread(target = printDialog)
-    thread2.start()
-    thread.join()
-    subprocess.call(["taskkill","/F","/IM","excel.exe"])
+    # u.BASEDIR = findBASEDIR()
+    wb.save(filename=u.BASEDIR+'\test.xlsx')    
+    # thread = Thread(target = printBill)
+    # thread.start()
+    # thread2 = Thread(target = printDialog)
+    # thread2.start()
+    # thread.join()
+    # subprocess.call(["taskkill","/F","/IM","excel.exe"])
 

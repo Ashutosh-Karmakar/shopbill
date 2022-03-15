@@ -1,15 +1,24 @@
+from pickletools import uint1
+from shutil import ExecError
+from sqlite3 import Cursor
+from tempfile import TemporaryFile
 import mysql.connector
 import sys
 import openpyxl
 from baseIntialization import UiFields
+from tkinter import EXCEPTION, messagebox
 
-mysqlDB = mysql.connector.connect(
-    host = 'localhost',
-    user = 'root',
-    passwd = '1234',
-    database = 'Shop'
-)
-cursor = mysqlDB.cursor()
+try:
+    mysqlDB = mysql.connector.connect(
+        host = 'localhost',
+        user = 'root',
+        passwd = '1234',
+        database = 'Shop2'
+    )
+    cursor = mysqlDB.cursor()
+except Exception as e:
+    messagebox.showerror("Error","Error in CONNECTING TO DATABASE : {0}".format(e))
+    sys.exit()
 
 def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
     data = []
@@ -20,7 +29,7 @@ def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
             cursor.execute(comd)
             data = cursor.fetchall()
         except Exception:
-            print("There is a exception in find if customer exists ?")
+            print("There is a exception in find if customer exists ?: {0}".format(e))
         if(len(data) > 0):
             return
         
@@ -41,16 +50,17 @@ def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
                     print(comd)
                     cursor.execute(comd)
                     mysqlDB.commit()
-            except Exception:
-                print("There was a exception while entering into database CUSTOMER")
-        
+            except Exception as e:
+                print("There was a exception while entering into database CUSTOMER : {0}".format(e))
+#important       
 def saveGstData(weight,ornament,gold_rate,total_val,cgst,sgst,net_total):
     try:
         comd = ("INSERT INTO gst_table(ornament, qty,weight,gold_rate, total_val, cgst, sgst, net_total) VALUES('" +ornament+ "'," +str(1)+ ","+str(weight)+ "," +str(gold_rate)+ "," +str(total_val)+ "," +str(cgst)+ "," +str(sgst)+ "," +str(net_total)+ ");")
         print(comd)
         cursor.execute(comd)
         mysqlDB.commit()
-    except Exception:
+    except Exception as e:
+        messagebox.showerror("Error","Error in save GST Data : {0}".format(e))
         print("There was a exception in save GST Data")
         
 def findByNumber(number):
@@ -66,7 +76,7 @@ def findByNumber(number):
             cust_data.append(i)
         return cust_data[0]
     except Exception:  
-        print("there is a exception in findbynumber()")
+        print("there is a exception in findbynumber : {0}".format(e))
     
 
 def findBillNumber():
@@ -84,7 +94,8 @@ def findBillNumber():
         
         return result[0]+1
     except Exception:
-        print("there is a error in findbillnumber")
+        print("there is a error in findbillnumber : {0}".format())
+
 
 def saveBillLocation(u:UiFields):
     if(u.mobile_txt.get()!=''):
@@ -106,9 +117,9 @@ def saveBillLocation(u:UiFields):
         cursor.execute(comd)
         mysqlDB.commit()
     except Exception:
-        print("Error in saveBill in saving")
+        print("Error in saveBill in saving : {0}".format(e))
         
-        
+#important        
 def findGst(u:UiFields):
     try:
         comd = "Select * from gst_table;"
@@ -138,5 +149,58 @@ def findGst(u:UiFields):
         
             
         
-    except Exception:
+    except Exception as e:
+        messagebox.showerror("Error","Error in save GST Data : {0}".format(e))
         print("There is an error in finding gst data")
+        
+        
+def saveGoldRate(u:UiFields):
+    try:
+        comd = ("INSERT INTO daily_gold_rate(gold_rate) VALUES("+str(u.gold_rate)+");")
+        print(comd)
+        cursor.execute(comd)
+        mysqlDB.commit()
+    except Exception as e:
+        print("Error in saving into gold rate : {0}".format(e))
+
+#important
+def findGoldRate(u:UiFields):
+    try:
+        comd = ("SELECT gold_rate from daily_gold_rate order by id desc limit 1")
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchone()
+        if(result == None):
+            u.gold_rate = 4876
+        else:
+            u.gold_rate = float(result[0])
+    except Exception as e:
+        messagebox.showerror("Error","Error in save GST Data : {0}".format(e))
+        print("Error in finding gold rate")
+
+
+def findGRDate(u:UiFields):
+    try:
+        comd = ("SELECT gold_rate from daily_gold_rate WHERE added_date = '" +u.grFindDate+ "';")
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchone()
+        if(result == None):
+            pass
+        else:
+            u.grRateOnDate = result[0]
+    except Exception as e:
+        print("There is a error in finding gold rate by date: {0}".format(e))
+        
+# def findBASEDIR(u:UiFields):
+#     try:
+#         comd = ('SELECT valuee FROM config WHERE keyy = "BASEDIR";')
+#         cursor.execute(comd)
+#         result = cursor.fetchone()
+#         if result == None:
+#             return "."
+#         return result[0]
+#     except Exception:
+#         print("Error in finding base dir")
+    
+        

@@ -1,3 +1,4 @@
+from datetime import datetime
 from tkinter import *
 
 class UiFields:
@@ -52,7 +53,7 @@ class UiFields:
     addtotalLabel:Label
     addtotal_txt=[]
     
-    mode_l:       Label
+    mode_l:       OptionMenu
     mode =       "cash"
     charge_l:     Label
     charge =     0.0
@@ -101,3 +102,9 @@ class UiFields:
     gstBtn:Button
     gstFind:Button
 
+    clicked = ""
+    total_before_charge = 0.0
+    findgoldBtn : Button
+    grFindDate:datetime
+    grRateOnDate = 0.0
+    BASEDIR = 'D:Shop\Shop\FrontEnd'

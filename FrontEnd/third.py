@@ -1,5 +1,7 @@
 from cgitb import text
 from multiprocessing.spawn import old_main_modules
+from pydoc import cli
+from statistics import mode
 from tkinter import *
 from  tkinter import ttk
 from tkinter import font
@@ -14,14 +16,15 @@ from turtle import bgcolor
 from xml.etree.ElementPath import find
 from openpyxl.drawing.image import Image 
 from billgenerator import generateBill
-from database import findBillNumber
+from database import findBillNumber, findGoldRate
 import datetime
 import pyautogui
 
 from baseIntialization import UiFields
-from backend import enterOperation, newBill, printBill
+from backend import enterOperation, newBill, printBill, set_total_after_charges
 from goldrate import changeGoldRate
 from monthlyGST import monthlyGst
+from findGoldrate import findGoldRateOnDate
 
 u = UiFields()
 u.gold_rate = 4876
@@ -145,6 +148,7 @@ u.sgstLabel.grid(column=8,row=0)
 u.gstAmtLabel = Label(F2,text="GstAmt",font=('times new rommon',10),bg=u.bg_color)
 u.gstAmtLabel.grid(column=9,row=0)
 
+findGoldRate(u)
 
 for i in range(1,10):
     txt1=Entry(F2,width=40,font='arial 15',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
@@ -271,17 +275,49 @@ for i in range(1,4):
 F5 = LabelFrame(window,bg= "#FFE6BC")
 F5.place(x=0,y=750,width=1500,height=100)
 
-u.mode_l = Label(F5,text="Mode Of Payment",font=('times new rommon',12),bg=u.bg_color)
+# u.mode_l = Label(F5,text="Mode Of Payment",font=('times new rommon',12),bg=u.bg_color)
+
+# u.mode= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+# u.mode.grid(row=0,column=4,padx=10,pady=5)
+# u.entry_list.append(u.mode)
+# mode = 'Cash'
+def selected(event):
+	# m = clicked.get()
+    if(u.clicked.get() == 'Debit Card'):
+        u.charge.delete(0,END)
+        u.charge.insert(0,1.2)
+    elif(u.clicked.get() == 'Credit Card'):
+        u.charge.delete(0,END)
+        u.charge.insert(0,2.1)
+    else:
+        u.charge.delete(0,END)
+    u.mode = u.clicked.get()
+    set_total_after_charges(u)
+        
+
+options = [
+    "Cash",
+    "Credit Card",
+    "Debit Card",
+    "UPI",
+    "Bank"
+]
+  
+u.clicked = StringVar()
+u.clicked.set(options[0])
+ 
+
+ 
+u.mode_l = OptionMenu( F5 , u.clicked , *options, command=selected)
 u.mode_l.grid(column=3,row=0)
-u.mode= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
-u.mode.grid(row=0,column=4,padx=10,pady=5)
-u.entry_list.append(u.mode)
+u.mode_l.config(font=('times new rommon',11))
 
 u.charge_l = Label(F5,text="Charges",font=('times new rommon',12),bg=u.bg_color)
 u.charge_l.grid(column=10,row=0)
 u.charge= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.charge.grid(row=0,column=13,padx=10,pady=5)
 u.entry_list.append(u.charge)
+
 
 u.total_l = Label(F5,text="Total",font=('times new rommon',12),bg=u.bg_color)
 u.total_l.grid(column=0,row=1)
@@ -322,6 +358,9 @@ u.change_gold_rate.grid(column=30,row=0,padx=20,pady=10)
 
 u.gstBtn = Button(F6,text="Gst " ,font=('times new rommon',13),command=monthlyGst,bg=u.bg_color,bd=2)
 u.gstBtn.grid(column=40,row=0,padx=20,pady=10)
+
+u.findgoldBtn = Button(F6,text="Find GR" ,font=('times new rommon',13),command=lambda:findGoldRateOnDate(u),bg=u.bg_color,bd=2)
+u.findgoldBtn.grid(column=50,row=0,padx=20,pady=10)
 
 # window.bind('<Control-G>', generateBill(u))
 # window.bind('<Control-p>', prin)
