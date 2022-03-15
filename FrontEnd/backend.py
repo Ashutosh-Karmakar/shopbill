@@ -209,12 +209,20 @@ def calculate(u:UiFields, focused_tab):
         
 
 def set_total_after_charges(u:UiFields):
-    if(u.total.get()!='' and u.charge.get()!=''):
+    if(u.total.get()!='' and (u.charge.get())!=''):
         tot = float(u.total_before_charge)
-        cha = float(u.charge.get())
+        cha = float(u.charge_amt)
         tot = round(tot + tot*(cha/100),2)
         u.total.delete(0,END)
         u.total.insert(0,tot)
+    elif(u.total.get()!=''):
+        tot = float(u.total_before_charge)
+        cha = float(u.charge_amt)
+        tot = round(tot - tot*(cha/100),2)
+        u.total.delete(0,END)
+        u.total.insert(0,u.total_before_charge)
+        u.charge_amt = 0.0
+    
 
 def findAmt(amt):
     return float(amt.get())
@@ -222,7 +230,7 @@ def findAmt(amt):
 
 def setTotal(u:UiFields,amt):
     if(u.charge.get()!=''):
-        amt = round(amt + (amt*(float(u.charge.get())/100)),2)
+        amt = round(amt + (amt*(float(u.charge_amt)/100)),2)
     u.total.delete(0,END)
     u.total.insert(0,(amt))
     
@@ -436,19 +444,21 @@ def enterOperation(focused_tab, u:UiFields):
             total = float(u.total_before_charge)
             amt = float(u.net_txt[i].get())
             u.total_before_charge = amt+total
-            setTotal(u,amt+total)
+            setTotal(u,u.total_before_charge)
         
     if (tab_name == 'oldAmt' and u.oldtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
         total = u.total_before_charge
         amt = findAmt(u.oldtotal_txt[i])
-        if(amt < total):
-            setTotal(u,total-amt)
+        # if(amt < total):
+        u.total_before_charge = total-amt
+        setTotal(u,u.total_before_charge)
             
     if (tab_name == 'addAmt' and u.addtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
         total = u.total_before_charge
         amt = findAmt(u.addtotal_txt[i])
-        if(amt < total):
-            setTotal(u,total+amt)
+        # if(amt < total):
+        u.total_before_charge = total+amt
+        setTotal(u,u.total_before_charge)
             
             
             
@@ -521,6 +531,7 @@ def printBill():
      
 def newBill(u:UiFields):
     u.entryCount=0
+    u.charge_amt = 0.0
     u.mobile_txt.delete(0,END)
     u.mobile_txt.configure(highlightcolor= u.entry_correct_color)
     u.mobile_txt.focus()
