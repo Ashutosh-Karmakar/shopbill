@@ -462,18 +462,18 @@ def generateBill(u : UiFields):
     sh1.page_margins.footer = 0.0
     sh1.page_margins.header = 0.0
 
-    foldername = 'D:\\Shop\Shop\\FrontEnd\\' + daten.strftime("%b_%y")
+    foldername = u.BASEDIR + daten.strftime("%b_%y")
     if(os.path.isdir(foldername) == False):
         os.system('mkdir '+foldername)
-    u.saveLocation = foldername+'/'+str(u.bill_txt)+'.xlsx'
+    u.saveLocation = foldername+'\\'+str(u.bill_txt)+'.xlsx'
     saveCustomerData(u,name=u.name_txt.get(),mobile=u.mobile_txt.get(),addhar_number=u.addhar_txt.get(),address=u.address_txt.get())
     
     saveBillLocation(u)
     # printBill()
     
-    # wb.save(filename=u.saveLocation)
+    wb.save(filename=u.saveLocation)
     # u.BASEDIR = findBASEDIR()
-    wb.save(filename=u.BASEDIR+'\test.xlsx')    
+    # wb.save(filename=u.BASEDIR+'\test.xlsx')    
     # thread = Thread(target = printBill)
     # thread.start()
     # thread2 = Thread(target = printDialog)

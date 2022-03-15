@@ -32,6 +32,7 @@ window = tkinter.Tk()
 window.attributes('-fullscreen', True)
 window.configure(bg=u.background_color)
 window.title("Giridhari Jewellery")
+pyautogui.FAILSAFE = False
 
 def enter(event):
     focused_tab = str(window.focus_get())
@@ -113,7 +114,7 @@ u.date_label.grid(row=1,column=30)
 
 # ========================================new Gold==============================================
 
-F2 = LabelFrame(window,bg= "#FFE6BC")
+F2 = LabelFrame(window,bg= u.bg_color)
 F2.place(x=5, y=50,width=1350,height=360)
 
 u.siLabel = Label(F2,text="Sino.",font=('times new rommon',10),bg=u.bg_color)
@@ -195,7 +196,7 @@ for i in range(1,10):
 
 # ==================================old gold=====================================================
 
-F3 = LabelFrame(window,bg= "#FFE6BC")
+F3 = LabelFrame(window,bg= u.bg_color)
 F3.place(x=5,y=409,width=13055,height=117)
 
 u.oldSi = Label(F3,text="Si.",font=('times new rommon',10),bg=u.bg_color)
@@ -243,7 +244,7 @@ for i in range(1,4):
 
 #===========================================addition or deduction===============================
 
-F4 = LabelFrame(window,bg= "#FFE6BC")
+F4 = LabelFrame(window,bg= u.bg_color)
 F4.place(x=5,y=525,width=13055,height=120)
 
 
@@ -273,7 +274,7 @@ for i in range(1,4):
     u.addtotal_txt.append(txt16)
 
 #=================================mode of payment and total==============================
-F5 = LabelFrame(window,bg= "#FFE6BC")
+F5 = LabelFrame(window,bg= u.bg_color)
 F5.place(x=0,y=645,width=1500,height=50)
 
 
