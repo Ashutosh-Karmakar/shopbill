@@ -11,6 +11,8 @@ import subprocess
 from printer import printBill, printDialog
 from threading import Thread
 # from database import findBASEDIR
+from tkinter import messagebox
+
 
 def generateBill(u : UiFields):
     wb = openpyxl.Workbook()
@@ -195,7 +197,7 @@ def generateBill(u : UiFields):
         sh1['E28'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
         mode = u.mode
         if(u.charge.get()!=''):
-            mode = mode + ':    '+ u.charge.get() + '%'
+            mode = mode + ':    '+ u.charge.get()
         sh1['I28'] = mode
         sh1['I28'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
@@ -462,16 +464,22 @@ def generateBill(u : UiFields):
     sh1.page_margins.footer = 0.0
     sh1.page_margins.header = 0.0
 
+
     foldername = u.BASEDIR + daten.strftime("%b_%y")
     if(os.path.isdir(foldername) == False):
+        # os.system()
         os.system('mkdir '+foldername)
     u.saveLocation = foldername+'\\'+str(u.bill_txt)+'.xlsx'
     saveCustomerData(u,name=u.name_txt.get(),mobile=u.mobile_txt.get(),addhar_number=u.addhar_txt.get(),address=u.address_txt.get())
     
-    saveBillLocation(u)
-    # printBill()
-    
-    wb.save(filename=u.saveLocation)
+    if(u.mobile_txt.get()!=''):
+        saveBillLocation(u)
+        print(u.saveLocation)
+        try:
+            wb.save(filename=u.saveLocation)
+        except Exception as e:
+            messagebox.showerror("Error","Error in saving the Bill : {0}".format(e))
+
     # u.BASEDIR = findBASEDIR()
     # wb.save(filename=u.BASEDIR+'\test.xlsx')    
     # thread = Thread(target = printBill)

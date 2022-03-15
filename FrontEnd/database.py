@@ -6,7 +6,7 @@ import mysql.connector
 import sys
 import openpyxl
 from baseIntialization import UiFields
-from tkinter import EXCEPTION, messagebox
+from tkinter import messagebox
 
 try:
     mysqlDB = mysql.connector.connect(

@@ -107,4 +107,5 @@ class UiFields:
     findgoldBtn : Button
     grFindDate:datetime
     grRateOnDate = 0.0
+    charge_amt = 0.0
     BASEDIR = 'E:ALLBILLS\\'
