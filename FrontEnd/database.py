@@ -1,18 +1,26 @@
-from lib2to3.pgen2.token import CIRCUMFLEX
+from pickletools import uint1
+from shutil import ExecError
+from sqlite3 import Cursor
+from tempfile import TemporaryFile
 import mysql.connector
 import sys
-
+import openpyxl
 from baseIntialization import UiFields
+from tkinter import EXCEPTION, messagebox
 
-mysqlDB = mysql.connector.connect(
-    host = 'localhost',
-    user = 'root',
-    passwd = '1234',
-    database = 'Shop'
-)
-cursor = mysqlDB.cursor()
+try:
+    mysqlDB = mysql.connector.connect(
+        host = 'localhost',
+        user = 'root',
+        passwd = '1234',
+        database = 'Shop2'
+    )
+    cursor = mysqlDB.cursor()
+except Exception as e:
+    messagebox.showerror("Error","Error in CONNECTING TO DATABASE : {0}".format(e))
+    sys.exit()
 
-def saveCustomerData(name,mobile,addhar_number, address, bill_location = "LOCATION"):
+def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
     data = []
     if(mobile!=''):
         try:
@@ -21,37 +29,38 @@ def saveCustomerData(name,mobile,addhar_number, address, bill_location = "LOCATI
             cursor.execute(comd)
             data = cursor.fetchall()
         except Exception:
-            print("There is a exception in find if customer exists ?")
+            print("There is a exception in find if customer exists ?: {0}".format(e))
         if(len(data) > 0):
             return
         
         if(name!='' and mobile!=''):
             try:
                 if(addhar_number!='' and address!=''):
-                    comd = ("INSERT INTO customer(cust_name, phone_no, address, addhar_number, bill_location) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "'," +addhar_number+ ", '" +bill_location+ "');")
+                    comd = ("INSERT INTO customer(cust_name, phone_no, address, addhar_number) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "'," +addhar_number+ ");")
                     print(comd)
                     cursor.execute(comd)
                     mysqlDB.commit()
                 elif(addhar_number!=''):
-                    comd = ("INSERT INTO customer(cust_name, phone_no, addhar_number, bill_location) VALUES("+"'" +name+ "'," +mobile+ "," +addhar_number+ ", '" +bill_location+ "');")
+                    comd = ("INSERT INTO customer(cust_name, phone_no, addhar_number) VALUES("+"'" +name+ "'," +mobile+ "," +addhar_number+ ");")
                     print(comd)
                     cursor.execute(comd)
                     mysqlDB.commit()
                 else:
-                    comd = ("INSERT INTO customer(cust_name, phone_no, address, bill_location) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "', '" +bill_location+ "');")
+                    comd = ("INSERT INTO customer(cust_name, phone_no, address) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "');")
                     print(comd)
                     cursor.execute(comd)
                     mysqlDB.commit()
-            except Exception:
-                print("There was a exception while entering into database CUSTOMER")
-        
+            except Exception as e:
+                print("There was a exception while entering into database CUSTOMER : {0}".format(e))
+#important       
 def saveGstData(weight,ornament,gold_rate,total_val,cgst,sgst,net_total):
     try:
-        comd = ("INSERT INTO gst_table(ornament, weight,gold_rate, total_val, cgst, sgst, net_total) VALUES('" +ornament+ "'," +str(weight)+ "," +str(gold_rate)+ "," +str(total_val)+ "," +str(cgst)+ "," +str(sgst)+ "," +str(net_total)+ ");")
+        comd = ("INSERT INTO gst_table(ornament, qty,weight,gold_rate, total_val, cgst, sgst, net_total) VALUES('" +ornament+ "'," +str(1)+ ","+str(weight)+ "," +str(gold_rate)+ "," +str(total_val)+ "," +str(cgst)+ "," +str(sgst)+ "," +str(net_total)+ ");")
         print(comd)
         cursor.execute(comd)
         mysqlDB.commit()
-    except Exception:
+    except Exception as e:
+        messagebox.showerror("Error","Error in save GST Data : {0}".format(e))
         print("There was a exception in save GST Data")
         
 def findByNumber(number):
@@ -67,23 +76,131 @@ def findByNumber(number):
             cust_data.append(i)
         return cust_data[0]
     except Exception:  
-        print("there is a exception in findbynumber()")
+        print("there is a exception in findbynumber : {0}".format(e))
     
 
 def findBillNumber():
     try:
-        comd = ("select id from customer order by id desc limit 1;")
+        comd = ("select id from BillTable order by id desc limit 1;")
+        print(comd)
         cursor.execute(comd)
-        result = 0
-        for i in cursor:
-            result = i
-            break
-        return int(result[0])+1    
+        # cursor.fetchall()
+        result = cursor.fetchone()
+        print(result)
+        
+        
+        if(result == None):
+            return 1
+        
+        return result[0]+1
     except Exception:
-        print("there is a error in findbillnumber")
+        print("there is a error in findbillnumber : {0}".format())
 
-# def saveBillLocation(u:UiFields,folderName):
-#     comd = "UPDATE customer SET bill_location = '" + folderName + "' WHERE id = " +u.bill_txt.get()+ ";"
-#     print(comd)
-#     cursor.execute(comd)
+
+def saveBillLocation(u:UiFields):
+    if(u.mobile_txt.get()!=''):
+        try:
+            cursor.execute('select id from customer where phone_no = ' +str(u.mobile_txt.get())+ ';')
+            check = cursor.fetchone()
+            if(check != None):
+                u.customer_id = check[0]
+            else:
+                cursor.execute('select id from customer order by id desc Limit 1')
+                u.customer_id = cursor.fetchone()[0]
+        except Exception:
+            u.customer_id = 1
+            print("Error in saveBillLocation in finding customer_id")
+    print(u.customer_id)
+    try:     
+        comd = ("INSERT INTO BILLTable(bill_location, customer_id) VALUES('" +u.saveLocation+ "'," +str(u.customer_id)+");")
+        print(comd)
+        cursor.execute(comd)
+        mysqlDB.commit()
+    except Exception:
+        print("Error in saveBill in saving : {0}".format(e))
+        
+#important        
+def findGst(u:UiFields):
+    try:
+        comd = "Select * from gst_table;"
+        print(comd)
+        cursor.execute(comd)
+        # for gst in cursor.fetchall():
+        #     print(gst)
+        wb = openpyxl.Workbook()
+        sh1 = wb.active
+        sh1.title = 'gst'
+        
+        i = 0
+        j = 1
+        for gst in cursor.fetchall():
+            for c in gst:
+                location = chr(65+i)+''+str(j)
+                if(i == 1):
+                    sh1[location] = str(c)[0:10]
+                # print(location)
+                else:
+                    sh1[location] = c
+                i+=1
+            j+=1
+            i = 0
+            
+        wb.save(filename='gst.xlsx')
+        
+            
+        
+    except Exception as e:
+        messagebox.showerror("Error","Error in save GST Data : {0}".format(e))
+        print("There is an error in finding gst data")
+        
+        
+def saveGoldRate(u:UiFields):
+    try:
+        comd = ("INSERT INTO daily_gold_rate(gold_rate) VALUES("+str(u.gold_rate)+");")
+        print(comd)
+        cursor.execute(comd)
+        mysqlDB.commit()
+    except Exception as e:
+        print("Error in saving into gold rate : {0}".format(e))
+
+#important
+def findGoldRate(u:UiFields):
+    try:
+        comd = ("SELECT gold_rate from daily_gold_rate order by id desc limit 1")
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchone()
+        if(result == None):
+            u.gold_rate = 4876
+        else:
+            u.gold_rate = float(result[0])
+    except Exception as e:
+        messagebox.showerror("Error","Error in save GST Data : {0}".format(e))
+        print("Error in finding gold rate")
+
+
+def findGRDate(u:UiFields):
+    try:
+        comd = ("SELECT gold_rate from daily_gold_rate WHERE added_date = '" +u.grFindDate+ "';")
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchone()
+        if(result == None):
+            pass
+        else:
+            u.grRateOnDate = result[0]
+    except Exception as e:
+        print("There is a error in finding gold rate by date: {0}".format(e))
+        
+# def findBASEDIR(u:UiFields):
+#     try:
+#         comd = ('SELECT valuee FROM config WHERE keyy = "BASEDIR";')
+#         cursor.execute(comd)
+#         result = cursor.fetchone()
+#         if result == None:
+#             return "."
+#         return result[0]
+#     except Exception:
+#         print("Error in finding base dir")
+    
         
