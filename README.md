@@ -102,3 +102,6 @@ CREATE TABLE daily_gold_rate(
 );
 ```
 
+```
+pyinstaller --noconfirm --onedir --console --add-data "D:/Coding/exeshop/shopbill/FrontEnd/__init__.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/backend.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/baseIntialization.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/billgenerator.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/database.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/findBill.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/findGoldrate.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/goldrate.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/monthlyGST.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/printer.py;." --hidden-import "mysql" --hidden-import "mysql.connector" --hidden-import "win32api" --hidden-import "win32print" --hidden-import "tkinter" --hidden-import "tkcalendar" --hidden-import "datetime" --hidden-import "openpyxl" --hidden-import "sys" --hidden-import "pyautogui" --hidden-import "os" --hidden-import "threading" --hidden-import "tkcalendar.calendar_" --hidden-import "babel" --hidden-import "babel.numbers"  "D:/Coding/exeshop/shopbill/FrontEnd/third.py"
+```
