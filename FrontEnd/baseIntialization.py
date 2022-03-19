@@ -107,5 +107,10 @@ class UiFields:
     findgoldBtn : Button
     grFindDate:datetime
     grRateOnDate = 0.0
+    # BASEDIR = 'E:ALLBILLS\\'
+    BASEDIR = '..'
     charge_amt = 0.0
-    BASEDIR = 'E:ALLBILLS\\'
+    #                0 1 2 3 4 5 6 7 8
+    old_net_total = [0,0,0,0,0,0,0,0,0]
+    old_old_total = [0,0,0]
+    old_add_total = [0,0,0]

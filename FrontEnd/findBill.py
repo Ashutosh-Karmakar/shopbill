@@ -1,11 +1,10 @@
+import sys
 from tkinter import *
 import tkinter
 from baseIntialization import UiFields
-import sys
-from tkinter import messagebox
 
 y = UiFields()
-
+#not completed yetp
 
 def find():
     window1 = tkinter.Tk()

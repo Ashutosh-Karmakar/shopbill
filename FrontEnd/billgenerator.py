@@ -1,17 +1,15 @@
-from re import U
+import os
+from tkinter import messagebox
+from threading import Thread
 import openpyxl
 from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Font, borders,fills
 import datetime
-from database import saveBillLocation, saveCustomerData, saveGstData
-from baseIntialization import UiFields
-import os
-from backend import convert#, printBill
 import time
 import subprocess
+from database import saveBillLocation, saveCustomerData, saveGstData
+from baseIntialization import UiFields
+from backend import convert#, printBill
 from printer import printBill, printDialog
-from threading import Thread
-# from database import findBASEDIR
-from tkinter import messagebox
 
 
 def generateBill(u : UiFields):
@@ -465,11 +463,19 @@ def generateBill(u : UiFields):
     sh1.page_margins.header = 0.0
 
 
-    foldername = u.BASEDIR + daten.strftime("%b_%y")
-    if(os.path.isdir(foldername) == False):
-        # os.system()
-        os.system('mkdir '+foldername)
-    u.saveLocation = foldername+'\\'+str(u.bill_txt)+'.xlsx'
+
+    # os.chdir(u.BASEDIR)
+    foldername = daten.strftime("%b_%y")
+    
+    dir = os.path.join(u.BASEDIR,foldername)
+    try:
+        if(os.path.isdir(dir) == False):
+            os.mkdir(dir)
+    except Exception as e:
+        print("There is a error in creating folder : {0}".format(e))
+        
+    u.saveLocation = dir +'\\'+str(u.bill_txt)+'.xlsx'
+    
     saveCustomerData(u,name=u.name_txt.get(),mobile=u.mobile_txt.get(),addhar_number=u.addhar_txt.get(),address=u.address_txt.get())
     
     if(u.mobile_txt.get()!=''):
@@ -482,10 +488,14 @@ def generateBill(u : UiFields):
 
     # u.BASEDIR = findBASEDIR()
     # wb.save(filename=u.BASEDIR+'\test.xlsx')    
-    # thread = Thread(target = printBill)
-    # thread.start()
+    thread = Thread(target = printBill,args=(u.saveLocation,))
+    thread.start()
     # thread2 = Thread(target = printDialog)
     # thread2.start()
     # thread.join()
-    # subprocess.call(["taskkill","/F","/IM","excel.exe"])
+    print("done printing")
+    # thread2.join()
+    # main_thread().sleep(100)
+    time.sleep(4)
+    subprocess.call(["taskkill","/F","/IM","excel.exe"])
 

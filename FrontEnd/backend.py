@@ -1,11 +1,94 @@
+import os
+from tkinter import *
 from baseIntialization import UiFields
 from database import findBillNumber, findByNumber
-from tkinter import *
-import pyautogui
-import os
-import re
 
 
+def clicked_tab(focused_top):
+    if focused_top == '.!entry':
+        return 0 
+    if focused_top == '.!entry2':
+        return 1 
+    if focused_top == '.!entry3':
+        return 2 
+    if focused_top == '.!entry4':
+        return 3 
+    if focused_top == '.!labelframe.!entry':
+        return 4 
+    if focused_top == '.!labelframe.!entry2':
+        return 5 
+    if focused_top == '.!labelframe.!entry3':
+        return 6 
+    if focused_top == '.!labelframe.!entry9':
+        return 7 
+    if focused_top == '.!labelframe.!entry10':
+        return 8 
+    if focused_top == '.!labelframe.!entry11':
+        return 9 
+    if focused_top == '.!labelframe.!entry17':
+        return 10 
+    if focused_top == '.!labelframe.!entry18':
+        return 11
+    if focused_top == '.!labelframe.!entry19':
+        return 12 
+    if focused_top == '.!labelframe.!entry25':
+        return 13 
+    if focused_top == '.!labelframe.!entry26':
+        return 14 
+    if focused_top == '.!labelframe.!entry27':
+        return 15 
+    if focused_top == '.!labelframe.!entry33':
+        return 16
+    if focused_top == '.!labelframe.!entry34':
+        return 17 
+    if focused_top == '.!labelframe.!entry35':
+        return 18
+    if focused_top == '.!labelframe.!entry41':
+        return 19
+    if focused_top == '.!labelframe.!entry42':
+        return 20
+    if focused_top == '.!labelframe.!entry43':
+        return 21
+    if focused_top == '.!labelframe.!entry49':
+        return 22
+    if focused_top == '.!labelframe.!entry50':
+        return 23
+    if focused_top == '.!labelframe.!entry51':
+        return 24
+    if focused_top == '.!labelframe.!entry57':
+        return 25
+    if focused_top == '.!labelframe.!entry58':
+        return 26 
+    if focused_top == '.!labelframe.!entry59':
+        return 27 
+    if focused_top == '.!labelframe.!entry65':
+        return 28 
+    if focused_top == '.!labelframe.!entry66':
+        return 29 
+    if focused_top == '.!labelframe.!entry67':
+        return 30 
+    if focused_top == '.!labelframe2.!entry2':
+        return 31 
+    if focused_top == '.!labelframe2.!entry4':
+        return 32
+    if focused_top == '.!labelframe2.!entry6':
+        return 33
+    if focused_top == '.!labelframe2.!entry8':
+        return 34
+    if focused_top == '.!labelframe2.!entry10':
+        return 35
+    if focused_top == '.!labelframe2.!entry12':
+        return 36
+    if focused_top == '.!labelframe3.!entry2':
+        return 37
+    if focused_top == '.!labelframe3.!entry4':
+        return 38
+    if focused_top == '.!labelframe3.!entry6':
+        return 39
+    if focused_top == '.!labelframe4.!entry':
+        return 40
+    if focused_top == '.!labelframe4.!entry2':
+        return 41
 
 def focusedTab(focused_tab):
     if(focused_tab == '.!entry4'):
@@ -208,7 +291,8 @@ def calculate(u:UiFields, focused_tab):
         print("There is a error in calculation mc")
         u.entryCount = 6+i*3
         u.wt_txt[i].focus()
-        u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
+        # u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
+        return 1
         print(i)
         # u.total.delete(0,END)
         # u.total.insert(0,0.0)
@@ -446,25 +530,49 @@ def enterOperation(focused_tab, u:UiFields):
             setCustData(u, data)
     
     if (tab_name == 'newTotal' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and  u.net_txt[i].get()!='')):
-            calculate(u, focused_tab)
-            total = float(u.total_before_charge)
-            amt = float(u.net_txt[i].get())
-            u.total_before_charge = amt+total
-            setTotal(u,u.total_before_charge)
+        chec = calculate(u, focused_tab)
+        if(chec == 1):
+            return
+        total = float(u.total_before_charge)
+        amt = float(u.net_txt[i].get())
+        u.total_before_charge = amt+total
+        if(u.old_net_total[i] == amt):
+            u.total_before_charge = total
+            return
+        elif(u.old_net_total[i] != 0):
+            print(u.old_net_total[i])
+            u.total_before_charge = u.total_before_charge - u.old_net_total[i]
+           
+        setTotal(u,u.total_before_charge)
+        u.old_net_total[i] = amt
         
     if (tab_name == 'oldAmt' and u.oldtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
         total = u.total_before_charge
         amt = findAmt(u.oldtotal_txt[i])
-        # if(amt < total):
         u.total_before_charge = total-amt
+        if(u.old_old_total[i] == amt):
+            u.total_before_charge = total
+            return
+        elif(u.old_old_total[i] != 0):
+            print(u.old_old_total[i])
+            u.total_before_charge = u.total_before_charge + u.old_old_total[i]
+        
         setTotal(u,u.total_before_charge)
+        u.old_old_total[i] = amt
             
     if (tab_name == 'addAmt' and u.addtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
         total = u.total_before_charge
         amt = findAmt(u.addtotal_txt[i])
         # if(amt < total):
         u.total_before_charge = total+amt
+        if(u.old_add_total[i] == amt):
+            u.total_before_charge = total
+            return
+        elif(u.old_add_total[i] != 0):
+            print(u.old_add_total[i])
+            u.total_before_charge = u.total_before_charge - u.old_add_total[i]
         setTotal(u,u.total_before_charge)
+        u.old_add_total[i] = amt
             
             
             
@@ -561,7 +669,8 @@ def newBill(u:UiFields):
     # u.date_label.grid(row=1,column=30)
 
 
-
+    u.total_before_charge = 0.0
+    u.old_net_total = [0,0,0,0,0,0,0,0,0]
     # ========================================new Gold==============================================
 
     for i in range(0,9):

@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import simpledialog
 from tkinter import *
-from baseIntialization import UiFields
 from tkinter import messagebox
+
+from baseIntialization import UiFields
 from database import saveGoldRate
 
 
@@ -69,9 +70,9 @@ def changeGoldRate(u:UiFields):
         return
     if(len(gold_rate) > 4):
         tens = 10**(len(gold_rate)-4)
-        u.gold_rate = float(gold_rate)/tens
+        u.gold_rate = int(gold_rate)//tens
     else:
-        u.gold_rate = float(gold_rate)
+        u.gold_rate = int(gold_rate)
     saveGoldRate(u)
     for i in range(0,9):
         u.unit_txt[i].config(state='normal')
