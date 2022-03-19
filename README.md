@@ -1,13 +1,51 @@
-- third.py == this is mainly the ui part of the code
-- baseInitialization.py == here all the initializations are done
-- database.py == here all the database operations are done 
-- billgenerator.py == here all the excel styling is done and printing standarda are set
-- findBill.py == here the finding operatiuon of the code works
-- goldrate.py == here changing of goldrate window work is done
-- monhlygst.py == here gst finding widow code is written and we can add date to get the gst data
-- printer.py == here printing operation is operation is done
+# Going to start ?
 
-# Running Program:
+ #### For me
+ 
+- The main is the main branch FOR LAPTOP.
+- main-desktop is the main branch FOR DESKTOP IN SHOP.
+
+### Always do in a vitual env.
+
+## Packages requires:
+
+- ```pip install mysql==0.0.3```
+- ```pip install mysql-connector==2.2.9```
+- ```pip install mysqlclient==2.1.0```
+- ```pip install openpyxl==3.0.7```
+- ```pip install PyAutoGUI==0.9.52```
+- ```pip install PyMsgBox==1.0.9```
+- ```pip install pypiwin32==223```
+- ```pip install subprocess.run==0.0.8```
+- ```pip install tkcalendar==1.6.1```
+- ```pip install win32printing==0.1.3```
+
+- Do the required changes in the ui like width and all in ``` start.py ```.
+
+
+#### For the convertion of .py to exe file we are using auto-py-to-exe also pyinstaller : the command we need to run is :
+
+```
+pyinstaller --noconfirm --onedir --console --add-data "D:/Coding/exeshop/shopbill/FrontEnd/__init__.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/backend.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/baseIntialization.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/billgenerator.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/database.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/findBill.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/findGoldrate.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/goldrate.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/monthlyGST.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/printer.py;." --hidden-import "mysql" --hidden-import "mysql.connector" --hidden-import "win32api" --hidden-import "win32print" --hidden-import "tkinter" --hidden-import "tkcalendar" --hidden-import "datetime" --hidden-import "openpyxl" --hidden-import "sys" --hidden-import "pyautogui" --hidden-import "os" --hidden-import "threading" --hidden-import "tkcalendar.calendar_" --hidden-import "babel" --hidden-import "babel.numbers"  "D:/Coding/exeshop/shopbill/FrontEnd/third.py"
+```
+- this for my laptop.
+
+
+
+# Overview of Files:
+
+- start.py ==              this is mainly the ui part of the code
+- baseInitialization.py == here all the initializations are done
+- database.py ==           here all the database operations are done 
+- billgenerator.py ==      here all the excel styling is done and printing standarda are set
+- findBill.py ==           here the finding operatiuon of the code works
+- goldrate.py ==           here changing of goldrate window work is done
+- monhlygst.py ==          here gst finding widow code is written and we can add date to get the gst data
+- printer.py ==            here printing operation is operation is done
+- findGoldrate.py ==       here we can find the gold rate of any date that we have inserted.
+- printer.py ==            here printing related setup is done.
+
+# Setting up mysql:
 
 - first install mysql using [mysql/installer/8.0.28](https://dev.mysql.com/downloads/installer/).
 
@@ -27,23 +65,19 @@
 
 - in workbench go into root : run the code one by one written in database section bellow.
 
-- then run the setup.exe file that will install all the python requirements
 
-- you need to install the correct version of the python that is : 
+# Other Requirement:
+
+- you need to install the correct version of the python that is : ```Python 3.9.4```
 
 - you need to have excel installed in your system.
 
-
-
-# BaseInitialization:
-
-- mainly all the initializations are written in the baseInitialization.py file and all other files use this.\
-- this helps us to call any funcion by just passing the object of that class
 
 # Databases:
 - There are three tables that is : gst_table, customer, billtable.
 
 # table creation : 
+
 ## Database:
 ```
 CREATE DATABASE shop;
@@ -100,8 +134,4 @@ CREATE TABLE daily_gold_rate(
 	gold_rate DECIMAL(10,2),
 	PRIMARY KEY(id)
 );
-```
-
-```
-pyinstaller --noconfirm --onedir --console --add-data "D:/Coding/exeshop/shopbill/FrontEnd/__init__.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/backend.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/baseIntialization.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/billgenerator.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/database.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/findBill.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/findGoldrate.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/goldrate.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/monthlyGST.py;." --add-data "D:/Coding/exeshop/shopbill/FrontEnd/printer.py;." --hidden-import "mysql" --hidden-import "mysql.connector" --hidden-import "win32api" --hidden-import "win32print" --hidden-import "tkinter" --hidden-import "tkcalendar" --hidden-import "datetime" --hidden-import "openpyxl" --hidden-import "sys" --hidden-import "pyautogui" --hidden-import "os" --hidden-import "threading" --hidden-import "tkcalendar.calendar_" --hidden-import "babel" --hidden-import "babel.numbers"  "D:/Coding/exeshop/shopbill/FrontEnd/third.py"
 ```
