@@ -1,4 +1,3 @@
-from re import U
 import openpyxl
 from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Font, borders,fills
 import datetime
@@ -464,11 +463,19 @@ def generateBill(u : UiFields):
     sh1.page_margins.footer = 0.0
     sh1.page_margins.header = 0.0
 
-    foldername = u.BASEDIR +daten.strftime("%b_%y")
-    if(os.path.isdir(foldername) == False):
-        # os.system()
-        os.system('mkdir '+foldername)
-    u.saveLocation = foldername+'\\'+str(u.bill_txt)+'.xlsx'
+
+    # os.chdir(u.BASEDIR)
+    foldername = daten.strftime("%b_%y")
+    
+    dir = os.path.join(u.BASEDIR,foldername)
+    try:
+        if(os.path.isdir(dir) == False):
+            os.mkdir(dir)
+    except Exception as e:
+        print("There is a error in creating folder : {0}".format(e))
+        
+    u.saveLocation = dir +'\\'+str(u.bill_txt)+'.xlsx'
+    
     saveCustomerData(u,name=u.name_txt.get(),mobile=u.mobile_txt.get(),addhar_number=u.addhar_txt.get(),address=u.address_txt.get())
     
     if(u.mobile_txt.get()!=''):

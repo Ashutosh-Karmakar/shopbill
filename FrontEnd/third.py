@@ -1,7 +1,3 @@
-from cgitb import text
-from multiprocessing.spawn import old_main_modules
-from pydoc import cli
-from statistics import mode
 from tkinter import *
 from  tkinter import ttk
 from tkinter import font
@@ -9,7 +5,6 @@ from tkinter.ttk import *
 from tkinter import messagebox
 import tkinter
 from tkinter import *
-import tempfile
 import os
 import sys
 from turtle import bgcolor

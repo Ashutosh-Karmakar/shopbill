@@ -66,7 +66,7 @@ class UiFields:
     generateBtn:  Button
     findBtn:      Button
     bg_color = "#FFE6BC"
-    gold_rate = 0.0
+    gold_rate = 0
     cnt = 0
     old_tab_name = "old"
     saveLocation = 'test.xlsx'
@@ -107,5 +107,10 @@ class UiFields:
     findgoldBtn : Button
     grFindDate:datetime
     grRateOnDate = 0.0
-    BASEDIR = 'D:Shop\\Shop\\FrontEnd\\'
+    # BASEDIR = 'D:Shop\\Shop\\'
+    BASEDIR = '..'
     charge_amt = 0.0
+    #                0 1 2 3 4 5 6 7 8
+    old_net_total = [0,0,0,0,0,0,0,0,0]
+    old_old_total = [0,0,0]
+    old_add_total = [0,0,0]
