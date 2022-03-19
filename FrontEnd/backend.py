@@ -1,10 +1,7 @@
 from baseIntialization import UiFields
 from database import findBillNumber, findByNumber
 from tkinter import *
-import pyautogui
 import os
-import re
-
 
 
 def focusedTab(focused_tab):
@@ -202,7 +199,8 @@ def calculate(u:UiFields, focused_tab):
         print("There is a error in calculation mc")
         u.entryCount = 6+i*3
         u.wt_txt[i].focus()
-        u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
+        # u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
+        return 1
         print(i)
         # u.total.delete(0,END)
         # u.total.insert(0,0.0)
@@ -440,25 +438,49 @@ def enterOperation(focused_tab, u:UiFields):
             setCustData(u, data)
     
     if (tab_name == 'newTotal' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and  u.net_txt[i].get()!='')):
-            calculate(u, focused_tab)
-            total = float(u.total_before_charge)
-            amt = float(u.net_txt[i].get())
-            u.total_before_charge = amt+total
-            setTotal(u,u.total_before_charge)
+        chec = calculate(u, focused_tab)
+        if(chec == 1):
+            return
+        total = float(u.total_before_charge)
+        amt = float(u.net_txt[i].get())
+        u.total_before_charge = amt+total
+        if(u.old_net_total[i] == amt):
+            u.total_before_charge = total
+            return
+        elif(u.old_net_total[i] != 0):
+            print(u.old_net_total[i])
+            u.total_before_charge = u.total_before_charge - u.old_net_total[i]
+           
+        setTotal(u,u.total_before_charge)
+        u.old_net_total[i] = amt
         
     if (tab_name == 'oldAmt' and u.oldtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
         total = u.total_before_charge
         amt = findAmt(u.oldtotal_txt[i])
-        # if(amt < total):
         u.total_before_charge = total-amt
+        if(u.old_old_total[i] == amt):
+            u.total_before_charge = total
+            return
+        elif(u.old_old_total[i] != 0):
+            print(u.old_old_total[i])
+            u.total_before_charge = u.total_before_charge + u.old_old_total[i]
+        
         setTotal(u,u.total_before_charge)
+        u.old_old_total[i] = amt
             
     if (tab_name == 'addAmt' and u.addtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
         total = u.total_before_charge
         amt = findAmt(u.addtotal_txt[i])
         # if(amt < total):
         u.total_before_charge = total+amt
+        if(u.old_add_total[i] == amt):
+            u.total_before_charge = total
+            return
+        elif(u.old_add_total[i] != 0):
+            print(u.old_add_total[i])
+            u.total_before_charge = u.total_before_charge - u.old_add_total[i]
         setTotal(u,u.total_before_charge)
+        u.old_add_total[i] = amt
             
             
             
@@ -555,7 +577,8 @@ def newBill(u:UiFields):
     # u.date_label.grid(row=1,column=30)
 
 
-
+    u.total_before_charge = 0.0
+    u.old_net_total = [0,0,0,0,0,0,0,0,0]
     # ========================================new Gold==============================================
 
     for i in range(0,9):

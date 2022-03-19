@@ -13,7 +13,9 @@ try:
         host = 'localhost',
         user = 'root',
         passwd = '1234',
-        database = 'Shop2'
+        database = 'Shop2',
+        auth_plugin='mysql_native_password'
+
     )
     cursor = mysqlDB.cursor()
 except Exception as e:
@@ -21,6 +23,7 @@ except Exception as e:
     sys.exit()
 
 def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
+    print("Inside svave cust data")
     data = []
     if(mobile!=''):
         try:
@@ -35,21 +38,25 @@ def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
         
         if(name!='' and mobile!=''):
             try:
-                if(addhar_number!='' and address!=''):
-                    comd = ("INSERT INTO customer(cust_name, phone_no, address, addhar_number) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "'," +addhar_number+ ");")
-                    print(comd)
-                    cursor.execute(comd)
-                    mysqlDB.commit()
-                elif(addhar_number!=''):
-                    comd = ("INSERT INTO customer(cust_name, phone_no, addhar_number) VALUES("+"'" +name+ "'," +mobile+ "," +addhar_number+ ");")
-                    print(comd)
-                    cursor.execute(comd)
-                    mysqlDB.commit()
-                else:
-                    comd = ("INSERT INTO customer(cust_name, phone_no, address) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "');")
-                    print(comd)
-                    cursor.execute(comd)
-                    mysqlDB.commit()
+                if(addhar_number == ''):
+                    addhar_number = 1234
+                if(address == ''):
+                    address = 'BBSR'
+                # if(addhar_number!='' and address!=''):
+                comd = ("INSERT INTO customer(cust_name, phone_no, address, addhar_number) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "'," +str(addhar_number)+ ");")
+                print(comd)
+                cursor.execute(comd)
+                mysqlDB.commit()
+                # elif(addhar_number!=''):
+                #     comd = ("INSERT INTO customer(cust_name, phone_no, addhar_number) VALUES("+"'" +name+ "'," +mobile+ "," +addhar_number+ ");")
+                #     print(comd)
+                #     cursor.execute(comd)
+                #     mysqlDB.commit()
+                # else:
+                #     comd = ("INSERT INTO customer(cust_name, phone_no, address) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "');")
+                #     print(comd)
+                #     cursor.execute(comd)
+                #     mysqlDB.commit()
             except Exception as e:
                 print("There was a exception while entering into database CUSTOMER : {0}".format(e))
 #important       
@@ -173,7 +180,7 @@ def findGoldRate(u:UiFields):
         if(result == None):
             u.gold_rate = 4876
         else:
-            u.gold_rate = float(result[0])
+            u.gold_rate = int(result[0])
     except Exception as e:
         messagebox.showerror("Error","Error in save GST Data : {0}".format(e))
         print("Error in finding gold rate")
