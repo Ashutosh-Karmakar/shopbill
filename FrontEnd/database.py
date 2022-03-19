@@ -1,12 +1,9 @@
-from pickletools import uint1
-from shutil import ExecError
-from sqlite3 import Cursor
-from tempfile import TemporaryFile
+from tkinter import messagebox
 import mysql.connector
 import sys
 import openpyxl
 from baseIntialization import UiFields
-from tkinter import messagebox
+
 
 try:
     mysqlDB = mysql.connector.connect(

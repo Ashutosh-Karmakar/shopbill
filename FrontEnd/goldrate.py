@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import simpledialog
 from tkinter import *
-from baseIntialization import UiFields
 from tkinter import messagebox
+
+from baseIntialization import UiFields
 from database import saveGoldRate
 
 

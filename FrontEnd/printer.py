@@ -4,8 +4,7 @@ import win32api
 import win32print
 from tkinter import *
 import tkinter
-from tkinter import ttk
-
+import time
 
 def selectPrinter():
     index = 0
@@ -29,20 +28,23 @@ def selectPrinter():
     print("Setting Printer: " + win32print.GetDefaultPrinter())
     return  win32print.GetDefaultPrinter()
 
-def printBill():
+def printBill(filename):
     printerName = selectPrinter()
     print("Hello")
     # filenames = os.listdir(dirname)
     # select = input("Are you sure that you want to print the whole Excel file ?(y or n): ")
     # if select == 'y' or select == 'Y':        
     # for filename in filenames:
-    full_filename = 'test.xlsx'#os.path.join(dirname, filename)
+    os.system("start EXCEL.EXE")# test.xlsx")
+    time.sleep(1)
+    # filename = 'test.xlsx'
+    # filename = 'test.xlsx'#os.path.join(dirname, filename)
+    
     # ext = os.path.splitext(full_filename)[-1]        
     # if ext == '.xlsm' or ext == '.xlsx':
     # print('"' + filename + '"' + " printin!")
-    win32api.ShellExecute(0, 'printto', full_filename, '"' + printerName + '"', None,  0)
-    
-                        
+    win32api.ShellExecute(0, 'printto', filename, '"' + printerName + '"', None,  0)
+                         
 # if __name__ == "__main__":    
 #     printerName = selectPrinter()
 #     os.system('cls')

@@ -1,9 +1,7 @@
 from datetime import datetime
 from tkinter import *
-from baseIntialization import UiFields
 from tkcalendar import Calendar
-import tkinter
-import sys
+from baseIntialization import UiFields
 from database import findGRDate
 
 def findGoldRateOnDate(u:UiFields):
