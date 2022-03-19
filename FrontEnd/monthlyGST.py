@@ -1,6 +1,6 @@
+import sys
 import tkinter
 from tkinter import *
-import sys
 from database import findGst
 from baseIntialization import UiFields
 u = UiFields()

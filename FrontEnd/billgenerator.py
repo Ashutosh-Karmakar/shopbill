@@ -1,16 +1,15 @@
+import os
+from tkinter import messagebox
+from threading import Thread
 import openpyxl
 from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Font, borders,fills
 import datetime
-from database import saveBillLocation, saveCustomerData, saveGstData
-from baseIntialization import UiFields
-import os
-from backend import convert#, printBill
 import time
 import subprocess
+from database import saveBillLocation, saveCustomerData, saveGstData
+from baseIntialization import UiFields
+from backend import convert#, printBill
 from printer import printBill, printDialog
-from threading import Thread
-# from database import findBASEDIR
-from tkinter import messagebox
 
 
 def generateBill(u : UiFields):
@@ -490,10 +489,14 @@ def generateBill(u : UiFields):
     
     # u.BASEDIR = findBASEDIR()
     # wb.save(filename=u.BASEDIR+'\test.xlsx')    
-    # thread = Thread(target = printBill)
-    # thread.start()
+    thread = Thread(target = printBill,args=(u.saveLocation,))
+    thread.start()
     # thread2 = Thread(target = printDialog)
     # thread2.start()
     # thread.join()
-    # subprocess.call(["taskkill","/F","/IM","excel.exe"])
+    print("done printing")
+    # thread2.join()
+    # main_thread().sleep(100)
+    time.sleep(4)
+    subprocess.call(["taskkill","/F","/IM","excel.exe"])
 

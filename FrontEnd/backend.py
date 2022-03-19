@@ -1,8 +1,94 @@
+import os
+from tkinter import *
 from baseIntialization import UiFields
 from database import findBillNumber, findByNumber
-from tkinter import *
-import os
 
+
+def clicked_tab(focused_top):
+    if focused_top == '.!entry':
+        return 0 
+    if focused_top == '.!entry2':
+        return 1 
+    if focused_top == '.!entry3':
+        return 2 
+    if focused_top == '.!entry4':
+        return 3 
+    if focused_top == '.!labelframe.!entry':
+        return 4 
+    if focused_top == '.!labelframe.!entry2':
+        return 5 
+    if focused_top == '.!labelframe.!entry3':
+        return 6 
+    if focused_top == '.!labelframe.!entry9':
+        return 7 
+    if focused_top == '.!labelframe.!entry10':
+        return 8 
+    if focused_top == '.!labelframe.!entry11':
+        return 9 
+    if focused_top == '.!labelframe.!entry17':
+        return 10 
+    if focused_top == '.!labelframe.!entry18':
+        return 11
+    if focused_top == '.!labelframe.!entry19':
+        return 12 
+    if focused_top == '.!labelframe.!entry25':
+        return 13 
+    if focused_top == '.!labelframe.!entry26':
+        return 14 
+    if focused_top == '.!labelframe.!entry27':
+        return 15 
+    if focused_top == '.!labelframe.!entry33':
+        return 16
+    if focused_top == '.!labelframe.!entry34':
+        return 17 
+    if focused_top == '.!labelframe.!entry35':
+        return 18
+    if focused_top == '.!labelframe.!entry41':
+        return 19
+    if focused_top == '.!labelframe.!entry42':
+        return 20
+    if focused_top == '.!labelframe.!entry43':
+        return 21
+    if focused_top == '.!labelframe.!entry49':
+        return 22
+    if focused_top == '.!labelframe.!entry50':
+        return 23
+    if focused_top == '.!labelframe.!entry51':
+        return 24
+    if focused_top == '.!labelframe.!entry57':
+        return 25
+    if focused_top == '.!labelframe.!entry58':
+        return 26 
+    if focused_top == '.!labelframe.!entry59':
+        return 27 
+    if focused_top == '.!labelframe.!entry65':
+        return 28 
+    if focused_top == '.!labelframe.!entry66':
+        return 29 
+    if focused_top == '.!labelframe.!entry67':
+        return 30 
+    if focused_top == '.!labelframe2.!entry2':
+        return 31 
+    if focused_top == '.!labelframe2.!entry4':
+        return 32
+    if focused_top == '.!labelframe2.!entry6':
+        return 33
+    if focused_top == '.!labelframe2.!entry8':
+        return 34
+    if focused_top == '.!labelframe2.!entry10':
+        return 35
+    if focused_top == '.!labelframe2.!entry12':
+        return 36
+    if focused_top == '.!labelframe3.!entry2':
+        return 37
+    if focused_top == '.!labelframe3.!entry4':
+        return 38
+    if focused_top == '.!labelframe3.!entry6':
+        return 39
+    if focused_top == '.!labelframe4.!entry':
+        return 40
+    if focused_top == '.!labelframe4.!entry2':
+        return 41
 
 def focusedTab(focused_tab):
     if(focused_tab == '.!entry4'):
