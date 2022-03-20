@@ -30,6 +30,12 @@ pyinstaller --noconfirm --onedir --console --add-data "D:/Coding/exeshop/shopbil
 ```
 - this for my laptop.
 
+```
+pyinstaller --noconfirm --onedir --console --add-data "E:/other/shopDir/shopbill/FrontEnd/__init__.py;." --add-data "E:/other/shopDir/shopbill/FrontEnd/backend.py;." --add-data "E:/other/shopDir/shopbill/FrontEnd/baseIntialization.py;." --add-data "E:/other/shopDir/shopbill/FrontEnd/billgenerator.py;." --add-data "E:/other/shopDir/shopbill/FrontEnd/database.py;." --add-data "E:/other/shopDir/shopbill/FrontEnd/findBill.py;." --add-data "E:/other/shopDir/shopbill/FrontEnd/findGoldrate.py;." --add-data "E:/other/shopDir/shopbill/FrontEnd/goldrate.py;." --add-data "E:/other/shopDir/shopbill/FrontEnd/hallmark.png;." --add-data "E:/other/shopDir/shopbill/FrontEnd/monthlyGST.py;." --add-data "E:/other/shopDir/shopbill/FrontEnd/printer.py;." --add-data "E:/other/shopDir/shopbill/FrontEnd/shopLogo.png;." --hidden-import "mysql" --hidden-import "mysql.connector" --hidden-import "win32api" --hidden-import "win32print" --hidden-import "tkinter" --hidden-import "tkcalendar" --hidden-import "datetime" --hidden-import "openpyxl" --hidden-import "sys" --hidden-import "pyautogui" --hidden-import "os" --hidden-import "threading" --hidden-import "Pillow" --hidden-import "babel" --hidden-import "babel.numbers" --hidden-import "tkcalendar.calendar_" --hidden-import "tkinter.messagebox" --hidden-import "tkinter.simpledialog"  "E:/other/shopDir/shopbill/FrontEnd/start.py"
+```
+
+- this for shop desktop
+
 
 
 # Overview of Files:
