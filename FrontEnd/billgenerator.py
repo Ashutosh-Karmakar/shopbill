@@ -490,9 +490,7 @@ def generateBill(u : UiFields):
     sh1.page_margins.bottom=0.0
     sh1.page_margins.footer = 0.0
     sh1.page_margins.header = 0.0
-    wb.save(filename='test.xlsx')
 
-    '''
 
     # os.chdir(u.BASEDIR)
     foldername = daten.strftime("%b_%y")
@@ -528,5 +526,4 @@ def generateBill(u : UiFields):
     # main_thread().sleep(100)
     time.sleep(4)
     subprocess.call(["taskkill","/F","/IM","excel.exe"])
-
-'''
+    

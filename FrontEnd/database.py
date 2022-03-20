@@ -154,7 +154,7 @@ def findGst(u:UiFields):
             
         
     except Exception as e:
-        messagebox.showerror("Error","Error in save GST Data : {0}".format(e))
+        messagebox.showerror("Error","Error in finding GST Data : {0}".format(e))
         print("There is an error in finding gst data")
         
         
