@@ -245,6 +245,7 @@ def calculate(u:UiFields, focused_tab):
     gr = u.gold_rate
     
     cost = (amt)*(100/103)
+    u.total_taxable_amt.append(cost)    
     if(cost < amt):
         cgst = amt - cost
     else:
@@ -671,6 +672,7 @@ def newBill(u:UiFields):
 
     u.total_before_charge = 0.0
     u.old_net_total = [0,0,0,0,0,0,0,0,0]
+    u.total_taxable_amt = []
     # ========================================new Gold==============================================
 
     for i in range(0,9):

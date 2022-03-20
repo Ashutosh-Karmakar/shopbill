@@ -114,3 +114,4 @@ class UiFields:
     old_net_total = [0,0,0,0,0,0,0,0,0]
     old_old_total = [0,0,0]
     old_add_total = [0,0,0]
+    total_taxable_amt = []

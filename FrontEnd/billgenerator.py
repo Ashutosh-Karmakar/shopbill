@@ -2,6 +2,7 @@ import os
 from tkinter import messagebox
 from threading import Thread
 import openpyxl
+# from openpyxl.drawing.image import Image  
 from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Font, borders,fills
 import datetime
 import time
@@ -30,12 +31,24 @@ def generateBill(u : UiFields):
     sh1['G4'] = "Invoice"
     sh1['G4'].font = Font(name='times new rommon',size=14,bold=True,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
 
+    hallmark_logo = openpyxl.drawing.image.Image(r"hallmark.png")      
+    hallmark_logo.height = 90  
+    hallmark_logo.width = 100
+    sh1.add_image(hallmark_logo, "M1")
+
+
+
+    shop_logo = openpyxl.drawing.image.Image(r"shopLogo.png")      
+    shop_logo.height = 90  
+    shop_logo.width = 95
+    sh1.add_image(shop_logo, "A1")
+
 # ======================================================customer details==================================================
     
     sh1['A5'] = 'GSTIN - 21AYRPK4931F1ZH'
     sh1['A5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
 
-    sh1['H5'] = "SI. No.: "
+    sh1['H5'] = "Bill. No.: "
     sh1['H5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.green)
     sh1['I5'] = u.bill_txt
     sh1['I5'].font = Font(name='times new rommon',size=13,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
@@ -58,14 +71,14 @@ def generateBill(u : UiFields):
     sh1['J6'] = u.addhar_txt.get()
     sh1['J6'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
 
-    sh1['M6'] = 'Bill No.'
-    sh1['M6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.green)
-    sh1['N6'] = u.bill_txt
-    sh1['N6'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
+    # sh1['M6'] = 'GoldRate.'
+    # sh1['M6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.green)
+    # sh1['N6'] = u.gold_rate
+    # sh1['N6'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
 
     sh1['F7'] = "Gold Rate: "
     sh1['F7'].font = Font(name='times new rommon',size=15,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.green)
-    sh1['H7'] = "45000"
+    sh1['H7'] = u.gold_rate*10
     sh1['H7'].font = Font(name='arial',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
     
     
@@ -135,10 +148,13 @@ def generateBill(u : UiFields):
             sh1['M'+str(i+9)] = u.net_txt[i-1].get()
             sh1['M'+str(i+9)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
             if(u.wt_txt[i-1].get()!='' and u.net_txt[i-1].get()!=''):
-                saveGstData(float(u.wt_txt[i-1].get()),u.des_txt[i-1].get(),4500,10000,float(u.cgst_txt[i-1].get()),float(u.sgst_txt[i-1].get()),float(u.net_txt[i-1].get()))
+                saveGstData(float(u.wt_txt[i-1].get()),u.des_txt[i-1].get(),u.gold_rate,u.total_taxable_amt[i-1],float(u.cgst_txt[i-1].get()),float(u.sgst_txt[i-1].get()),float(u.net_txt[i-1].get()))
 
 # ===========================================================old gold============================================================
+        sh1['A19'] = 'Si.no.'
+        sh1['A19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
+        
         sh1['D19'] = "Old Jewellery"
         sh1['D19'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
@@ -168,6 +184,9 @@ def generateBill(u : UiFields):
                 sh1['M2'+str(i-1)].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
                 
 #====================================================ADDITION OR DEDUCTION================================================================================================================
+        sh1['A24'] = 'Si.no.'
+        sh1['A24'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
+        
         sh1['C24'] = "Other Addition Or Deduction"
         sh1['C24'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
         
@@ -204,10 +223,11 @@ def generateBill(u : UiFields):
         sh1['A29'] = "Total in Words"
         sh1['A29'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
         try:
-            # sh1['C29'] = convert(int(u.total.get()))
+            tot = int(float(u.total.get()))
+            sh1['C29'] = convert(tot)
             sh1['C29'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
-        except Exception:
-            print("There is a error in convert")
+        except Exception as e:
+            print("There is a error in convert : {0}".format(e))
 
         sh1['J29'] = "Total Paid : "
         sh1['J29'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
@@ -226,8 +246,16 @@ def generateBill(u : UiFields):
         sh1['A33'] = " 3. We are not responsible for any damage or brakage after delivery"
         sh1['A33'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
 
-        # sh1['A34'] = " 4. We can repair the ornaments if possible"
-        # sh1['A34'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=blue)
+        sh1['A34'] = " 4. Any type of repairing of our ornament is FREE"
+        sh1['A34'].font = Font(name='Times new romman',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.blue)
+
+
+        sh1['L33'] = "Signature"
+        sh1['L33'].font = Font(name='Times new romman',size=14,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
+
+
+
+
 
     thin = Side(border_style='thin',color='FF000000')
     medium = Side(border_style='medium',color='FF000000')
@@ -436,14 +464,14 @@ def generateBill(u : UiFields):
     for i in range(30,34):
         sh1.cell(row = i,column=14).border=Border(right=medium)
     
-    sh1.cell(row = 33,column=14).border=Border(right=medium,bottom=medium)
+    sh1.cell(row = 34,column=14).border=Border(right=medium,bottom=medium)
 
-    for i in range(31,34):
+    for i in range(31,35):
         sh1.cell(row = i,column=1).border=Border(left=medium)
         sh1.cell(row = i,column=10).border=Border(left=thin)
 
     for i in range(1,14):
-        sh1.cell(row = 34,column=i).border=Border(top=medium)
+        sh1.cell(row = 35,column=i).border=Border(top=medium)
     
 # ====================================================Border Over=================================================            
 
@@ -454,10 +482,11 @@ def generateBill(u : UiFields):
     # sh1.page_setup.fitToWidth = 1
     # sh1.page_setup.fitToHeight = 0
     sh1.page_setup.fitToPage = True
+
     # sh1.set_print_scale(90)
     sh1.page_margins.top=0.0
     sh1.page_margins.right=0.0
-    sh1.page_margins.left=0.5
+    sh1.page_margins.left=0.75
     sh1.page_margins.bottom=0.0
     sh1.page_margins.footer = 0.0
     sh1.page_margins.header = 0.0
@@ -498,4 +527,4 @@ def generateBill(u : UiFields):
     # main_thread().sleep(100)
     time.sleep(4)
     subprocess.call(["taskkill","/F","/IM","excel.exe"])
-
+    
