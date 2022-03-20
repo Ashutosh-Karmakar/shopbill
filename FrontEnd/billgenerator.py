@@ -492,6 +492,7 @@ def generateBill(u : UiFields):
     sh1.page_margins.header = 0.0
 
 
+
     # os.chdir(u.BASEDIR)
     foldername = daten.strftime("%b_%y")
     
@@ -513,7 +514,7 @@ def generateBill(u : UiFields):
             wb.save(filename=u.saveLocation)
         except Exception as e:
             messagebox.showerror("Error","Error in saving the Bill : {0}".format(e))
-    
+
     # u.BASEDIR = findBASEDIR()
     # wb.save(filename=u.BASEDIR+'\test.xlsx')    
     thread = Thread(target = printBill,args=(u.saveLocation,))

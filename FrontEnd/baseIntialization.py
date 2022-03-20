@@ -65,15 +65,15 @@ class UiFields:
     printBtn:     Button
     generateBtn:  Button
     findBtn:      Button
-    bg_color = "#FFE6BC"
-    gold_rate = 0
+    bg_color = "#CEAB93"
+    gold_rate = 0.0
     cnt = 0
     old_tab_name = "old"
     saveLocation = 'test.xlsx'
     entry_correct_color = "#00C897"
     entry_wrong_color = "#FF1818"
     border_size = 2
-    background_color = '#FFE6BC'
+    background_color = bg_color# '#FFE6AB'
     green = '064635'
     red = 'C85C5C'
     blue = '041C32'
@@ -107,7 +107,7 @@ class UiFields:
     findgoldBtn : Button
     grFindDate:datetime
     grRateOnDate = 0.0
-    # BASEDIR = 'D:Shop\\Shop\\'
+    # BASEDIR = 'E:ALLBILLS\\'
     BASEDIR = '..'
     charge_amt = 0.0
     #                0 1 2 3 4 5 6 7 8
