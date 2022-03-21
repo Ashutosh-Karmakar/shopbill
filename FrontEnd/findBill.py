@@ -3,10 +3,8 @@ from tkinter import *
 import tkinter
 from baseIntialization import UiFields
 
-
-
 y = UiFields()
-#not completed yet
+#not completed yetp
 
 def find():
     window1 = tkinter.Tk()
