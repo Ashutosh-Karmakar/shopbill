@@ -524,6 +524,6 @@ def generateBill(u : UiFields):
     print("done printing")
     # thread2.join()
     # main_thread().sleep(100)
-    time.sleep(4)
-    subprocess.call(["taskkill","/F","/IM","excel.exe"])
+    # time.sleep(4)
+    # subprocess.call(["taskkill","/F","/IM","excel.exe"])
     

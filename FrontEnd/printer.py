@@ -6,6 +6,9 @@ from tkinter import *
 import tkinter
 import time
 
+import xlwings as xw
+import xlwings.constants
+
 def selectPrinter():
     index = 0
     Printers = win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL, None, 2)
@@ -29,21 +32,35 @@ def selectPrinter():
     return  win32print.GetDefaultPrinter()
 
 def printBill(filename):
-    printerName = selectPrinter()
-    print("Hello")
+    # pp = os.getcwd()
+    # pathh = os.path.join(pp,'test.xlsx')
+
+
+
+    wb=xw.Book(filename)
+    sh2=wb.sheets
+    sh2.api.PrintOut(From=1, To=1, Copies=1)
+    
+    # printerName = selectPrinter()
+    
+    
+    # print("Hello")
     # filenames = os.listdir(dirname)
     # select = input("Are you sure that you want to print the whole Excel file ?(y or n): ")
     # if select == 'y' or select == 'Y':        
     # for filename in filenames:
-    os.system("start EXCEL.EXE")# test.xlsx")
-    time.sleep(1)
+    
+    # os.system("start EXCEL.EXE test.xlsx")
+    # time.sleep(10)
+    
     # filename = 'test.xlsx'
     # filename = 'test.xlsx'#os.path.join(dirname, filename)
-    
     # ext = os.path.splitext(full_filename)[-1]        
     # if ext == '.xlsm' or ext == '.xlsx':
     # print('"' + filename + '"' + " printin!")
-    win32api.ShellExecute(0, 'printto', filename, '"' + printerName + '"', None,  0)
+    
+    # win32api.ShellExecute(0, 'printto', filename, '"' + printerName + '"', None,  0)
+    
                          
 # if __name__ == "__main__":    
 #     printerName = selectPrinter()
