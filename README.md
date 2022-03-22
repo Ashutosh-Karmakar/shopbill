@@ -2,8 +2,8 @@
 
  #### For me
  
-- The main is the main branch FOR LAPTOP.
-- main-desktop is the main branch FOR DESKTOP IN SHOP.
+- The main is the main branch FOR LAPTOP.``` (Screen resolution : 1920 × 1080) ```
+- main-desktop is the main branch FOR DESKTOP IN SHOP.``` (Screen resolution : 1280 × 720) ```
 
 ### Always do in a vitual env.
 
