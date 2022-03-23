@@ -305,7 +305,7 @@ def set_total_after_charges(u:UiFields):
         cha = float(u.charge_amt)
         tot = round(tot - tot*(cha/100),2)
         u.total.delete(0,END)
-        u.total.insert(0,u.total_before_charge)
+        u.total.insert(0,round(u.total_before_charge,2))
         u.charge_amt = 0.0
     
 
@@ -317,9 +317,11 @@ def setTotal(u:UiFields,amt):
     if(u.charge.get()!=''):
         amt = round(amt + (amt*(float(u.charge_amt)/100)),2)
     u.total.delete(0,END)
-    u.total.insert(0,(amt))
+    u.total.insert(0,round(amt,2))
     
     
+#here all the relevant checkings are done to check the entries are filled correctly or not 
+#if not then they are lighted with red color and entry doesnot move    
 def checkField(focused_tab,u:UiFields):
     tab_name = focusedTab(focused_tab)
     i = tabNumber(focused_tab)
