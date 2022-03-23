@@ -1,3 +1,4 @@
+#desktop Bill
 import tkinter as tk
 from tkinter import simpledialog
 from tkinter import *
@@ -87,12 +88,12 @@ def changeGoldRate(u:UiFields):
         u.oldunit_txt[i].delete(0,END)
         u.oldunit_txt[i].insert(0,u.old_gold_rate)
         u.oldunit_txt[i].config(state=DISABLED)
-        
-    for i in range(0,10):
-        if(u.des_txt[i].get()=='' or u.wt_txt[i].get()=='' or u.net_txt[i].get()==''):
+    l = 0
+    for l in range(0,10):
+        if(u.des_txt[l].get()=='' or u.wt_txt[l].get()=='' or u.net_txt[l].get()==''):
+            u.des_txt[l].focus()
             break
-        calc(u,i)
-        
-
-    
+        calc(u,l)
+    if l == 10:
+        u.oldwe_txt[0].focus()
         

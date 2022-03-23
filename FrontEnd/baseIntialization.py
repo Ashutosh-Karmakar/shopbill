@@ -1,3 +1,4 @@
+#desktop Bill
 from datetime import datetime
 from tkinter import *
 
@@ -73,7 +74,7 @@ class UiFields:
     entry_correct_color = "#00C897"
     entry_wrong_color = "#FF1818"
     border_size = 2
-    background_color = '#FFE6BC'
+    background_color = bg_color#'#FFE6BC'
     green = '064635'
     red = 'C85C5C'
     blue = '041C32'
@@ -97,17 +98,17 @@ class UiFields:
 
     gstDateFrom_label:Label
     gstDateTo_label : Label
-    gstDateFrom:Entry    
-    gstDateTo : Entry
+    gstDateFrom: Label
+    gstDateTo : Label
     gstBtn:Button
     gstFind:Button
 
     clicked = ""
     total_before_charge = 0.0
     findgoldBtn : Button
-    grFindDate:datetime
+    grFindDate:   datetime
     grRateOnDate = 0.0
-    # BASEDIR = 'D:Shop\\Shop\\'
+    # BASEDIR = shop
     BASEDIR = '..'
     charge_amt = 0.0
     #                0 1 2 3 4 5 6 7 8
@@ -115,3 +116,6 @@ class UiFields:
     old_old_total = [0,0,0]
     old_add_total = [0,0,0]
     total_taxable_amt = []
+    
+    cal1 = datetime.now()
+    cal2 = datetime.now()

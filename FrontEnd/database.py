@@ -1,7 +1,8 @@
+#desktop Bill
 from tkinter import messagebox
 import mysql.connector
 import sys
-import openpyxl
+from gstexel import create,insertTotal
 from baseIntialization import UiFields
 
 
@@ -89,13 +90,9 @@ def findBillNumber():
         print(comd)
         cursor.execute(comd)
         # cursor.fetchall()
-        result = cursor.fetchone()
-        print(result)
-        
-        
+        result = cursor.fetchone() 
         if(result == None):
             return 1
-        
         return result[0]+1
     except Exception:
         print("there is a error in findbillnumber : {0}".format())
@@ -104,7 +101,9 @@ def findBillNumber():
 def saveBillLocation(u:UiFields):
     if(u.mobile_txt.get()!=''):
         try:
-            cursor.execute('select id from customer where phone_no = ' +str(u.mobile_txt.get())+ ';')
+            comd = ('select id from customer where phone_no = ' +str(u.mobile_txt.get())+ ';')
+            print(comd)
+            cursor.execute(comd)
             check = cursor.fetchone()
             if(check != None):
                 u.customer_id = check[0]
@@ -126,33 +125,22 @@ def saveBillLocation(u:UiFields):
 #important        
 def findGst(u:UiFields):
     try:
-        comd = "Select * from gst_table;"
+        # gstDateFrom
+        # gstDateTo
+        comd = "Select * from gst_table where added_date between '" +str(u.cal1)+ "' and '" +str(u.cal2)+"';"
         print(comd)
         cursor.execute(comd)
         # for gst in cursor.fetchall():
         #     print(gst)
-        wb = openpyxl.Workbook()
-        sh1 = wb.active
-        sh1.title = 'gst'
-        
-        i = 0
-        j = 1
-        for gst in cursor.fetchall():
-            for c in gst:
-                location = chr(65+i)+''+str(j)
-                if(i == 1):
-                    sh1[location] = str(c)[0:10]
-                # print(location)
-                else:
-                    sh1[location] = c
-                i+=1
-            j+=1
-            i = 0
-            
-        wb.save(filename='gst.xlsx')
-        
-            
-        
+        result = cursor.fetchall()
+        create(result)
+        if len(result):
+            comd = "Select sum(total_val), sum(cgst),sum(sgst), sum(net_total) from gst_table where added_date between '" +str(u.cal1)+ "' and '" +str(u.cal2)+"';"
+            print(comd)
+            cursor.execute(comd)
+            res = cursor.fetchall()
+            if(len(res)):
+                insertTotal(res)
     except Exception as e:
         messagebox.showerror("Error","Error in finding GST Data : {0}".format(e))
         print("There is an error in finding gst data")
@@ -170,7 +158,7 @@ def saveGoldRate(u:UiFields):
 #important
 def findGoldRate(u:UiFields):
     try:
-        comd = ("SELECT gold_rate from daily_gold_rate order by id desc limit 1")
+        comd = ("SELECT gold_rate from daily_gold_rate order by id desc limit 1;")
         print(comd)
         cursor.execute(comd)
         result = cursor.fetchone()
@@ -185,26 +173,16 @@ def findGoldRate(u:UiFields):
 
 def findGRDate(u:UiFields):
     try:
-        comd = ("SELECT gold_rate from daily_gold_rate WHERE added_date = '" +u.grFindDate+ "';")
+        comd = ("SELECT gold_rate from daily_gold_rate WHERE added_date = '" +str(u.grFindDate)+ "' ORDER BY id desc LIMIT 1;")
         print(comd)
         cursor.execute(comd)
-        result = cursor.fetchone()
-        if(result == None):
-            pass
+        result = cursor.fetchall()
+        if(len(result)==0):
+            u.grRateOnDate = 0.0
         else:
-            u.grRateOnDate = result[0]
+            u.grRateOnDate = result[0][0]
     except Exception as e:
         print("There is a error in finding gold rate by date: {0}".format(e))
         
-# def findBASEDIR(u:UiFields):
-#     try:
-#         comd = ('SELECT valuee FROM config WHERE keyy = "BASEDIR";')
-#         cursor.execute(comd)
-#         result = cursor.fetchone()
-#         if result == None:
-#             return "."
-#         return result[0]
-#     except Exception:
-#         print("Error in finding base dir")
     
         

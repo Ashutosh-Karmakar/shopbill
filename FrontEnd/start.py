@@ -1,3 +1,4 @@
+#desktop Bill
 from tkinter import *
 from tkinter.ttk import *
 import tkinter
@@ -9,9 +10,9 @@ import datetime
 import pyautogui
 
 from baseIntialization import UiFields
-from backend import enterOperation, newBill, printBill, set_total_after_charges, clicked_tab
+from backend import enterOperation, newBill, set_total_after_charges, clicked_tab
 from goldrate import changeGoldRate
-from monthlyGST import monthlyGst
+# from monthlyGST import monthlyGst
 from findGoldrate import findGoldRateOnDate
 from billgenerator import generateBill
 from database import findBillNumber, findGoldRate
@@ -19,7 +20,7 @@ from database import findBillNumber, findGoldRate
 
 
 u = UiFields()
-u.gold_rate = 4876
+
 window = tkinter.Tk()
 window.attributes('-fullscreen', True)
 window.configure(bg=u.background_color)
@@ -71,8 +72,8 @@ window.bind('<Button-1>', position)
 daten = datetime.datetime.now()
 
 # ==================================customer detail==================================
-labelfont = 11
-textfont = 11
+labelfont = 10
+textfont = 10
 
 u.mobile=Label(window, text='Mobile No.:', font=('times new rommon',labelfont),bg=u.bg_color)
 u.mobile.grid(row=1,column=0,padx=10)
@@ -102,7 +103,7 @@ u.entry_list.append(u.addhar_txt)
 u.bill_txt = findBillNumber()
 u.bill=Label(window, text='Bill No.:', font=('times new rommon',labelfont),bg=u.bg_color)
 u.bill.grid(row=1,column=20)
-u.bill_txt_entry=Entry(window,width=25,font='arial '+str(textfont),bd=2,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
+u.bill_txt_entry=Entry(window,width=10,font='arial '+str(textfont),bd=2,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
 u.bill_txt_entry.grid(row=1,column=21)
 u.bill_txt_entry.insert(0,u.bill_txt)
 u.bill_txt_entry.config(state=DISABLED)
@@ -114,8 +115,8 @@ u.date_label.grid(row=1,column=30)
 
 # ========================================new Gold==============================================
 
-F2 = LabelFrame(window,bg= "#FFE6BC")
-F2.place(x=5, y=80,width=1900,height=390)
+F2 = LabelFrame(window,bg= u.bg_color)
+F2.place(x=5, y=55,width=1850,height=360)
 
 u.siLabel = Label(F2,text="Sino.",font=('times new rommon',10),bg=u.bg_color)
 u.siLabel.grid(column=0,row=0)
@@ -196,8 +197,8 @@ for i in range(1,10):
 
 # ==================================old gold=====================================================
 
-F3 = LabelFrame(window,bg= "#FFE6BC")
-F3.place(x=5,y=480,width=13055,height=140)
+F3 = LabelFrame(window,bg= u.bg_color)
+F3.place(x=5,y=415,width=13055,height=117)
 
 u.oldSi = Label(F3,text="Si.",font=('times new rommon',10),bg=u.bg_color)
 u.oldSi.grid(column=0,row=0)
@@ -244,8 +245,8 @@ for i in range(1,4):
 
 #===========================================addition or deduction===============================
 
-F4 = LabelFrame(window,bg= "#FFE6BC")
-F4.place(x=5,y=620,width=13055,height=140)
+F4 = LabelFrame(window,bg= u.bg_color)
+F4.place(x=5,y=530,width=13055,height=120)
 
 u.addSi = Label(F4,text="Si.",font=('times new rommon',10),bg=u.bg_color)
 u.addSi.grid(column=0,row=0)
@@ -273,8 +274,8 @@ for i in range(1,4):
     u.addtotal_txt.append(txt16)
 
 #=================================mode of payment and total==============================
-F5 = LabelFrame(window,bg= "#FFE6BC")
-F5.place(x=0,y=750,width=1500,height=100)
+F5 = LabelFrame(window,bg= u.bg_color)
+F5.place(x=0,y=650,width=1500,height=50)
 
 # u.mode_l = Label(F5,text="Mode Of Payment",font=('times new rommon',12),bg=u.bg_color)
 
@@ -342,7 +343,7 @@ def findBill():
     
 
 F6 = LabelFrame(window,bg= "#519259")
-F6.place(x=5,y=900,width=1500,height=70)
+F6.place(x=5,y=700,width=1500,height=50)
 
 u.newBtn = Button(F6,text="New (Ctrl+N)",font=('times new rommon',13),command=lambda: newBill(u),bg=u.bg_color,bd=2)
 u.newBtn.grid(column=0,row=0,padx=20,pady=10)

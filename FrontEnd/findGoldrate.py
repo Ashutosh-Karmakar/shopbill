@@ -1,3 +1,4 @@
+#desktop Bill
 from datetime import datetime
 from tkinter import *
 from tkcalendar import Calendar
@@ -37,9 +38,13 @@ def findGoldRateOnDate(u:UiFields):
         
         u.grFindDate = datefind
         print(u.grFindDate)
-        findGRDate(u)
+        u.grFindDate = datetime.strptime(cal.get_date(), '%m/%d/%y')
+        i = findGRDate(u)
+        
         goldRate.config(text = u.grRateOnDate)
         goldRate.config(font=("times new rommon", 11))
+        
+       
         
     
     # Add Button and Label

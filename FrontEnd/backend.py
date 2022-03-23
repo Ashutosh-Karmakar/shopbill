@@ -1,9 +1,10 @@
+#desktop Bill
 import os
 from tkinter import *
 from baseIntialization import UiFields
 from database import findBillNumber, findByNumber
 
-
+#this is done for knowing which entry has been clicked by mouse and then get its entryCount number
 def clicked_tab(focused_top):
     if focused_top == '.!entry':
         return 0 
@@ -90,6 +91,7 @@ def clicked_tab(focused_top):
     if focused_top == '.!labelframe4.!entry2':
         return 41
 
+#this is to know which type of entry is clicked 
 def focusedTab(focused_tab):
     if(focused_tab == '.!entry4'):
         return 'addhar'
@@ -117,7 +119,9 @@ def focusedTab(focused_tab):
         return 'charges'
     if(focused_tab == '.!labelframe4.!entry3'):
         return 'total'
-    
+   
+#this is to get the table number that all desc ,
+# all wt are list of entry to get the index of the list the pointer is pointing we are doing this 
 def tabNumber(focused_tab):
     #desc entry:
     if focused_tab == '.!labelframe.!entry':
@@ -219,7 +223,8 @@ def tabNumber(focused_tab):
     if focused_tab == '.!labelframe3.!entry6':
         return 2
 
-
+#Here if we have a old customer and while entering the number we get the data we use this to 
+#enter the data into the entries
 def setCustData(u:UiFields, data):
     print(data)
     u.name_txt.delete(0,END)
@@ -232,6 +237,8 @@ def setCustData(u:UiFields, data):
     u.entryCount = 4
 
 
+#here mainly the calculations are done after the total amt is added and enter is clicked
+#but for that desc ,wt and net_total entry has to be filled
 def calculate(u:UiFields, focused_tab):
     i = tabNumber(focused_tab)
     wt = float(u.wt_txt[i].get())
@@ -430,7 +437,9 @@ def checkField(focused_tab,u:UiFields):
         if(u.addhar_txt.get() !='' and (u.addhar_txt.get()).isnumeric()==False):
             return True
     
-    
+
+#here we manage all the enter operation.
+#The different fucntions are used depending on the entry field it is focused   
 def enterOperation(focused_tab, u:UiFields):
     # print(focused_tab)
     tab_name = focusedTab(focused_tab)
@@ -478,7 +487,6 @@ def enterOperation(focused_tab, u:UiFields):
     u.entry_list[u.entryCount].configure(highlightcolor= u.entry_correct_color)
     if(u.entryCount>=42):
         u.entryCount=42
-        print("hello")  
         u.entry_list[u.entryCount].focus()
         
     else:
@@ -489,10 +497,8 @@ def enterOperation(focused_tab, u:UiFields):
     
     if(tab_name == 'name' and u.name_txt.get()!=''):
         name = u.name_txt.get()
-        print(name)
         u.name_txt.delete(0,END)
         u.name_txt.insert(0,name.capitalize())
-        print(name)
     
     if(tab_name == 'desc' and u.des_txt[i].get()!=''):
         des = u.des_txt[i].get()
@@ -578,7 +584,7 @@ def enterOperation(focused_tab, u:UiFields):
             
             
             
-
+#here the total in numbers is converted into words it has to be improved as it works only on int not decimal
         
 EMPTY = ''
  
@@ -631,15 +637,16 @@ def convert(n):
      
      
      
-def printBill():
-    bill_no = findBillNumber()
-    # bill_loation = findBillLocation()
-    os.startfile('test.xlsx','print') 
+# def printBill():
+#     bill_no = findBillNumber()
+#     # bill_loation = findBillLocation()
+#     os.startfile('test.xlsx','print') 
      
      
      
-     
-     
+
+#This functions called when new button is clicked.
+#it clears up the whole page and set the variables to initial stage.     
 def newBill(u:UiFields):
     u.entryCount=0
     u.charge_amt = 0.0
