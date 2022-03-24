@@ -352,11 +352,11 @@ def checkField(focused_tab,u:UiFields):
         if(len(u.wt_txt[i].get()) > 1):
             ct = 0
             for ch in u.wt_txt[i].get():
-                if(ct >= 2):
-                    return True
-                elif ch == '.':
+                if ch == '.':
                     ct+=1
                 elif ch!= '.' and ch.isnumeric()==False:
+                    return True
+                if(ct >= 2):
                     return True
         return False
         
@@ -538,7 +538,7 @@ def enterOperation(focused_tab, u:UiFields):
             print(u.old_net_total[i])
             u.total_before_charge = u.total_before_charge - u.old_net_total[i]
            
-        setTotal(u,u.total_before_charge)
+        setTotal(u,round(u.total_before_charge,2))
         u.old_net_total[i] = amt
         
     if (tab_name == 'oldAmt' and u.oldtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
