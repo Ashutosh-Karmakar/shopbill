@@ -361,11 +361,11 @@ def checkField(focused_tab,u:UiFields):
         if(len(u.wt_txt[i].get()) > 1):
             ct = 0
             for ch in u.wt_txt[i].get():
-                if(ct >= 2):
-                    return True
-                elif ch == '.':
+                if ch == '.':
                     ct+=1
                 elif ch!= '.' and ch.isnumeric()==False:
+                    return True
+                if(ct >= 2):
                     return True
         return False
         

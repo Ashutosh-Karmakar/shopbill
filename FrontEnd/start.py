@@ -324,9 +324,9 @@ u.entry_list.append(u.charge)
 
 
 u.total_l = Label(F5,text="Total",font=('times new rommon',12),bg=u.bg_color)
-u.total_l.grid(column=0,row=1)
+u.total_l.grid(column=15,row=0)
 u.total= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
-u.total.grid(row=1,column=5,padx=10,pady=5)
+u.total.grid(row=0,column=20,padx=10,pady=5)
 u.total.insert(0,0)
 u.entry_list.append(u.total)
 
