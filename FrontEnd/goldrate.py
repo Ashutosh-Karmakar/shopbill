@@ -32,6 +32,7 @@ def calc(u:UiFields, i):
     
     if(mc < 0):
         print("There is a error in calculation mc")
+        return
     
     u.cgst_txt[i].config(state='normal')
     u.sgst_txt[i].config(state='normal')
@@ -87,11 +88,27 @@ def changeGoldRate(u:UiFields):
         u.oldunit_txt[i].delete(0,END)
         u.oldunit_txt[i].insert(0,u.old_gold_rate)
         u.oldunit_txt[i].config(state=DISABLED)
-        
-    for i in range(0,10):
-        if(u.des_txt[i].get()=='' or u.wt_txt[i].get()=='' or u.net_txt[i].get()==''):
+    if u.mobile_txt.get()=='':
+        u.mobile_txt.focus()
+        u.entryCount = 0
+        return
+    l = 0
+    for l in range(0,10):
+        if(u.des_txt[l].get()==''):
+            u.des_txt[l].focus()
+            u.entryCount = 4+l*3
             break
-        calc(u,i)
+        if(u.wt_txt[l].get()==''):
+            u.wt_txt[l].focus()
+            u.entryCount = 5+l*3
+            break
+        if(u.net_txt[l].get()==''):
+            u.net_txt[l].focus()
+            u.entryCount = 6+l*3
+            break
+        calc(u,l)
+    if l == 10:
+        u.oldwe_txt[0].focus()
         
 
     

@@ -185,14 +185,14 @@ def findGoldRate(u:UiFields):
 
 def findGRDate(u:UiFields):
     try:
-        comd = ("SELECT gold_rate from daily_gold_rate WHERE added_date = '" +u.grFindDate+ "';")
+        comd = ("SELECT gold_rate from daily_gold_rate WHERE added_date = '" +str(u.grFindDate)+ "' ORDER BY id desc LIMIT 1;")
         print(comd)
         cursor.execute(comd)
-        result = cursor.fetchone()
-        if(result == None):
-            pass
+        result = cursor.fetchall()
+        if(len(result)==0):
+            u.grRateOnDate = 0.0
         else:
-            u.grRateOnDate = result[0]
+            u.grRateOnDate = result[0][0]
     except Exception as e:
         print("There is a error in finding gold rate by date: {0}".format(e))
         

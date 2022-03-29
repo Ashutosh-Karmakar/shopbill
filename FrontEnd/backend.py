@@ -3,6 +3,22 @@ from tkinter import *
 from baseIntialization import UiFields
 from database import findBillNumber, findByNumber
 
+def check_clicked_tab(u:UiFields):
+    if u.entryCount == 0:
+        u.mobile_txt.focus()
+        return 1
+    if u.entryCount==1:
+        u.name_txt.focus()
+        return 1
+    if u.entryCount == 6 or u.entryCount == 9 or u.entryCount == 12 or u.entryCount == 15 or u.entryCount == 18 or u.entryCount == 21 or u.entryCount == 24 or u.entryCount == 27 or u.entryCount == 29:
+        u.entry_list[u.entryCount].focus()
+        return 1
+    if(u.entryCount == 32 or u.entryCount == 34 or u.entryCount == 36):
+        u.entry_list[u.entryCount].focus()
+        return 1
+    if(u.entryCount == 37 or u.entryCount == 38 or u.entryCount == 39):
+        u.entry_list[u.entryCount].focus()
+        return 1
 
 def clicked_tab(focused_top):
     if focused_top == '.!entry':
@@ -237,7 +253,6 @@ def calculate(u:UiFields, focused_tab):
     wt = float(u.wt_txt[i].get())
     amt = float(u.net_txt[i].get())
     gr = u.gold_rate
-    
     cost = (amt)*(100/103)
     u.total_taxable_amt.append(cost)    
     if(cost < amt):
@@ -246,78 +261,91 @@ def calculate(u:UiFields, focused_tab):
         cgst = 0
     print(cost)
     print(wt)
-    print(cost/wt)
+    
     try:
+        print(cost/wt)
         mc = (cost/wt)-gr
+        mc = round(mc,2)
+    
+    
+        cgst = round(cgst/2,2)
+        gstamt = cgst*2
+        
+        
+        
+        u.cgst_txt[i].config(state='normal')
+        u.sgst_txt[i].config(state='normal')
+        u.gstAmt_txt[i].config(state='normal')
+        u.mc_txt[i].config(state='normal')
+        
+        u.cgst_txt[i].delete(0,END)
+        u.cgst_txt[i].insert(0,cgst)
+        
+        u.sgst_txt[i].delete(0,END)
+        u.sgst_txt[i].insert(0,cgst)
+        
+        u.gstAmt_txt[i].delete(0,END)
+        u.gstAmt_txt[i].insert(0,gstamt)
+        
+        u.mc_txt[i].delete(0,END)
+        u.mc_txt[i].insert(0,mc)
+        
+        u.cgst_txt[i].config(state=DISABLED)
+        u.sgst_txt[i].config(state=DISABLED)
+        u.gstAmt_txt[i].config(state=DISABLED)
+        u.mc_txt[i].config(state=DISABLED)
+        
+        u.gstAmt_txt[i].focus_set()
+        
+        if(mc < 0):
+            print("There is a error in calculation mc")
+            u.entryCount = 6+i*3
+            u.wt_txt[i].focus()
+            # u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
+            return 1
+            print(i)
+            # u.total.delete(0,END)
+            # u.total.insert(0,0.0)
     except Exception:
         print("there is a error in calculation")
-        u.wt_txt[i].focus_set()
-    
-    cgst = round(cgst/2,2)
-    gstamt = cgst*2
-    
-    mc = round(mc,2)
-    
-    u.cgst_txt[i].config(state='normal')
-    u.sgst_txt[i].config(state='normal')
-    u.gstAmt_txt[i].config(state='normal')
-    u.mc_txt[i].config(state='normal')
-    
-    u.cgst_txt[i].delete(0,END)
-    u.cgst_txt[i].insert(0,cgst)
-    
-    u.sgst_txt[i].delete(0,END)
-    u.sgst_txt[i].insert(0,cgst)
-    
-    u.gstAmt_txt[i].delete(0,END)
-    u.gstAmt_txt[i].insert(0,gstamt)
-    
-    u.mc_txt[i].delete(0,END)
-    u.mc_txt[i].insert(0,mc)
-    
-    u.cgst_txt[i].config(state=DISABLED)
-    u.sgst_txt[i].config(state=DISABLED)
-    u.gstAmt_txt[i].config(state=DISABLED)
-    u.mc_txt[i].config(state=DISABLED)
-    
-    u.gstAmt_txt[i].focus_set()
-    
-    if(mc < 0):
-        print("There is a error in calculation mc")
-        u.entryCount = 6+i*3
-        u.wt_txt[i].focus()
-        # u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
-        return 1
-        print(i)
-        # u.total.delete(0,END)
-        # u.total.insert(0,0.0)
+        u.des_txt[i].focus_set()
         
 
 def set_total_after_charges(u:UiFields):
-    if(u.total.get()!='' and (u.charge.get())!=''):
-        tot = float(u.total_before_charge)
-        cha = float(u.charge_amt)
-        tot = round(tot + tot*(cha/100),2)
-        u.total.delete(0,END)
-        u.total.insert(0,tot)
-    elif(u.total.get()!=''):
-        tot = float(u.total_before_charge)
-        cha = float(u.charge_amt)
-        tot = round(tot - tot*(cha/100),2)
-        u.total.delete(0,END)
-        u.total.insert(0,u.total_before_charge)
-        u.charge_amt = 0.0
+    try:
+        if(u.total.get()!='' and u.charge.get()!=''):
+            tot = float(u.total_before_charge)
+            cha = float(u.charge_amt)
+            tot = round(tot + tot*(cha/100),2)
+            u.total.delete(0,END)
+            u.total.insert(0,tot)
+        elif(u.total.get()!=''):
+            tot = float(u.total_before_charge)
+            cha = float(u.charge_amt)
+            tot = round(tot - tot*(cha/100),2)
+            u.total.delete(0,END)
+            u.total.insert(0,u.total_before_charge)
+            u.charge_amt = 0.0
+    except Exception as e:
+        print("There is a exception : {0}".format(e))
     
 
 def findAmt(amt):
-    return float(amt.get())
+    try:
+        return float(amt.get())
+    except Exception as e:
+        print("There is a exception : {0}".format(e))
+        return 0
 
 
 def setTotal(u:UiFields,amt):
-    if(u.charge.get()!=''):
-        amt = round(amt + (amt*(float(u.charge_amt)/100)),2)
-    u.total.delete(0,END)
-    u.total.insert(0,(amt))
+    try:
+        if(u.charge.get()!=''):
+            amt = round(amt + (amt*(float(u.charge_amt)/100)),2)
+        u.total.delete(0,END)
+        u.total.insert(0,(amt))
+    except Exception as e:
+        print("There is a exception : {0}".format(e))
     
     
 def checkField(focused_tab,u:UiFields):
@@ -525,21 +553,24 @@ def enterOperation(focused_tab, u:UiFields):
             setCustData(u, data)
     
     if (tab_name == 'newTotal' and (u.des_txt[i].get() != '' and u.wt_txt[i].get() != '' and  u.net_txt[i].get()!='')):
-        chec = calculate(u, focused_tab)
-        if(chec == 1):
-            return
-        total = float(u.total_before_charge)
-        amt = float(u.net_txt[i].get())
-        u.total_before_charge = amt+total
-        if(u.old_net_total[i] == amt):
-            u.total_before_charge = total
-            return
-        elif(u.old_net_total[i] != 0):
-            print(u.old_net_total[i])
-            u.total_before_charge = u.total_before_charge - u.old_net_total[i]
-           
-        setTotal(u,round(u.total_before_charge,2))
-        u.old_net_total[i] = amt
+        try:
+            chec = calculate(u, focused_tab)
+            if(chec == 1):
+                return
+            total = float(u.total_before_charge)
+            amt = float(u.net_txt[i].get())
+            u.total_before_charge = amt+total
+            if(u.old_net_total[i] == amt):
+                u.total_before_charge = total
+                return
+            elif(u.old_net_total[i] != 0):
+                print(u.old_net_total[i])
+                u.total_before_charge = u.total_before_charge - u.old_net_total[i]
+            
+            setTotal(u,round(u.total_before_charge,2))
+            u.old_net_total[i] = amt
+        except Exception as e:
+            print("There is a exception : {0}".format(e))
         
     if (tab_name == 'oldAmt' and u.oldtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
         total = u.total_before_charge

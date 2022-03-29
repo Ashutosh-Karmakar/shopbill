@@ -28,12 +28,9 @@ window.title("Giridhari Jewellery")
 def enter(event):
     focused_tab = str(window.focus_get())
     print(focused_tab)
-    i = enterOperation(focused_tab,u) 
-    # print(i)  
+    i = enterOperation(focused_tab,u)  
     if(i!=1):
         pyautogui.press("tab")
-        # u.entryCount+=1
-        # u.entry_list[u.entryCount].focus()
         
     
 def exit_(event):
@@ -60,9 +57,12 @@ window.bind('<Left>', backOp)
 
 
 def position(event):
-    print(window.focus_get())
-    u.entryCount = clicked_tab(str(window.focus_get()))
-    print(u.entryCount)
+    k = check_clicked_tab(u)
+    # print(k,"hellooo")
+    if(k!=1):
+        print(window.focus_get())
+        u.entryCount = clicked_tab(str(window.focus_get()))
+        print(u.entryCount)
     # x, y = event.x, event.y
     # print('{}, {}'.format(x, y))
 window.bind('<Button-1>', position)
@@ -114,7 +114,7 @@ u.date_label.grid(row=1,column=30)
 
 # ========================================new Gold==============================================
 
-F2 = LabelFrame(window,bg= "#FFE6BC")
+F2 = LabelFrame(window,bg=u.bg_color)
 F2.place(x=5, y=80,width=1900,height=390)
 
 u.siLabel = Label(F2,text="Sino.",font=('times new rommon',10),bg=u.bg_color)
@@ -196,7 +196,7 @@ for i in range(1,10):
 
 # ==================================old gold=====================================================
 
-F3 = LabelFrame(window,bg= "#FFE6BC")
+F3 = LabelFrame(window,bg= u.bg_color)
 F3.place(x=5,y=480,width=13055,height=140)
 
 u.oldSi = Label(F3,text="Si.",font=('times new rommon',10),bg=u.bg_color)
@@ -244,7 +244,7 @@ for i in range(1,4):
 
 #===========================================addition or deduction===============================
 
-F4 = LabelFrame(window,bg= "#FFE6BC")
+F4 = LabelFrame(window,bg=u.bg_color)
 F4.place(x=5,y=620,width=13055,height=140)
 
 u.addSi = Label(F4,text="Si.",font=('times new rommon',10),bg=u.bg_color)
@@ -273,7 +273,7 @@ for i in range(1,4):
     u.addtotal_txt.append(txt16)
 
 #=================================mode of payment and total==============================
-F5 = LabelFrame(window,bg= "#FFE6BC")
+F5 = LabelFrame(window,bg= u.bg_color)
 F5.place(x=0,y=750,width=1500,height=100)
 
 # u.mode_l = Label(F5,text="Mode Of Payment",font=('times new rommon',12),bg=u.bg_color)
