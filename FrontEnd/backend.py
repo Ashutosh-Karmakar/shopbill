@@ -10,7 +10,7 @@ def check_clicked_tab(u:UiFields):
     if u.entryCount==1:
         u.name_txt.focus()
         return 1
-    if u.entryCount == 6 or u.entryCount == 9 or u.entryCount == 12 or u.entryCount == 15 or u.entryCount == 18 or u.entryCount == 21 or u.entryCount == 24 or u.entryCount == 27 or u.entryCount == 29:
+    if u.entryCount == 6 or u.entryCount == 9 or u.entryCount == 12 or u.entryCount == 15 or u.entryCount == 18 or u.entryCount == 21 or u.entryCount == 24 or u.entryCount == 27 or u.entryCount == 30:
         u.entry_list[u.entryCount].focus()
         return 1
     if(u.entryCount == 32 or u.entryCount == 34 or u.entryCount == 36):
