@@ -4,7 +4,6 @@ import sys
 import openpyxl
 from baseIntialization import UiFields
 
-
 try:
     mysqlDB = mysql.connector.connect(
         host = 'localhost',
@@ -20,7 +19,6 @@ except Exception as e:
     sys.exit()
 
 def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
-    print("Inside svave cust data")
     data = []
     if(mobile!=''):
         try:
@@ -39,21 +37,10 @@ def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
                     addhar_number = 1234
                 if(address == ''):
                     address = 'BBSR'
-                # if(addhar_number!='' and address!=''):
                 comd = ("INSERT INTO customer(cust_name, phone_no, address, addhar_number) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "'," +str(addhar_number)+ ");")
                 print(comd)
                 cursor.execute(comd)
                 mysqlDB.commit()
-                # elif(addhar_number!=''):
-                #     comd = ("INSERT INTO customer(cust_name, phone_no, addhar_number) VALUES("+"'" +name+ "'," +mobile+ "," +addhar_number+ ");")
-                #     print(comd)
-                #     cursor.execute(comd)
-                #     mysqlDB.commit()
-                # else:
-                #     comd = ("INSERT INTO customer(cust_name, phone_no, address) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "');")
-                #     print(comd)
-                #     cursor.execute(comd)
-                #     mysqlDB.commit()
             except Exception as e:
                 print("There was a exception while entering into database CUSTOMER : {0}".format(e))
 #important       
@@ -90,9 +77,6 @@ def findBillNumber():
         cursor.execute(comd)
         # cursor.fetchall()
         result = cursor.fetchone()
-        print(result)
-        
-        
         if(result == None):
             return 1
         
@@ -114,7 +98,6 @@ def saveBillLocation(u:UiFields):
         except Exception:
             u.customer_id = 1
             print("Error in saveBillLocation in finding customer_id")
-    print(u.customer_id)
     try:     
         comd = ("INSERT INTO BILLTable(bill_location, customer_id) VALUES('" +u.saveLocation+ "'," +str(u.customer_id)+");")
         print(comd)
@@ -129,8 +112,6 @@ def findGst(u:UiFields):
         comd = "Select * from gst_table;"
         print(comd)
         cursor.execute(comd)
-        # for gst in cursor.fetchall():
-        #     print(gst)
         wb = openpyxl.Workbook()
         sh1 = wb.active
         sh1.title = 'gst'
@@ -142,7 +123,6 @@ def findGst(u:UiFields):
                 location = chr(65+i)+''+str(j)
                 if(i == 1):
                     sh1[location] = str(c)[0:10]
-                # print(location)
                 else:
                     sh1[location] = c
                 i+=1
@@ -195,16 +175,5 @@ def findGRDate(u:UiFields):
             u.grRateOnDate = result[0][0]
     except Exception as e:
         print("There is a error in finding gold rate by date: {0}".format(e))
-        
-# def findBASEDIR(u:UiFields):
-#     try:
-#         comd = ('SELECT valuee FROM config WHERE keyy = "BASEDIR";')
-#         cursor.execute(comd)
-#         result = cursor.fetchone()
-#         if result == None:
-#             return "."
-#         return result[0]
-#     except Exception:
-#         print("Error in finding base dir")
     
         

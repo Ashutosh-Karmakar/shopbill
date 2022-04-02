@@ -9,7 +9,7 @@ import datetime
 import pyautogui
 
 from baseIntialization import UiFields
-from backend import enterOperation, newBill, printBill, set_total_after_charges, clicked_tab
+from backend import enterOperation, newBill, set_total_after_charges, clicked_tab, check_clicked_tab
 from goldrate import changeGoldRate
 from monthlyGST import monthlyGst
 from findGoldrate import findGoldRateOnDate
@@ -46,8 +46,6 @@ def backOp(event):
     else:
         u.entryCount-=1
     u.entry_list[u.entryCount].focus()
-    print(u.entryCount)
-    # u.entryCount-=1
 
 window.bind('<Escape>', exit_)
 window.bind("<Return>",enter)
@@ -58,13 +56,10 @@ window.bind('<Left>', backOp)
 
 def position(event):
     k = check_clicked_tab(u)
-    # print(k,"hellooo")
     if(k!=1):
         print(window.focus_get())
         u.entryCount = clicked_tab(str(window.focus_get()))
         print(u.entryCount)
-    # x, y = event.x, event.y
-    # print('{}, {}'.format(x, y))
 window.bind('<Button-1>', position)
     
 
@@ -276,14 +271,7 @@ for i in range(1,4):
 F5 = LabelFrame(window,bg= u.bg_color)
 F5.place(x=0,y=750,width=1500,height=100)
 
-# u.mode_l = Label(F5,text="Mode Of Payment",font=('times new rommon',12),bg=u.bg_color)
-
-# u.mode= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
-# u.mode.grid(row=0,column=4,padx=10,pady=5)
-# u.entry_list.append(u.mode)
-# mode = 'Cash'
 def selected(event):
-	# m = clicked.get()
     if(u.clicked.get() == 'Debit Card'):
         u.charge.delete(0,END)
         u.charge.insert(0,'1.2%')
@@ -309,8 +297,6 @@ options = [
 u.clicked = StringVar()
 u.clicked.set(options[0])
  
-
- 
 u.mode_l = OptionMenu( F5 , u.clicked , *options, command=selected)
 u.mode_l.grid(column=3,row=0)
 u.mode_l.config(font=('times new rommon',11))
@@ -330,17 +316,12 @@ u.total.insert(0,0)
 u.entry_list.append(u.total)
 
 
-
-
-
-
 # ======================================Buttons of the Code=========================
 
 
 def findBill():
     os.system('python findBill.py')
     
-
 F6 = LabelFrame(window,bg= "#519259")
 F6.place(x=5,y=900,width=1500,height=70)
 

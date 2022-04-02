@@ -5,18 +5,23 @@ from database import findBillNumber, findByNumber
 
 def check_clicked_tab(u:UiFields):
     if u.entryCount == 0:
+        u.mobile_txt.configure(highlightcolor= u.entry_wrong_color)
         u.mobile_txt.focus()
         return 1
     if u.entryCount==1:
+        u.name_txt.configure(highlightcolor= u.entry_wrong_color)
         u.name_txt.focus()
         return 1
     if u.entryCount == 6 or u.entryCount == 9 or u.entryCount == 12 or u.entryCount == 15 or u.entryCount == 18 or u.entryCount == 21 or u.entryCount == 24 or u.entryCount == 27 or u.entryCount == 30:
+        u.entry_list[u.entryCount].configure(highlightcolor= u.entry_wrong_color)
         u.entry_list[u.entryCount].focus()
         return 1
     if(u.entryCount == 32 or u.entryCount == 34 or u.entryCount == 36):
+        u.entry_list[u.entryCount].configure(highlightcolor= u.entry_wrong_color)
         u.entry_list[u.entryCount].focus()
         return 1
     if(u.entryCount == 37 or u.entryCount == 38 or u.entryCount == 39):
+        u.entry_list[u.entryCount].configure(highlightcolor= u.entry_wrong_color)
         u.entry_list[u.entryCount].focus()
         return 1
 
@@ -237,7 +242,7 @@ def tabNumber(focused_tab):
 
 
 def setCustData(u:UiFields, data):
-    print(data)
+    print('cust Data',data)
     u.name_txt.delete(0,END)
     u.address_txt.delete(0,END)
     u.addhar_txt.delete(0,END)
@@ -249,21 +254,21 @@ def setCustData(u:UiFields, data):
 
 
 def calculate(u:UiFields, focused_tab):
-    i = tabNumber(focused_tab)
-    wt = float(u.wt_txt[i].get())
-    amt = float(u.net_txt[i].get())
-    gr = u.gold_rate
-    cost = (amt)*(100/103)
-    u.total_taxable_amt.append(cost)    
-    if(cost < amt):
-        cgst = amt - cost
-    else:
-        cgst = 0
-    print(cost)
-    print(wt)
-    
     try:
-        print(cost/wt)
+        i = tabNumber(focused_tab)
+        wt = float(u.wt_txt[i].get())
+        amt = float(u.net_txt[i].get())
+        gr = u.gold_rate
+        cost = (amt)*(100/103)
+        u.total_taxable_amt.append(cost)    
+        if(cost < amt):
+            cgst = amt - cost
+        else:
+            cgst = 0
+        print('cost - ',cost)
+        print('wt - ',wt)
+    
+    
         mc = (cost/wt)-gr
         mc = round(mc,2)
     
@@ -301,6 +306,7 @@ def calculate(u:UiFields, focused_tab):
             print("There is a error in calculation mc")
             u.entryCount = 6+i*3
             u.wt_txt[i].focus()
+            u.net_txt[i].configure(highlightcolor= u.entry_wrong_color)
             # u.total_before_charge = u.total_before_charge - float(u.net_txt[i].get())
             return 1
             print(i)
@@ -458,7 +464,6 @@ def checkField(focused_tab,u:UiFields):
     
     
 def enterOperation(focused_tab, u:UiFields):
-    # print(focused_tab)
     tab_name = focusedTab(focused_tab)
     i = tabNumber(focused_tab)
     
@@ -510,15 +515,12 @@ def enterOperation(focused_tab, u:UiFields):
     else:
         u.entryCount+=1
     
-    # print(len(u.entry_list))
-    # print(u.entryCount)
+    print('Entry Count :-',u.entryCount)
     
     if(tab_name == 'name' and u.name_txt.get()!=''):
         name = u.name_txt.get()
-        print(name)
         u.name_txt.delete(0,END)
         u.name_txt.insert(0,name.capitalize())
-        print(name)
     
     if(tab_name == 'desc' and u.des_txt[i].get()!=''):
         des = u.des_txt[i].get()
@@ -564,7 +566,6 @@ def enterOperation(focused_tab, u:UiFields):
                 u.total_before_charge = total
                 return
             elif(u.old_net_total[i] != 0):
-                print(u.old_net_total[i])
                 u.total_before_charge = u.total_before_charge - u.old_net_total[i]
             
             setTotal(u,round(u.total_before_charge,2))
@@ -580,7 +581,6 @@ def enterOperation(focused_tab, u:UiFields):
             u.total_before_charge = total
             return
         elif(u.old_old_total[i] != 0):
-            print(u.old_old_total[i])
             u.total_before_charge = u.total_before_charge + u.old_old_total[i]
         
         setTotal(u,u.total_before_charge)
@@ -589,7 +589,6 @@ def enterOperation(focused_tab, u:UiFields):
     if (tab_name == 'addAmt' and u.addtotal_txt[i].get()!='' and checkField(focused_tab,u)==False):
         total = u.total_before_charge
         amt = findAmt(u.addtotal_txt[i])
-        # if(amt < total):
         u.total_before_charge = total+amt
         if(u.old_add_total[i] == amt):
             u.total_before_charge = total
@@ -662,7 +661,6 @@ def convert(n):
      
 def printBill():
     bill_no = findBillNumber()
-    # bill_loation = findBillLocation()
     os.startfile('test.xlsx','print') 
      
      

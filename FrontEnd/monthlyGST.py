@@ -6,9 +6,7 @@ from baseIntialization import UiFields
 u = UiFields()
 
 def monthlyGst():
-    
     window = tkinter.Tk()
-    # window.attributes('-fullscreen', True)
     window.geometry('800x100')
     window.configure(bg=u.background_color)
     window.title("Monthly GST")

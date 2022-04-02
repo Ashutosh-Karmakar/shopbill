@@ -11,7 +11,7 @@ import subprocess
 from database import saveBillLocation, saveCustomerData, saveGstData
 from baseIntialization import UiFields
 from backend import convert#, printBill
-from printer import printBill, printDialog
+from printer import printBill
 
 
 def generateBill(u : UiFields):
@@ -71,11 +71,6 @@ def generateBill(u : UiFields):
     sh1['H6'].font = Font(name='times new rommon',size=16,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.green)
     sh1['I6'] = u.addhar_txt.get()
     sh1['I6'].font = Font(name='arial',size=15,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
-
-    # sh1['M6'] = 'GoldRate.'
-    # sh1['M6'].font = Font(name='times new rommon',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.green)
-    # sh1['N6'] = u.gold_rate
-    # sh1['N6'].font = Font(name='arial',size=12,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.red)
 
     sh1['F7'] = "Gold Rate: "
     sh1['F7'].font = Font(name='times new rommon',size=16,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color=u.green)
@@ -536,7 +531,7 @@ def generateBill(u : UiFields):
     
     if(u.mobile_txt.get()!=''):
         saveBillLocation(u)
-        print(u.saveLocation)
+        print('save Location - ',u.saveLocation)
         try:
             wb.save(filename=u.saveLocation)
         except Exception as e:
@@ -549,7 +544,7 @@ def generateBill(u : UiFields):
     # thread2 = Thread(target = printDialog)
     # thread2.start()
     # thread.join()
-    print("done printing")
+    print('Printing - ',"done printing")
     # thread2.join()
     # main_thread().sleep(100)
     time.sleep(4)
