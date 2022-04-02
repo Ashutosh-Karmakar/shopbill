@@ -340,8 +340,8 @@ u.generateBtn.grid(column=2,row=0,padx=20,pady=10)
 u.change_gold_rate = Button(F6,text="Gold Rate" ,font=('times new rommon',13),command=lambda: changeGoldRate(u),bg=u.bg_color,bd=2)
 u.change_gold_rate.grid(column=30,row=0,padx=20,pady=10)
 
-# u.gstBtn = Button(F6,text="Gst " ,font=('times new rommon',13),command=monthlyGst,bg=u.bg_color,bd=2)
-# u.gstBtn.grid(column=40,row=0,padx=20,pady=10)
+u.gstBtn = Button(F6,text="Gst " ,font=('times new rommon',13),command=monthlyGst,bg=u.bg_color,bd=2)
+u.gstBtn.grid(column=40,row=0,padx=20,pady=10)
 
 u.findgoldBtn = Button(F6,text="Find GR" ,font=('times new rommon',13),command=lambda:findGoldRateOnDate(u),bg=u.bg_color,bd=2)
 u.findgoldBtn.grid(column=50,row=0,padx=20,pady=10)

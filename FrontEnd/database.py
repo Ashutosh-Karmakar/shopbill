@@ -3,6 +3,7 @@ import mysql.connector
 import sys
 import openpyxl
 from baseIntialization import UiFields
+from gstexel import create,insertTotal
 
 try:
     mysqlDB = mysql.connector.connect(
@@ -109,30 +110,22 @@ def saveBillLocation(u:UiFields):
 #important        
 def findGst(u:UiFields):
     try:
-        comd = "Select * from gst_table;"
+        # gstDateFrom
+        # gstDateTo
+        comd = "Select * from gst_table where added_date between '" +str(u.cal1)+ "' and '" +str(u.cal2)+"';"
         print(comd)
         cursor.execute(comd)
-        wb = openpyxl.Workbook()
-        sh1 = wb.active
-        sh1.title = 'gst'
-        
-        i = 0
-        j = 1
-        for gst in cursor.fetchall():
-            for c in gst:
-                location = chr(65+i)+''+str(j)
-                if(i == 1):
-                    sh1[location] = str(c)[0:10]
-                else:
-                    sh1[location] = c
-                i+=1
-            j+=1
-            i = 0
-            
-        wb.save(filename='gst.xlsx')
-        
-            
-        
+        # for gst in cursor.fetchall():
+        #     print(gst)
+        result = cursor.fetchall()
+        create(result, u)
+        if len(result):
+            comd = "Select sum(total_val), sum(cgst),sum(sgst), sum(net_total) from gst_table where added_date between '" +str(u.cal1)+ "' and '" +str(u.cal2)+"';"
+            print(comd)
+            cursor.execute(comd)
+            res = cursor.fetchall()
+            if(len(res)):
+                insertTotal(res, u)
     except Exception as e:
         messagebox.showerror("Error","Error in finding GST Data : {0}".format(e))
         print("There is an error in finding gst data")

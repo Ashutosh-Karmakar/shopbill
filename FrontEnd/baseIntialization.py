@@ -116,3 +116,10 @@ class UiFields:
     old_old_total = [0,0,0]
     old_add_total = [0,0,0]
     total_taxable_amt = []
+     
+    cal1 = datetime.now()
+    cal2 = datetime.now()
+
+    email_from_address = ""
+    email_to_address = ""
+    email_from_pass = ""
