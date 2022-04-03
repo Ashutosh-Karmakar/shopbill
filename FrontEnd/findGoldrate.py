@@ -6,11 +6,8 @@ from database import findGRDate
 
 def findGoldRateOnDate(u:UiFields):
     root = Tk()
-    
-    # Set geometry
+    root.title("Gold Rate")
     root.geometry("400x600")
-    
-    # Add Calendar
     cur_date = datetime.now()
 
     cal = Calendar(root, selectmode = 'day',
@@ -37,12 +34,12 @@ def findGoldRateOnDate(u:UiFields):
         
         u.grFindDate = datefind
         print(u.grFindDate)
-        findGRDate(u)
+        u.grFindDate = datetime.strptime(cal.get_date(), '%m/%d/%y')
+        i = findGRDate(u)
+        
         goldRate.config(text = u.grRateOnDate)
         goldRate.config(font=("times new rommon", 11))
         
-    
-    # Add Button and Label
     Button(root, text = "Get Date",
         command = grad_date).pack(pady = 20)
     
@@ -52,5 +49,4 @@ def findGoldRateOnDate(u:UiFields):
     goldRate = Label(root, text = "")
     goldRate.pack(pady=20)
     
-    # Execute Tkinter
     root.mainloop()

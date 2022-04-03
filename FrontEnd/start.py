@@ -4,22 +4,25 @@ import tkinter
 from tkinter import *
 import os
 import sys
-from openpyxl.drawing.image import Image 
 import datetime
 import pyautogui
 
 from baseIntialization import UiFields
-from backend import enterOperation, newBill, printBill, set_total_after_charges, clicked_tab
+from backend import enterOperation, newBill, set_total_after_charges, clicked_tab, check_clicked_tab
 from goldrate import changeGoldRate
 from monthlyGST import monthlyGst
 from findGoldrate import findGoldRateOnDate
 from billgenerator import generateBill
-from database import findBillNumber, findGoldRate
-
+from database import findBillNumber, findGoldRate, findConfigValue
+from changeConfig import config
 
 
 u = UiFields()
 u.gold_rate = 4876
+u.bg_color = findConfigValue('bg_color')
+u.BASEDIR_BILL = findConfigValue('BASEDIR_BILL')
+print(u.BASEDIR_GST)
+u.background_color = u.bg_color
 window = tkinter.Tk()
 window.attributes('-fullscreen', True)
 window.configure(bg=u.background_color)
@@ -28,12 +31,9 @@ window.title("Giridhari Jewellery")
 def enter(event):
     focused_tab = str(window.focus_get())
     print(focused_tab)
-    i = enterOperation(focused_tab,u) 
-    # print(i)  
+    i = enterOperation(focused_tab,u)  
     if(i!=1):
         pyautogui.press("tab")
-        # u.entryCount+=1
-        # u.entry_list[u.entryCount].focus()
         
     
 def exit_(event):
@@ -49,8 +49,6 @@ def backOp(event):
     else:
         u.entryCount-=1
     u.entry_list[u.entryCount].focus()
-    print(u.entryCount)
-    # u.entryCount-=1
 
 window.bind('<Escape>', exit_)
 window.bind("<Return>",enter)
@@ -60,11 +58,11 @@ window.bind('<Left>', backOp)
 
 
 def position(event):
-    print(window.focus_get())
-    u.entryCount = clicked_tab(str(window.focus_get()))
-    print(u.entryCount)
-    # x, y = event.x, event.y
-    # print('{}, {}'.format(x, y))
+    k = check_clicked_tab(u)
+    if(k!=1):
+        print(window.focus_get())
+        u.entryCount = clicked_tab(str(window.focus_get()))
+        print(u.entryCount)
 window.bind('<Button-1>', position)
     
 
@@ -114,7 +112,7 @@ u.date_label.grid(row=1,column=30)
 
 # ========================================new Gold==============================================
 
-F2 = LabelFrame(window,bg= "#FFE6BC")
+F2 = LabelFrame(window,bg=u.bg_color)
 F2.place(x=5, y=80,width=1900,height=390)
 
 u.siLabel = Label(F2,text="Sino.",font=('times new rommon',10),bg=u.bg_color)
@@ -196,7 +194,7 @@ for i in range(1,10):
 
 # ==================================old gold=====================================================
 
-F3 = LabelFrame(window,bg= "#FFE6BC")
+F3 = LabelFrame(window,bg= u.bg_color)
 F3.place(x=5,y=480,width=13055,height=140)
 
 u.oldSi = Label(F3,text="Si.",font=('times new rommon',10),bg=u.bg_color)
@@ -244,7 +242,7 @@ for i in range(1,4):
 
 #===========================================addition or deduction===============================
 
-F4 = LabelFrame(window,bg= "#FFE6BC")
+F4 = LabelFrame(window,bg=u.bg_color)
 F4.place(x=5,y=620,width=13055,height=140)
 
 u.addSi = Label(F4,text="Si.",font=('times new rommon',10),bg=u.bg_color)
@@ -273,17 +271,10 @@ for i in range(1,4):
     u.addtotal_txt.append(txt16)
 
 #=================================mode of payment and total==============================
-F5 = LabelFrame(window,bg= "#FFE6BC")
+F5 = LabelFrame(window,bg= u.bg_color)
 F5.place(x=0,y=750,width=1500,height=100)
 
-# u.mode_l = Label(F5,text="Mode Of Payment",font=('times new rommon',12),bg=u.bg_color)
-
-# u.mode= Entry(F5,width=15,font='arial 14',bd=1,justify=CENTER,highlightthickness=u.border_size,highlightcolor= u.entry_correct_color)
-# u.mode.grid(row=0,column=4,padx=10,pady=5)
-# u.entry_list.append(u.mode)
-# mode = 'Cash'
 def selected(event):
-	# m = clicked.get()
     if(u.clicked.get() == 'Debit Card'):
         u.charge.delete(0,END)
         u.charge.insert(0,'1.2%')
@@ -309,8 +300,6 @@ options = [
 u.clicked = StringVar()
 u.clicked.set(options[0])
  
-
- 
 u.mode_l = OptionMenu( F5 , u.clicked , *options, command=selected)
 u.mode_l.grid(column=3,row=0)
 u.mode_l.config(font=('times new rommon',11))
@@ -330,40 +319,35 @@ u.total.insert(0,0)
 u.entry_list.append(u.total)
 
 
-
-
-
-
 # ======================================Buttons of the Code=========================
 
 
 def findBill():
     os.system('python findBill.py')
     
-
 F6 = LabelFrame(window,bg= "#519259")
 F6.place(x=5,y=900,width=1500,height=70)
 
-u.newBtn = Button(F6,text="New (Ctrl+N)",font=('times new rommon',13),command=lambda: newBill(u),bg=u.bg_color,bd=2)
+u.newBtn = Button(F6,text="New",font=('times new rommon',13),command=lambda: newBill(u),bg=u.bg_color,bd=2)
 u.newBtn.grid(column=0,row=0,padx=20,pady=10)
 
-# u.printBtn = Button(F6,text="Print (Ctrl+P)",font=('times new rommon',13),command=printBill,bg=u.bg_color,bd=2)
-# u.printBtn.grid(column=1,row=0,padx=20,pady=10)
-
-u.generateBtn = Button(F6,text="Generate Bill (Ctrl+G)",font=('times new rommon',13),command=lambda: generateBill(u),bg=u.bg_color,bd=2)
-u.generateBtn.grid(column=2,row=0,padx=20,pady=10)
+u.generateBtn = Button(F6,text="Generate Bill",font=('times new rommon',13),command=lambda: generateBill(u),bg=u.bg_color,bd=2)
+u.generateBtn.grid(column=1,row=0,padx=20,pady=10)
 
 # u.findBtn = Button(F6,text = "Find (Ctrl+F)",font=('times new rommon',13),command=findBill,bg=u.bg_color,bd=2)
 # u.findBtn.grid(column=3,row=0,padx=20,pady=10)
 
 u.change_gold_rate = Button(F6,text="Gold Rate" ,font=('times new rommon',13),command=lambda: changeGoldRate(u),bg=u.bg_color,bd=2)
-u.change_gold_rate.grid(column=30,row=0,padx=20,pady=10)
-
-# u.gstBtn = Button(F6,text="Gst " ,font=('times new rommon',13),command=monthlyGst,bg=u.bg_color,bd=2)
-# u.gstBtn.grid(column=40,row=0,padx=20,pady=10)
+u.change_gold_rate.grid(column=2,row=0,padx=20,pady=10)
 
 u.findgoldBtn = Button(F6,text="Find GR" ,font=('times new rommon',13),command=lambda:findGoldRateOnDate(u),bg=u.bg_color,bd=2)
-u.findgoldBtn.grid(column=50,row=0,padx=20,pady=10)
+u.findgoldBtn.grid(column=3,row=0,padx=20,pady=10)
+
+u.gstBtn = Button(F6,text="Gst " ,font=('times new rommon',13),command=lambda:monthlyGst(u),bg=u.bg_color,bd=2)
+u.gstBtn.grid(column=4,row=0,padx=20,pady=10)
+
+u.config_btn = Button(F6,text="Config",font=('times new rommon',13),command=lambda: config(u),bg=u.bg_color,bd=2)
+u.config_btn.grid(column=5,row=0,padx=20,pady=10)
 
 # window.bind('<Control-G>', generateBill(u))
 # window.bind('<Control-p>', prin)

@@ -1,9 +1,8 @@
 from tkinter import messagebox
 import mysql.connector
 import sys
-import openpyxl
 from baseIntialization import UiFields
-
+from gstexel import create,insertTotal
 
 try:
     mysqlDB = mysql.connector.connect(
@@ -20,7 +19,6 @@ except Exception as e:
     sys.exit()
 
 def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
-    print("Inside svave cust data")
     data = []
     if(mobile!=''):
         try:
@@ -39,21 +37,10 @@ def saveCustomerData(u:UiFields, name,mobile,addhar_number, address):
                     addhar_number = 1234
                 if(address == ''):
                     address = 'BBSR'
-                # if(addhar_number!='' and address!=''):
                 comd = ("INSERT INTO customer(cust_name, phone_no, address, addhar_number) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "'," +str(addhar_number)+ ");")
                 print(comd)
                 cursor.execute(comd)
                 mysqlDB.commit()
-                # elif(addhar_number!=''):
-                #     comd = ("INSERT INTO customer(cust_name, phone_no, addhar_number) VALUES("+"'" +name+ "'," +mobile+ "," +addhar_number+ ");")
-                #     print(comd)
-                #     cursor.execute(comd)
-                #     mysqlDB.commit()
-                # else:
-                #     comd = ("INSERT INTO customer(cust_name, phone_no, address) VALUES("+"'" +name+ "'," +mobile+ ",'" +address+ "');")
-                #     print(comd)
-                #     cursor.execute(comd)
-                #     mysqlDB.commit()
             except Exception as e:
                 print("There was a exception while entering into database CUSTOMER : {0}".format(e))
 #important       
@@ -90,9 +77,6 @@ def findBillNumber():
         cursor.execute(comd)
         # cursor.fetchall()
         result = cursor.fetchone()
-        print(result)
-        
-        
         if(result == None):
             return 1
         
@@ -114,7 +98,6 @@ def saveBillLocation(u:UiFields):
         except Exception:
             u.customer_id = 1
             print("Error in saveBillLocation in finding customer_id")
-    print(u.customer_id)
     try:     
         comd = ("INSERT INTO BILLTable(bill_location, customer_id) VALUES('" +u.saveLocation+ "'," +str(u.customer_id)+");")
         print(comd)
@@ -126,33 +109,22 @@ def saveBillLocation(u:UiFields):
 #important        
 def findGst(u:UiFields):
     try:
-        comd = "Select * from gst_table;"
+        # gstDateFrom
+        # gstDateTo
+        comd = "Select * from gst_table where added_date between '" +str(u.cal1)+ "' and '" +str(u.cal2)+"';"
         print(comd)
         cursor.execute(comd)
         # for gst in cursor.fetchall():
         #     print(gst)
-        wb = openpyxl.Workbook()
-        sh1 = wb.active
-        sh1.title = 'gst'
-        
-        i = 0
-        j = 1
-        for gst in cursor.fetchall():
-            for c in gst:
-                location = chr(65+i)+''+str(j)
-                if(i == 1):
-                    sh1[location] = str(c)[0:10]
-                # print(location)
-                else:
-                    sh1[location] = c
-                i+=1
-            j+=1
-            i = 0
-            
-        wb.save(filename='gst.xlsx')
-        
-            
-        
+        result = cursor.fetchall()
+        create(result, u)
+        if len(result):
+            comd = "Select sum(total_val), sum(cgst),sum(sgst), sum(net_total) from gst_table where added_date between '" +str(u.cal1)+ "' and '" +str(u.cal2)+"';"
+            print(comd)
+            cursor.execute(comd)
+            res = cursor.fetchall()
+            if(len(res)):
+                insertTotal(res, u)
     except Exception as e:
         messagebox.showerror("Error","Error in finding GST Data : {0}".format(e))
         print("There is an error in finding gst data")
@@ -185,17 +157,60 @@ def findGoldRate(u:UiFields):
 
 def findGRDate(u:UiFields):
     try:
-        comd = ("SELECT gold_rate from daily_gold_rate WHERE added_date = '" +u.grFindDate+ "';")
+        comd = ("SELECT gold_rate from daily_gold_rate WHERE added_date = '" +str(u.grFindDate)+ "' ORDER BY id desc LIMIT 1;")
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchall()
+        if(len(result)==0):
+            u.grRateOnDate = 0.0
+        else:
+            u.grRateOnDate = result[0][0]
+    except Exception as e:
+        print("There is a error in finding gold rate by date: {0}".format(e))
+
+
+def findConfigValue(key):
+    try:
+        comd = ("select valuee from config where keyy = '"+ str(key) + "';")
         print(comd)
         cursor.execute(comd)
         result = cursor.fetchone()
-        if(result == None):
-            pass
-        else:
-            u.grRateOnDate = result[0]
+        print(result[0])
+        return result[0]
     except Exception as e:
-        print("There is a error in finding gold rate by date: {0}".format(e))
+        messagebox.showerror("Error","There is an exception in config:{0}".format(e))
+        print("There is an exception in config:{0}".format(e))
         
+        
+def findAllConfig():
+    try:
+        comd = ("Select keyy,valuee from config;")
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchall()
+        return result
+    except Exception as e:
+        print("There is a error in finding all config: {0}".format(e))
+        
+def insertNewConfig(c:UiFields):
+    try:
+        if(c.newConfig_key.get()!='' and c.newConfig_key.get()!=''):
+            comd = ("Insert into config(keyy,valuee) Values('"+str(c.newConfig_key.get())+"','"+str(c.newConfig_value.get())+"');")
+            print(comd)
+            cursor.execute(comd)
+            mysqlDB.commit()
+    except Exception as e:
+        print("There is a error in new config: {0}".format(e))
+        messagebox.showerror("Error","There is a error in new config: {0}".format(e))
+def changeConfig(key,val):
+    try:
+        comd = ("UPDATE config SET valuee = '"+val+"' WHERE keyy = '"+key+"';")
+        print(comd)
+        cursor.execute(comd)
+        mysqlDB.commit()
+    except Exception as e:
+        print("There is a error in editing config: {0}".format(e))
+        messagebox.showerror("Error","There is a error in editing config: {0}".format(e))
 # def findBASEDIR(u:UiFields):
 #     try:
 #         comd = ('SELECT valuee FROM config WHERE keyy = "BASEDIR";')
@@ -206,5 +221,5 @@ def findGRDate(u:UiFields):
 #         return result[0]
 #     except Exception:
 #         print("Error in finding base dir")
-    
-        
+   
+     

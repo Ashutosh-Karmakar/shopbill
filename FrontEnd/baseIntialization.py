@@ -66,6 +66,7 @@ class UiFields:
     generateBtn:  Button
     findBtn:      Button
     bg_color = "#FFE6BC"
+    background_color = bg_color
     gold_rate = 0
     cnt = 0
     old_tab_name = "old"
@@ -73,8 +74,8 @@ class UiFields:
     entry_correct_color = "#00C897"
     entry_wrong_color = "#FF1818"
     border_size = 2
-    background_color = '#FFE6BC'
-    green = '064635'
+    
+    green = '009966'#'064635'
     red = 'C85C5C'
     blue = '041C32'
     change_gold_rate:Button
@@ -108,10 +109,30 @@ class UiFields:
     grFindDate:datetime
     grRateOnDate = 0.0
     # BASEDIR = 'D:Shop\\Shop\\'
-    BASEDIR = '..'
+    BASEDIR_BILL = ''
+    BASEDIR_GST = ''
     charge_amt = 0.0
     #                0 1 2 3 4 5 6 7 8
     old_net_total = [0,0,0,0,0,0,0,0,0]
     old_old_total = [0,0,0]
     old_add_total = [0,0,0]
     total_taxable_amt = []
+     
+    cal1 = datetime.now()
+    cal2 = datetime.now()
+
+    email_from_address = ""
+    email_to_address = ""
+    email_from_pass = ""
+    
+    config_label = []
+    config_entry = []
+    editBtn = []
+    
+    newConfig_key: Entry
+    newConfig_value:Entry
+    newConfig_btn : Button
+    addConfig_btn:Button
+    config_btn : Button
+    
+    bill_generated = False
