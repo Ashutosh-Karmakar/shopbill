@@ -1,6 +1,5 @@
 import win32print
 from tkinter import *
-import tkinter
 import xlwings as xw
 import xlwings.constants
 

@@ -1,18 +1,17 @@
-import sys
 import tkinter
 from datetime import datetime
 from tkinter import *
 from tkcalendar import Calendar
 
-from database import findGst
+from database import findGst, findConfigValue
 from baseIntialization import UiFields
-u = UiFields()
 
-def monthlyGst():
-    u.email_from_address = 'ashutoshkarmakar73@gmail.com'
-    u.email_to_address = 'ashutoshkarmakar72@gmail.com'
-    u.email_from_pass = 'Ashu@1999'
-    u.BASEDIR_GST = './GST'
+
+def monthlyGst(u:UiFields):    
+    u.email_from_address = findConfigValue('email_sender_address')
+    u.email_to_address = findConfigValue('email_receiver_address')
+    u.email_from_pass = findConfigValue('email_from_pass')
+    u.BASEDIR_GST = findConfigValue('BASEDIR_GST')
 
     window = tkinter.Tk()
     window.geometry('1000x800')
