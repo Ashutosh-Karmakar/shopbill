@@ -6,6 +6,7 @@ from database import findGRDate
 
 def findGoldRateOnDate(u:UiFields):
     root = Tk()
+    root.title("Gold Rate")
     root.geometry("400x600")
     cur_date = datetime.now()
 

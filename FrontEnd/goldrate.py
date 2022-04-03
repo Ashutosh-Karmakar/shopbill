@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import simpledialog
 from tkinter import *
 from tkinter import messagebox
-
 from baseIntialization import UiFields
 from database import saveGoldRate
 from backend import newBill

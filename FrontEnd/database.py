@@ -1,7 +1,6 @@
 from tkinter import messagebox
 import mysql.connector
 import sys
-import openpyxl
 from baseIntialization import UiFields
 from gstexel import create,insertTotal
 
@@ -168,5 +167,59 @@ def findGRDate(u:UiFields):
             u.grRateOnDate = result[0][0]
     except Exception as e:
         print("There is a error in finding gold rate by date: {0}".format(e))
-    
+
+
+def findConfigValue(key):
+    try:
+        comd = ("select valuee from config where keyy = '"+ str(key) + "';")
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchone()
+        print(result[0])
+        return result[0]
+    except Exception as e:
+        messagebox.showerror("Error","There is an exception in config:{0}".format(e))
+        print("There is an exception in config:{0}".format(e))
         
+        
+def findAllConfig():
+    try:
+        comd = ("Select keyy,valuee from config;")
+        print(comd)
+        cursor.execute(comd)
+        result = cursor.fetchall()
+        return result
+    except Exception as e:
+        print("There is a error in finding all config: {0}".format(e))
+        
+def insertNewConfig(c:UiFields):
+    try:
+        if(c.newConfig_key.get()!='' and c.newConfig_key.get()!=''):
+            comd = ("Insert into config(keyy,valuee) Values('"+str(c.newConfig_key.get())+"','"+str(c.newConfig_value.get())+"');")
+            print(comd)
+            cursor.execute(comd)
+            mysqlDB.commit()
+    except Exception as e:
+        print("There is a error in new config: {0}".format(e))
+        messagebox.showerror("Error","There is a error in new config: {0}".format(e))
+def changeConfig(key,val):
+    try:
+        comd = ("UPDATE config SET valuee = '"+val+"' WHERE keyy = '"+key+"';")
+        print(comd)
+        cursor.execute(comd)
+        mysqlDB.commit()
+    except Exception as e:
+        print("There is a error in editing config: {0}".format(e))
+        messagebox.showerror("Error","There is a error in editing config: {0}".format(e))
+# def findBASEDIR(u:UiFields):
+#     try:
+#         comd = ('SELECT valuee FROM config WHERE keyy = "BASEDIR";')
+#         cursor.execute(comd)
+#         result = cursor.fetchone()
+#         if result == None:
+#             return "."
+#         return result[0]
+#     except Exception:
+#         print("Error in finding base dir")
+   
+     

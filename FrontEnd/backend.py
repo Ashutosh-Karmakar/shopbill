@@ -668,6 +668,7 @@ def printBill():
      
      
 def newBill(u:UiFields):
+    u.bill_generated = False
     u.entryCount=0
     u.charge_amt = 0.0
     u.mobile_txt.delete(0,END)

@@ -4,7 +4,6 @@ import tkinter
 from tkinter import *
 import os
 import sys
-from openpyxl.drawing.image import Image 
 import datetime
 import pyautogui
 
@@ -14,12 +13,16 @@ from goldrate import changeGoldRate
 from monthlyGST import monthlyGst
 from findGoldrate import findGoldRateOnDate
 from billgenerator import generateBill
-from database import findBillNumber, findGoldRate
-
+from database import findBillNumber, findGoldRate, findConfigValue
+from changeConfig import config
 
 
 u = UiFields()
 u.gold_rate = 4876
+u.bg_color = findConfigValue('bg_color')
+u.BASEDIR_BILL = findConfigValue('BASEDIR_BILL')
+print(u.BASEDIR_GST)
+u.background_color = u.bg_color
 window = tkinter.Tk()
 window.attributes('-fullscreen', True)
 window.configure(bg=u.background_color)
@@ -325,26 +328,26 @@ def findBill():
 F6 = LabelFrame(window,bg= "#519259")
 F6.place(x=5,y=900,width=1500,height=70)
 
-u.newBtn = Button(F6,text="New (Ctrl+N)",font=('times new rommon',13),command=lambda: newBill(u),bg=u.bg_color,bd=2)
+u.newBtn = Button(F6,text="New",font=('times new rommon',13),command=lambda: newBill(u),bg=u.bg_color,bd=2)
 u.newBtn.grid(column=0,row=0,padx=20,pady=10)
 
-# u.printBtn = Button(F6,text="Print (Ctrl+P)",font=('times new rommon',13),command=printBill,bg=u.bg_color,bd=2)
-# u.printBtn.grid(column=1,row=0,padx=20,pady=10)
-
-u.generateBtn = Button(F6,text="Generate Bill (Ctrl+G)",font=('times new rommon',13),command=lambda: generateBill(u),bg=u.bg_color,bd=2)
-u.generateBtn.grid(column=2,row=0,padx=20,pady=10)
+u.generateBtn = Button(F6,text="Generate Bill",font=('times new rommon',13),command=lambda: generateBill(u),bg=u.bg_color,bd=2)
+u.generateBtn.grid(column=1,row=0,padx=20,pady=10)
 
 # u.findBtn = Button(F6,text = "Find (Ctrl+F)",font=('times new rommon',13),command=findBill,bg=u.bg_color,bd=2)
 # u.findBtn.grid(column=3,row=0,padx=20,pady=10)
 
 u.change_gold_rate = Button(F6,text="Gold Rate" ,font=('times new rommon',13),command=lambda: changeGoldRate(u),bg=u.bg_color,bd=2)
-u.change_gold_rate.grid(column=30,row=0,padx=20,pady=10)
-
-u.gstBtn = Button(F6,text="Gst " ,font=('times new rommon',13),command=monthlyGst,bg=u.bg_color,bd=2)
-u.gstBtn.grid(column=40,row=0,padx=20,pady=10)
+u.change_gold_rate.grid(column=2,row=0,padx=20,pady=10)
 
 u.findgoldBtn = Button(F6,text="Find GR" ,font=('times new rommon',13),command=lambda:findGoldRateOnDate(u),bg=u.bg_color,bd=2)
-u.findgoldBtn.grid(column=50,row=0,padx=20,pady=10)
+u.findgoldBtn.grid(column=3,row=0,padx=20,pady=10)
+
+u.gstBtn = Button(F6,text="Gst " ,font=('times new rommon',13),command=lambda:monthlyGst(u),bg=u.bg_color,bd=2)
+u.gstBtn.grid(column=4,row=0,padx=20,pady=10)
+
+u.config_btn = Button(F6,text="Config",font=('times new rommon',13),command=lambda: config(u),bg=u.bg_color,bd=2)
+u.config_btn.grid(column=5,row=0,padx=20,pady=10)
 
 # window.bind('<Control-G>', generateBill(u))
 # window.bind('<Control-p>', prin)

@@ -109,7 +109,8 @@ class UiFields:
     grFindDate:datetime
     grRateOnDate = 0.0
     # BASEDIR = 'D:Shop\\Shop\\'
-    BASEDIR = '..'
+    BASEDIR_BILL = ''
+    BASEDIR_GST = ''
     charge_amt = 0.0
     #                0 1 2 3 4 5 6 7 8
     old_net_total = [0,0,0,0,0,0,0,0,0]
@@ -123,3 +124,15 @@ class UiFields:
     email_from_address = ""
     email_to_address = ""
     email_from_pass = ""
+    
+    config_label = []
+    config_entry = []
+    editBtn = []
+    
+    newConfig_key: Entry
+    newConfig_value:Entry
+    newConfig_btn : Button
+    addConfig_btn:Button
+    config_btn : Button
+    
+    bill_generated = False

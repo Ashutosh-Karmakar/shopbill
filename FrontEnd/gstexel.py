@@ -1,15 +1,10 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
 from email.mime.application import MIMEApplication
 import os
-
-
-
 import openpyxl
-from openpyxl.styles import PatternFill,Border, Side, Font
+from openpyxl.styles import Border, Side, Font
 from baseIntialization import UiFields
 
 j = 4
@@ -108,43 +103,46 @@ def insertTotal(data, u:UiFields):
     send_email(filename, u)   
         
 def send_email(attachment, u:UiFields):
-    
-    login = u.email_from_address
-    password = u.email_from_pass
-    smtpserver='smtp.gmail.com:587'
-    from_addr = u.email_from_address
-    to_addr_list = u.email_to_address
-    
-    from_name = "GJ"
-    plain_text_body = "GST Collection From {:%b %d, %Y} To {:%b %d, %Y}".format(u.cal1,u.cal2)
-    subject = "GIRIDHARI JEWELLERY"
-    
-    
-    message=MIMEMultipart()
+    try:
+        login = u.email_from_address
+        password = u.email_from_pass
+        smtpserver='smtp.gmail.com:587'
+        from_addr = u.email_from_address
+        to_addr_list = u.email_to_address
+        print(to_addr_list)
+        
+        from_name = "GJ"
+        plain_text_body = "GST Collection From {:%b %d, %Y} To {:%b %d, %Y}".format(u.cal1,u.cal2)
+        subject = "GIRIDHARI JEWELLERY"
+        
+        
+        message=MIMEMultipart()
 
-    plain=MIMEText(plain_text_body,'plain')
-    # html=MIMEText(html_body,'html') 
+        plain=MIMEText(plain_text_body,'plain')
+        # html=MIMEText(html_body,'html') 
 
-    message.add_header('from',from_name)
-    message.add_header('to',to_addr_list)
-    message.add_header('subject',subject)
+        message.add_header('from',from_name)
+        message.add_header('to',to_addr_list)
+        message.add_header('subject',subject)
 
-    if attachment!=None:
-        #attach_file=MIMEBase('application',"octet-stream")
-        #attach_file.set_payload(open(attachment,"rb").read())
-        #Encoders.encode_base64(attach_file)
-        #f.close()
-        attach_file=MIMEApplication(open(attachment,"rb").read())
-        attach_file.add_header('Content-Disposition', 'attachment', filename=attachment)
-        message.attach(attach_file)
+        if attachment!=None:
+            #attach_file=MIMEBase('application',"octet-stream")
+            #attach_file.set_payload(open(attachment,"rb").read())
+            #Encoders.encode_base64(attach_file)
+            #f.close()
+            attach_file=MIMEApplication(open(attachment,"rb").read())
+            attach_file.add_header('Content-Disposition', 'attachment', filename=attachment)
+            message.attach(attach_file)
 
 
-    message.attach(plain)
-    
+        message.attach(plain)
+        
 
-    server = smtplib.SMTP(smtpserver)
-    server.starttls()
-    server.login(login,password)
-    server.sendmail(from_addr, to_addr_list, message.as_string())
-    server.quit()
+        server = smtplib.SMTP(smtpserver)
+        server.starttls()
+        server.login(login,password)
+        server.sendmail(from_addr, to_addr_list, message.as_string())
+        server.quit()
+    except Exception as e:
+        print("There is a problem in sending the gst in email : {0}".format(e))
     

@@ -2,19 +2,22 @@ import os
 from statistics import median_grouped
 from tkinter import messagebox
 from threading import Thread
-import openpyxl
-# from openpyxl.drawing.image import Image  
-from openpyxl.styles import PatternFill,Border, Side, Alignment, Protection, Font, borders,fills
+import openpyxl  
+from openpyxl.styles import PatternFill,Border, Side, Font, fills, Alignment, Protection, borders
 import datetime
 import time
 import subprocess
 from database import saveBillLocation, saveCustomerData, saveGstData
 from baseIntialization import UiFields
-from backend import convert#, printBill
+from backend import convert
 from printer import printBill
 
 
 def generateBill(u : UiFields):
+    if u.bill_generated:
+        print_bill(u)
+        return
+    u.bill_generated = True
     wb = openpyxl.Workbook()
     sh1 = wb.active
     sh1.title = 'bill'
@@ -516,7 +519,7 @@ def generateBill(u : UiFields):
     # os.chdir(u.BASEDIR)
     foldername = daten.strftime("%b_%y")
     
-    dir = os.path.join(u.BASEDIR,foldername)
+    dir = os.path.join(u.BASEDIR_BILL,foldername)
     try:
         if(os.path.isdir(dir) == False):
             os.mkdir(dir)
@@ -536,18 +539,25 @@ def generateBill(u : UiFields):
             wb.save(filename=u.saveLocation)
         except Exception as e:
             messagebox.showerror("Error","Error in saving the Bill : {0}".format(e))
+    print_bill(u)
     
-    # u.BASEDIR = findBASEDIR()
-    # wb.save(filename=u.BASEDIR+'\test.xlsx')    
-    thread = Thread(target = printBill,args=(u.saveLocation,))
-    thread.start()
-    # thread2 = Thread(target = printDialog)
-    # thread2.start()
-    # thread.join()
-    print('Printing - ',"done printing")
-    # thread2.join()
-    # main_thread().sleep(100)
-    time.sleep(4)
-    subprocess.call(["taskkill","/F","/IM","excel.exe"])
+    
+def print_bill(u:UiFields):
+    try:
+        # u.BASEDIR = findBASEDIR()
+        # wb.save(filename=u.BASEDIR+'\test.xlsx')    
+        thread = Thread(target = printBill,args=(u.saveLocation,))
+        thread.start()
+        # thread2 = Thread(target = printDialog)
+        # thread2.start()
+        # thread.join()
+        print('Printing - ',"done printing")
+        # thread2.join()
+        # main_thread().sleep(100)
+        time.sleep(4)
+        subprocess.call(["taskkill","/F","/IM","excel.exe"])
+    except Exception as e:
+        print("Exception in printing : {0}".format(e))
+        messagebox.showerror("Error","Error in printing the Bill : {0}".format(e))
     # '''
     
