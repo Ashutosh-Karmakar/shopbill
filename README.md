@@ -147,3 +147,14 @@ CREATE TABLE daily_gold_rate(
 	PRIMARY KEY(id)
 );
 ```
+
+```
+CREATE TABLE config(
+ id INT AUTO_INCREMENT,
+ keyy varchar(100),
+ valuee varchar(100),
+ PRIMARY KEY(id)
+ )
+
+INSERT INTO config(keyy,valuee) VALUES("BASEDIR_BILL",".."),("BASEDIR_GST","..\GST"),('email_sender_address',"ashutoshkarmakar73@gmail.com"),('email_receiver_address','ashutoshkarmakar72@gmail.com'),('bg_color','#FFE6BC')
+```
