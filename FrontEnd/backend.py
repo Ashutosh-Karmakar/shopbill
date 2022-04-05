@@ -247,8 +247,14 @@ def setCustData(u:UiFields, data):
     u.address_txt.delete(0,END)
     u.addhar_txt.delete(0,END)
     u.name_txt.insert(0,data[1])
+    # if(data[3] == None):
+    #     u.address_txt.insert(0,'BBSR')
+    # else:
     u.address_txt.insert(0,data[3])
-    u.addhar_txt.insert(0,data[4])
+    if(data[4] == None):
+        u.addhar_txt.insert(0,'')
+    else:
+        u.addhar_txt.insert(0,data[4])
     u.addhar_txt.focus_set()
     u.entryCount = 4
 

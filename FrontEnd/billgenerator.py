@@ -560,4 +560,3 @@ def print_bill(u:UiFields):
         print("Exception in printing : {0}".format(e))
         messagebox.showerror("Error","Error in printing the Bill : {0}".format(e))
     # '''
-    

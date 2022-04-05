@@ -65,7 +65,8 @@ class UiFields:
     printBtn:     Button
     generateBtn:  Button
     findBtn:      Button
-    bg_color = "#FFE6BC"
+    # bg_color = "#FFE6BC"
+    bg_color = "#CEAB93"
     background_color = bg_color
     gold_rate = 0
     cnt = 0
@@ -74,8 +75,8 @@ class UiFields:
     entry_correct_color = "#00C897"
     entry_wrong_color = "#FF1818"
     border_size = 2
-    
-    green = '009966'#'064635'
+    # green = '009966'#'064635'
+    green = '064635'
     red = 'C85C5C'
     blue = '041C32'
     change_gold_rate:Button
