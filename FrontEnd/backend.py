@@ -702,6 +702,91 @@ def newBill(u:UiFields):
 
     u.total_before_charge = 0.0
     u.old_net_total = [0,0,0,0,0,0,0,0,0]
+    u.old_old_total = [0,0,0]
+    u.old_add_total = [0,0,0]
+    u.total_taxable_amt = []
+    # ========================================new Gold==============================================
+
+    for i in range(0,9):
+        if(u.des_txt[i].get()!=''):
+            u.des_txt[i].delete(0,END)
+            u.des_txt[i].configure(highlightcolor= u.entry_correct_color)
+            
+            u.wt_txt[i].delete(0,END)
+            u.wt_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+            u.net_txt[i].delete(0,END)
+            u.net_txt[i].configure(highlightcolor= u.entry_correct_color)
+            
+            u.mc_txt[i].config(state='normal')
+            u.mc_txt[i].delete(0,END)
+            u.mc_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.mc_txt[i].config(state=DISABLED)
+            
+            # u.unit_txt[i].config(state='normal')
+            # u.unit_txt[i].delete(0,END)
+            # u.unit_txt[i].configure(highlightcolor= u.entry_correct_color)
+            # u.unit_txt[i].config(state=DISABLED)
+            
+            u.cgst_txt[i].config(state='normal')
+            u.cgst_txt[i].delete(0,END)
+            u.cgst_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.cgst_txt[i].config(state=DISABLED)
+            
+            u.sgst_txt[i].config(state='normal')
+            u.sgst_txt[i].delete(0,END)
+            u.sgst_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.sgst_txt[i].config(state=DISABLED)
+            
+            u.gstAmt_txt[i].config(state='normal')
+            u.gstAmt_txt[i].delete(0,END)
+            u.gstAmt_txt[i].configure(highlightcolor= u.entry_correct_color)
+            u.gstAmt_txt[i].config(state=DISABLED)
+            
+    # ==================================old gold=====================================================
+
+    for i in range(0,3): 
+        
+        u.oldDesc_txt[i].delete(0,END)
+        u.oldDesc_txt[i].configure(highlightcolor= u.entry_correct_color)
+        u.oldDesc_txt[i].insert(0,'Old Gold')
+        
+        u.oldwe_txt[i].delete(0,END)
+        u.oldwe_txt[i].configure(highlightcolor= u.entry_correct_color)
+        
+        u.oldtotal_txt[i].delete(0,END)
+        u.oldtotal_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+
+    #===========================================addition or deduction===============================
+    for i in range(0,3):
+        
+        u.addDesc_txt[i].delete(0,END)
+        u.addDesc_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+        u.addtotal_txt[i].delete(0,END)
+        u.addtotal_txt[i].configure(highlightcolor= u.entry_correct_color)
+
+    #=================================mode of payment and total==============================
+    u.clicked.set('Cash')
+    u.charge.delete(0,END)
+    
+    
+    u.total.delete(0,END)
+    u.total.configure(highlightcolor= u.entry_correct_color)
+    u.total.insert(0,0)
+
+
+
+def startOverGOLDRATE(u:UiFields):
+    u.des_txt[0].focus()
+    u.entryCount=4
+    u.bill_generated = False
+    u.charge_amt = 0.0
+    u.total_before_charge = 0.0
+    u.old_net_total = [0,0,0,0,0,0,0,0,0]
+    u.old_old_total = [0,0,0]
+    u.old_add_total = [0,0,0]
     u.total_taxable_amt = []
     # ========================================new Gold==============================================
 

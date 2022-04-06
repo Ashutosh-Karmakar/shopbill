@@ -4,7 +4,7 @@ from tkinter import *
 from tkinter import messagebox
 from baseIntialization import UiFields
 from database import saveGoldRate
-from backend import newBill
+from backend import newBill, startOverGOLDRATE
 
        
 def calc(u:UiFields, i):
@@ -24,7 +24,7 @@ def calc(u:UiFields, i):
         gstamt = cgst*2
         
         if(mc < 0):
-            newBill(u)
+            startOverGOLDRATE(u)
             print("There is a error in calculation mc")
             messagebox.showerror("Error",'GOLD RATE IS TOO HIGH')
             return 1
