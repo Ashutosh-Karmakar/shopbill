@@ -166,3 +166,13 @@ INSERT INTO config(keyy,valuee) VALUES  ("BASEDIR_BILL",".."),
 					('email_receiver_address','ashutoshkarmakar72@gmail.com'),
 					('bg_color','#FFE6BC');
 ```
+
+
+```
+-- ALTER TABLE shop2.gst_table Modify weight DECIMAL(10,5);
+-- ALTER TABLE shop2.gst_table Modify total_val DECIMAL(30,10);
+-- ALTER TABLE shop2.gst_table Modify cgst DECIMAL(10,5);
+-- ALTER TABLE shop2.gst_table Modify sgst DECIMAL(10,5);
+-- ALTER TABLE shop2.gst_table Modify net_total DECIMAL(30,10);
+SELECT * FROM shop2.gst_table;
+```
