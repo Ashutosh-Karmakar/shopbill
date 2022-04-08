@@ -275,14 +275,16 @@ F5 = LabelFrame(window,bg= u.bg_color)
 F5.place(x=0,y=650,width=1500,height=50)
 
 def selected(event):
+    u.credit_card_charge = findConfigValue('credit_card')
+    u.debit_card_charge = findConfigValue('debit_card')
     if(u.clicked.get() == 'Debit Card'):
         u.charge.delete(0,END)
-        u.charge.insert(0,'1.2%')
-        u.charge_amt = 1.2
+        u.charge.insert(0,(str(u.debit_card_charge)+'%'))
+        u.charge_amt = u.debit_card_charge
     elif(u.clicked.get() == 'Credit Card'):
         u.charge.delete(0,END)
-        u.charge.insert(0,'2.1%')
-        u.charge_amt = 2.1
+        u.charge.insert(0,(str(u.credit_card_charge)+'%'))
+        u.charge_amt = u.credit_card_charge
     else:
         u.charge.delete(0,END)
     u.mode = u.clicked.get()

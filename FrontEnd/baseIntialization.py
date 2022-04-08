@@ -137,3 +137,5 @@ class UiFields:
     config_btn : Button
     
     bill_generated = False
+    credit_card_charge = 0.0
+    debit_card_charge = 0.0

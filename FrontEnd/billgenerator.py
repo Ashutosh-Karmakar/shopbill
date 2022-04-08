@@ -15,7 +15,8 @@ from printer import printBill
 
 def generateBill(u : UiFields):
     if u.bill_generated:
-        print_bill(u)
+        if u.mobile_txt.get()!='':
+            print_bill(u)
         return
     u.bill_generated = True
     wb = openpyxl.Workbook()
@@ -537,9 +538,10 @@ def generateBill(u : UiFields):
         print('save Location - ',u.saveLocation)
         try:
             wb.save(filename=u.saveLocation)
+            print_bill(u)
         except Exception as e:
             messagebox.showerror("Error","Error in saving the Bill : {0}".format(e))
-    print_bill(u)
+        
     
     
 def print_bill(u:UiFields):

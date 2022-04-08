@@ -2,6 +2,7 @@ from baseIntialization import UiFields
 from database import findAllConfig, insertNewConfig, changeConfig
 import tkinter
 from tkinter import *
+import sys
 # c = UiFields()
 
 i = 1
@@ -16,7 +17,7 @@ def add(c:UiFields):
     c.newConfig_value.forget()
     c.addConfig_btn.forget()
     # c.newConfig_btn
-    config()
+    config(c)
     
 # def newConfig():
 #     global i
