@@ -15,6 +15,7 @@ from findGoldrate import findGoldRateOnDate
 from billgenerator import generateBill
 from database import findBillNumber, findGoldRate, findConfigValue
 from changeConfig import config
+from findBill import find
 
 
 u = UiFields()
@@ -336,20 +337,20 @@ u.newBtn.grid(column=0,row=0,padx=20,pady=10)
 u.generateBtn = Button(F6,text="Generate Bill",font=('times new rommon',13),command=lambda: generateBill(u),bg=u.bg_color,bd=2)
 u.generateBtn.grid(column=1,row=0,padx=20,pady=10)
 
-# u.findBtn = Button(F6,text = "Find (Ctrl+F)",font=('times new rommon',13),command=findBill,bg=u.bg_color,bd=2)
-# u.findBtn.grid(column=3,row=0,padx=20,pady=10)
+u.findBtn = Button(F6,text = "Find (Ctrl+F)",font=('times new rommon',13),command=lambda:find(u),bg=u.bg_color,bd=2)
+u.findBtn.grid(column=2,row=0,padx=20,pady=10)
 
 u.change_gold_rate = Button(F6,text="Gold Rate" ,font=('times new rommon',13),command=lambda: changeGoldRate(u),bg=u.bg_color,bd=2)
-u.change_gold_rate.grid(column=2,row=0,padx=20,pady=10)
+u.change_gold_rate.grid(column=3,row=0,padx=20,pady=10)
 
 u.findgoldBtn = Button(F6,text="Find GR" ,font=('times new rommon',13),command=lambda:findGoldRateOnDate(u),bg=u.bg_color,bd=2)
-u.findgoldBtn.grid(column=3,row=0,padx=20,pady=10)
+u.findgoldBtn.grid(column=4,row=0,padx=20,pady=10)
 
 u.gstBtn = Button(F6,text="Gst " ,font=('times new rommon',13),command=lambda:monthlyGst(u),bg=u.bg_color,bd=2)
-u.gstBtn.grid(column=4,row=0,padx=20,pady=10)
+u.gstBtn.grid(column=5,row=0,padx=20,pady=10)
 
 u.config_btn = Button(F6,text="Config",font=('times new rommon',13),command=lambda: config(u),bg=u.bg_color,bd=2)
-u.config_btn.grid(column=5,row=0,padx=20,pady=10)
+u.config_btn.grid(column=6,row=0,padx=20,pady=10)
 
 # window.bind('<Control-G>', generateBill(u))
 # window.bind('<Control-p>', prin)

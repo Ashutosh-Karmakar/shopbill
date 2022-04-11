@@ -25,16 +25,16 @@ def generateBill(u : UiFields):
     daten = datetime.datetime.now()
 # ====================================================shop details==================================================================
     sh1['D1'] = "    GIRIDHARI JEWELLERY" 
-    sh1['D1'].font = Font(name='Copperplate Gothic Bold',size=35,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
+    sh1['D1'].font = Font(name='Copperplate Gothic Bold',size=35,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='c24949')
 
     sh1['D2'] = "    Badheibanka Chawk, Old Town, Bhubaneswar, Mob.: 9090280083,9861230757"
     sh1['D2'].font = Font(name='times new rommon',size=16,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='009966')#'064635')
 
     sh1['E3'] = "            916 GOLD AND SILVER ORNAMENT"
-    sh1['E3'].font = Font(name='times new rommon',size=16,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
+    sh1['E3'].font = Font(name='times new rommon',size=16,bold=False,italic=False,vertAlign=None,underline='none',strike=False,color='c85c5c')
     
     sh1['F4'] = "                 Tax Invoice"
-    sh1['F4'].font = Font(name='times new rommon',size=16,bold=True,italic=False,vertAlign=None,underline='none',strike=False,color='C85C5C')
+    sh1['F4'].font = Font(name='times new rommon',size=16,bold=True,italic=False,vertAlign=None,underline='none',strike=False,color='c85c5c')
 
     hallmark_logo = openpyxl.drawing.image.Image(r"hallmark.png")      
     hallmark_logo.height = 110  
@@ -257,8 +257,8 @@ def generateBill(u : UiFields):
 
 
 
-    thin = Side(border_style='thin',color='FF000000')#='000066')
-    medium = Side(border_style='medium',color='FF000000')#'000066')
+    thin = Side(border_style='thin',color='808080')#='000066')
+    medium = Side(border_style='medium',color='808080')#'000066')
 # ========================================================creating borders====================================================         
 
     fill_cell = PatternFill(fill_type=fills.FILL_SOLID,start_color='00FFFF00',end_color='00FFFF00')
@@ -520,19 +520,19 @@ def generateBill(u : UiFields):
     # os.chdir(u.BASEDIR)
     foldername = daten.strftime("%b_%y")
     
-    dir = os.path.join(u.BASEDIR_BILL,foldername)
+    dir = u.BASEDIR_BILL+"\\\\"+foldername
     try:
         if(os.path.isdir(dir) == False):
             os.mkdir(dir)
     except Exception as e:
         print("There is a error in creating folder : {0}".format(e))
         
-    u.saveLocation = dir +'\\'+str(u.bill_txt)+'.xlsx'
+    u.saveLocation = dir +r"\\"+str(u.bill_txt)+".xlsx"
     
     saveCustomerData(u,name=u.name_txt.get(),mobile=u.mobile_txt.get(),addhar_number=u.addhar_txt.get(),address=u.address_txt.get())
     # wb.save(filename='text.xlsx')
     # '''
-    
+    print(u.saveLocation)
     if(u.mobile_txt.get()!=''):
         saveBillLocation(u)
         print('save Location - ',u.saveLocation)

@@ -76,9 +76,9 @@ class UiFields:
     entry_wrong_color = "#FF1818"
     border_size = 2
     # green = '009966'#'064635'
-    green = '064635'
+    green = '009966'
     red = 'C85C5C'
-    blue = '041C32'
+    blue = '2757a3'
     change_gold_rate:Button
     old_gold_rate = 0.0
     

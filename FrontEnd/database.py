@@ -98,6 +98,7 @@ def saveBillLocation(u:UiFields):
             u.customer_id = 1
             print("Error in saveBillLocation in finding customer_id")
     try:     
+        print(u.saveLocation)
         comd = ("INSERT INTO BILLTable(bill_location, customer_id) VALUES('" +u.saveLocation+ "'," +str(u.customer_id)+");")
         print(comd)
         cursor.execute(comd)
@@ -210,6 +211,15 @@ def changeConfig(key,val):
     except Exception as e:
         print("There is a error in editing config: {0}".format(e))
         messagebox.showerror("Error","There is a error in editing config: {0}".format(e))
+        
+def findBillData(u:UiFields):
+    try:
+        comd = ('SELECT bill_location from billtable where id = 71;')
+        print(comd)
+        cursor.execute(comd)    
+        return cursor.fetchone()
+    except Exception as e:
+        print("error")
 # def findBASEDIR(u:UiFields):
 #     try:
 #         comd = ('SELECT valuee FROM config WHERE keyy = "BASEDIR";')
@@ -221,4 +231,6 @@ def changeConfig(key,val):
 #     except Exception:
 #         print("Error in finding base dir")
    
-     
+# def findBill(u:UiFields):
+#     try:
+#         comd = ('Select * ')
